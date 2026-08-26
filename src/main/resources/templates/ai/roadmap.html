@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Personalized Skill Gap & LMS Roadmap - Careerthon.AI')}"></head>
+<body class="bg-themed-pure text-themed-main min-h-screen flex flex-col">
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main class="flex-grow pt-32 pb-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header -->
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-600 dark:text-violet-400 text-xs font-black uppercase tracking-widest mb-6">
+                <span>🗺️ AI Career Navigator</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black tracking-tight mb-6 text-themed-main">
+                Skill Gap & <span class="text-gradient">LMS Roadmap</span>
+            </h1>
+            <p class="text-lg text-themed-body font-medium leading-relaxed">
+                Bridge the gap to your dream role. Calculate your skill match score, unlock a step-by-step career milestone roadmap, and map missing skills directly to Careerthon.AI LMS Academy courses.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            
+            <!-- Left Input Form -->
+            <div class="lg:col-span-4 bg-themed-soft rounded-3xl p-8 border border-themed-soft shadow-xl">
+                <h3 class="text-xl font-black mb-6 text-themed-main flex items-center gap-3">
+                    <span>⚡ Career Goals</span>
+                </h3>
+
+                <form th:action="@{/ai-tools/roadmap/generate}" method="POST" class="space-y-6">
+                    <div>
+                        <label class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2">Current Role Title</label>
+                        <input type="text" name="currentRole" th:value="${currentRole}" placeholder="e.g. Junior Developer / Student"
+                               class="w-full py-3.5 px-4 bg-themed-pure rounded-xl border border-themed-soft focus:border-violet-600 outline-none font-bold text-sm text-themed-main transition-all">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2">Current Core Skills</label>
+                        <textarea name="currentSkills" rows="3" placeholder="e.g. Java, Python, HTML/CSS, SQL, Git"
+                                  class="w-full py-3.5 px-4 bg-themed-pure rounded-xl border border-themed-soft focus:border-violet-600 outline-none font-bold text-sm text-themed-main transition-all" th:text="${currentSkills}"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2">Desired Target Role</label>
+                        <input type="text" name="targetRole" th:value="${targetRole}" placeholder="e.g. Senior Data Engineer / Full Stack Lead"
+                               class="w-full py-3.5 px-4 bg-themed-pure rounded-xl border border-themed-soft focus:border-violet-600 outline-none font-bold text-sm text-themed-main transition-all">
+                    </div>
+
+                    <button type="submit" class="w-full py-4 rounded-2xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-black text-base shadow-xl transition-all active:scale-[0.98]">
+                        🚀 Generate Career Roadmap
+                    </button>
+                </form>
+            </div>
+
+            <!-- Right Roadmap & LMS Section -->
+            <div class="lg:col-span-8 space-y-12">
+                
+                <div th:if="${phases == null}" class="bg-themed-soft rounded-3xl p-12 text-center border border-themed-soft">
+                    <div class="text-5xl mb-4">🚀</div>
+                    <h4 class="text-xl font-black text-themed-main mb-2">Build Your Personalized Career Roadmap</h4>
+                    <p class="text-slate-400 text-sm max-w-md mx-auto">
+                        Enter your current skills and target role to generate a 3-phase milestone timeline and auto-link to LMS courses.
+                    </p>
+                </div>
+
+                <div th:if="${phases != null}" class="space-y-12">
+                    
+                    <!-- Match Score Banner -->
+                    <div class="bg-gradient-to-r from-violet-900/40 via-indigo-900/40 to-slate-900/40 border border-violet-500/30 rounded-3xl p-8 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8">
+                        <div>
+                            <div class="text-xs font-black text-violet-400 uppercase tracking-widest mb-1">Algorithmic Skill Analysis</div>
+                            <h3 class="text-2xl font-black text-white" th:text="${targetRole}">Target Role</h3>
+                            <p class="text-slate-300 text-sm mt-1">Based on 2026 recruiter search benchmarks across 15 profile dimensions.</p>
+                        </div>
+                        <div class="flex items-center gap-6 shrink-0">
+                            <div class="text-center">
+                                <div class="text-4xl font-black text-emerald-400" th:text="${matchScore} + '%'">72%</div>
+                                <div class="text-[10px] font-black uppercase tracking-widest text-slate-400">Current Match</div>
+                            </div>
+                            <div class="w-px h-12 bg-white/10"></div>
+                            <div class="text-center">
+                                <div class="text-4xl font-black text-amber-400" th:text="${gapPercent} + '%'">28%</div>
+                                <div class="text-[10px] font-black uppercase tracking-widest text-slate-400">Skill Gap</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Milestone Phases -->
+                    <div class="space-y-8">
+                        <h3 class="text-2xl font-black text-themed-main flex items-center gap-3">
+                            <span>🗺️ Milestone Execution Roadmap</span>
+                        </h3>
+
+                        <div th:each="phase, stat : ${phases}" class="bg-themed-soft rounded-3xl p-8 border border-themed-soft relative shadow-xl">
+                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                                <div class="flex items-center gap-3">
+                                    <span class="w-9 h-9 rounded-xl bg-violet-600 text-white font-black text-sm flex items-center justify-center shadow-lg" th:text="${stat.count}">1</span>
+                                    <h4 class="text-lg font-black text-themed-main" th:text="${phase.title}">Phase Title</h4>
+                                </div>
+                                <span class="px-3 py-1.5 rounded-full bg-themed-pure text-violet-600 dark:text-violet-400 font-bold text-xs border border-themed-soft" th:text="${phase.duration}">Duration</span>
+                            </div>
+
+                            <p class="text-themed-body text-sm font-medium leading-relaxed mb-6" th:text="${phase.description}">Description</p>
+
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span th:each="tag : ${phase.skillTags}" class="px-3 py-1.5 rounded-xl bg-violet-500/10 text-violet-600 dark:text-violet-400 font-bold text-xs border border-violet-500/20" th:text="${tag}">Skill</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Linked LMS Courses -->
+                    <div class="space-y-8">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-2xl font-black text-themed-main flex items-center gap-3">
+                                <span>🎓 Recommended LMS Academy Courses</span>
+                            </h3>
+                            <a href="/lms" class="text-xs font-black text-violet-600 dark:text-violet-400 hover:underline">View All Courses →</a>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div th:each="course : ${allCourses}" class="bg-themed-soft rounded-2xl p-6 border border-themed-soft hover:border-violet-500/50 transition-all flex flex-col justify-between shadow-lg">
+                                <div>
+                                    <span class="px-3 py-1 rounded-lg bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-bold text-[10px] uppercase tracking-wider mb-3 inline-block" th:text="${course.category}">Category</span>
+                                    <h4 class="font-black text-themed-main text-base mb-2" th:text="${course.title}">Course Title</h4>
+                                    <p class="text-themed-body text-xs line-clamp-2 leading-relaxed mb-6" th:text="${course.description}">Description</p>
+                                </div>
+                                <div class="flex items-center justify-between border-t border-themed-soft pt-4">
+                                    <span class="text-xs font-bold text-slate-400" th:text="${course.duration} + ' • ' + ${course.level}">Level</span>
+                                    <a th:href="@{/student/course/{id}(id=${course.id})}" class="px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-black text-xs shadow-md transition-all">
+                                        Enroll Now
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!-- MIKE-1 Chatbot Fragment -->
+<div th:fragment="chatbot" class="fixed bottom-6 right-6 z-[100] font-sans">
+    
+    <!-- Chatbot Toggle Button -->
+    <button id="chatbot-toggle" onclick="toggleChatbot()" class="relative group w-14 h-14 bg-indigo-600 rounded-full flex items-center justify-center text-white shadow-[0_0_20px_rgba(79,70,229,0.4)] hover:scale-110 transition-transform duration-300">
+        <div class="absolute -inset-2 bg-indigo-500/20 rounded-full blur animate-pulse-soft"></div>
+        <span id="chatbot-icon-open" class="relative z-10 text-2xl">🤖</span>
+        <svg id="chatbot-icon-close" class="hidden relative z-10 w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        
+        <!-- Unread Badge -->
+        <span class="absolute top-0 right-0 w-3 h-3 bg-rose-500 border-2 border-white dark:border-slate-900 rounded-full"></span>
+    </button>
+
+    <!-- Chatbot Window -->
+    <div id="chatbot-window" class="absolute bottom-20 right-0 w-[350px] sm:w-[400px] h-[500px] bg-themed-pure rounded-3xl shadow-2xl border border-themed-soft flex flex-col overflow-hidden transition-all duration-300 origin-bottom-right opacity-0 scale-90 pointer-events-none translate-y-4">
+        
+        <!-- Header -->
+        <div class="bg-indigo-600 p-4 text-white flex items-center justify-between shrink-0">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-xl shadow-inner border border-white/20">🤖</div>
+                <div>
+                    <h3 class="font-black leading-tight text-lg">MIKE-1</h3>
+                    <div class="text-[10px] font-bold text-indigo-200 uppercase tracking-widest flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Career Advisor AI
+                    </div>
+                </div>
+            </div>
+            <button onclick="toggleChatbot()" class="p-2 hover:bg-white/10 rounded-xl transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+        </div>
+
+        <!-- Messages Area -->
+        <div id="chatbot-messages" class="flex-grow p-4 overflow-y-auto space-y-4 bg-slate-50 dark:bg-slate-900/50 scroll-smooth">
+            
+            <!-- Bot Message -->
+            <div class="flex items-start gap-2">
+                <div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center shrink-0 text-sm">🤖</div>
+                <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl rounded-tl-sm shadow-sm border border-slate-100 dark:border-slate-700 max-w-[85%] text-sm text-slate-700 dark:text-slate-300">
+                    Hello! I'm MIKE-1, your AI career advisor. Based on your recent profile scans, I can help you tailor your resume or answer questions about ATS optimization. What do you need help with?
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="flex flex-wrap gap-2 pl-10">
+                <button class="text-xs bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-500/20 px-3 py-1.5 rounded-full hover:bg-indigo-100 dark:hover:bg-indigo-500/20 transition-colors" onclick="sendMockMessage('How do I improve my headline?')">Improve Headline</button>
+                <button class="text-xs bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-500/20 px-3 py-1.5 rounded-full hover:bg-indigo-100 dark:hover:bg-indigo-500/20 transition-colors" onclick="sendMockMessage('Review my about section')">Review About</button>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="p-3 bg-themed-pure border-t border-themed-soft shrink-0">
+            <form onsubmit="handleChatSubmit(event)" class="relative flex items-center">
+                <input type="text" id="chatbot-input" placeholder="Ask MIKE-1 anything..." 
+                       class="w-full bg-themed-soft text-themed-main text-sm rounded-xl pl-4 pr-12 py-3 outline-none focus:ring-2 focus:ring-indigo-500/50 placeholder:text-slate-400 border border-transparent focus:border-indigo-500/30 transition-all">
+                <button type="submit" class="absolute right-2 p-1.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                </button>
+            </form>
+            <div class="text-[9px] text-center text-slate-400 mt-2 font-medium">MIKE-1 can make mistakes. Verify important info.</div>
+        </div>
+    </div>
+
+    <script>
+        function toggleChatbot() {
+            const window = document.getElementById('chatbot-window');
+            const openIcon = document.getElementById('chatbot-icon-open');
+            const closeIcon = document.getElementById('chatbot-icon-close');
+            
+            if (window.classList.contains('opacity-0')) {
+                // Open
+                window.classList.remove('opacity-0', 'scale-90', 'pointer-events-none', 'translate-y-4');
+                openIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+            } else {
+                // Close
+                window.classList.add('opacity-0', 'scale-90', 'pointer-events-none', 'translate-y-4');
+                openIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            }
+        }
+
+        function appendMessage(text, isUser) {
+            const messagesDiv = document.getElementById('chatbot-messages');
+            const msgHtml = isUser ? `
+                <div class="flex items-start justify-end gap-2">
+                    <div class="bg-indigo-600 p-3 rounded-2xl rounded-tr-sm shadow-sm max-w-[85%] text-sm text-white">
+                        ${text}
+                    </div>
+                </div>
+            ` : `
+                <div class="flex items-start gap-2">
+                    <div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center shrink-0 text-sm">🤖</div>
+                    <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl rounded-tl-sm shadow-sm border border-slate-100 dark:border-slate-700 max-w-[85%] text-sm text-slate-700 dark:text-slate-300">
+                        ${text}
+                    </div>
+                </div>
+            `;
+            
+            messagesDiv.insertAdjacentHTML('beforeend', msgHtml);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        function sendMockMessage(text) {
+            appendMessage(text, true);
+            showTyping();
+            setTimeout(() => {
+                removeTyping();
+                appendMessage("I'm MIKE-1. I am currently running in a demonstration mode, so my intelligence is limited right now. But soon I'll be able to help you maximize your career potential!", false);
+            }, 1500);
+        }
+
+        function handleChatSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('chatbot-input');
+            const text = input.value.trim();
+            if (!text) return;
+            
+            input.value = '';
+            sendMockMessage(text);
+        }
+        
+        function showTyping() {
+            const messagesDiv = document.getElementById('chatbot-messages');
+            const html = `
+                <div id="typing-indicator" class="flex items-start gap-2">
+                    <div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center shrink-0 text-sm">🤖</div>
+                    <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl rounded-tl-sm shadow-sm border border-slate-100 dark:border-slate-700 flex gap-1 items-center h-10">
+                        <div class="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce"></div>
+                        <div class="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                        <div class="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                    </div>
+                </div>
+            `;
+            messagesDiv.insertAdjacentHTML('beforeend', html);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+        
+        function removeTyping() {
+            const typing = document.getElementById('typing-indicator');
+            if (typing) typing.remove();
+        }
+    </script>
+</div>

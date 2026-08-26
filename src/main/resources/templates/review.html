@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Analyze Your Profile - Careerthon.AI')}"></head>
+<body class="bg-themed-pure">
+
+<header th:replace="~{fragments/header :: header}"></header>
+
+<main class="bg-themed-pure min-h-screen pt-40 pb-20 relative overflow-hidden">
+    <div class="absolute inset-0 bg-grid opacity-[0.03]"></div>
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_50%_0%,rgba(99,102,241,0.08),transparent_70%)]"></div>
+    
+    <div class="max-w-7xl mx-auto px-4 relative z-10">
+        <div class="flex flex-col lg:flex-row gap-20 items-center">
+            <!-- Left: Content Section -->
+            <div class="lg:w-1/2" data-reveal>
+                <div class="hero-tag !bg-indigo-600/5 !text-indigo-600 dark:!text-indigo-400 border-indigo-600/10 mb-8">Phase 1: Intelligence Scan</div>
+                <h1 class="text-5xl md:text-7xl font-black text-themed-main mb-8 leading-tight tracking-tighter">
+                    Analyze Your <br><span class="text-gradient">LinkedIn</span> Impact
+                </h1>
+                <p class="text-xl text-themed-body mb-12 font-medium leading-relaxed">
+                    Our AI engine performs a deep-scan of 15+ visibility markers to see how recruiters and algorithms view your professional brand in 2026.
+                </p>
+
+                <div class="space-y-6">
+                    <div class="flex items-center gap-4 p-4 bg-themed-soft backdrop-blur-sm rounded-2xl border border-themed-soft">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-600 flex items-center justify-center text-xl shadow-lg">⚡</div>
+                        <div>
+                            <div class="font-black text-themed-main">Instant Processing</div>
+                            <div class="text-xs text-themed-body">Get your detailed report in less than 30 seconds.</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 p-4 bg-themed-soft backdrop-blur-sm rounded-2xl border border-themed-soft">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500 flex items-center justify-center text-xl shadow-lg">🔒</div>
+                        <div>
+                            <div class="font-black text-themed-main">Secure Analysis</div>
+                            <div class="text-xs text-themed-body">We don't store your personal credentials. Safe & Private.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Form Card -->
+            <div class="lg:w-1/2 w-full" data-reveal data-delay="200">
+                <div class="premium-card !p-8 md:!p-16 glass border-white/20 shadow-[0_40px_100px_-20px_rgba(15,23,42,0.3)]">
+                    <form th:action="@{/review/submit}" method="POST" class="space-y-10">
+                        <div>
+                            <label class="block text-[10px] font-black text-indigo-400 uppercase tracking-[0.3em] mb-6">Profile URL Vector</label>
+                            <div class="relative group">
+                                <div class="absolute -inset-1 bg-indigo-500/10 rounded-2xl blur-lg group-focus-within:bg-indigo-500/30 transition-all"></div>
+                                <input type="url" name="linkedinUrl" required 
+                                       placeholder="https://www.linkedin.com/in/yourname"
+                                       class="relative w-full py-6 px-8 bg-themed-pure rounded-2xl border-2 border-themed-soft focus:border-indigo-600 outline-none transition-all text-lg font-bold text-themed-main placeholder:text-slate-300">
+                            </div>
+                        </div>
+ 
+                        <button type="submit" class="w-full btn-premium py-6 rounded-2xl text-xl flex justify-center items-center group shadow-glow">
+                            Generate Intelligence Report
+                            <svg class="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                        </button>
+                    </form>
+
+                    <div class="mt-8 pt-8 border-t border-themed-soft">
+                        <div class="flex items-center justify-center gap-4">
+                            <div class="flex -space-x-2.5">
+                                <div class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center font-black text-[9px] border-2 border-themed-pure shadow-md">G</div>
+                                <div class="w-8 h-8 rounded-full bg-indigo-500 text-white flex items-center justify-center font-black text-[9px] border-2 border-themed-pure shadow-md">M</div>
+                                <div class="w-8 h-8 rounded-full bg-violet-500 text-white flex items-center justify-center font-black text-[9px] border-2 border-themed-pure shadow-md">N</div>
+                            </div>
+                            <div class="text-[10px] font-black text-themed-body uppercase tracking-widest">
+                                Trusted by elite tech recruiters
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Expert Endorsement -->
+        <div class="mt-32" data-reveal>
+            <h2 class="text-center text-sm font-black text-themed-body uppercase tracking-[0.3em] mb-12">Engineered by Industry Experts</h2>
+            <div class="flex justify-center">
+                <div class="max-w-3xl w-full p-10 bg-themed-pure rounded-[40px] shadow-xl border border-themed-soft flex flex-col md:flex-row items-center gap-10 hover:shadow-2xl transition-all">
+                    <div class="w-32 h-32 rounded-3xl bg-indigo-600 flex items-center justify-center text-4xl shadow-2xl shrink-0 text-white font-black">PS</div>
+                    <div>
+                        <div class="flex text-amber-400 mb-2 text-xs">★★★★★</div>
+                        <p class="text-themed-body italic leading-relaxed mb-6 font-medium">"We designed Careerthon.AI to democratize profile intelligence. Every marker we scan is benchmarked against elite corporate standards to give you an undeniable edge."</p>
+                        <div>
+                            <div class="font-black text-themed-main">Priyanshu Shekhar</div>
+                            <div class="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Project Lead & Architect</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<script>
+    const observerOptions = { threshold: 0.1 };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('active');
+        });
+    }, observerOptions);
+    document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

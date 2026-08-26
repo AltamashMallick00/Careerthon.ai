@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Careerthon.AI - AI-Powered LinkedIn Intelligence')}"></head>
+<body class="bg-themed-pure selection:bg-emerald-500 selection:text-white">
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main>
+    <!-- Hero Section -->
+    <section class="hero-section bg-mesh-animated">
+        <div class="hero-content">
+            <div data-reveal class="active">
+                <div class="flex flex-wrap items-center gap-3 mb-6">
+                    <div class="hero-tag !mb-0">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        Elite Intelligence Platform
+                    </div>
+                    <div class="px-3 py-1 text-[9px] font-black tracking-widest text-emerald-500 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-full uppercase leading-none flex items-center gap-1.5 shadow-sm">
+                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.9L10 1.154l7.834 3.746v3.313c0 4.195-2.065 8.1-5.5 10.36a1 1 0 01-1.048 0c-3.435-2.26-5.5-6.165-5.5-10.36V4.9zM10 3.327L3.834 6.275v2.247c0 3.4 1.583 6.55 4.316 8.398a12.83 12.83 0 003.7-8.398V6.275L10 3.327zM9.01 10.278L7.147 8.414a1 1 0 10-1.414 1.414l2.5 2.5a1 1 0 001.488-.086l4-5a1 1 0 10-1.562-1.248l-3.149 3.934z" clip-rule="evenodd"/></svg>
+                        ISO 27001 Certified
+                    </div>
+                </div>
+                <h1 class="hero-title text-themed-main !mb-4">
+                    Your Dream Job is<br>
+                    <span class="text-gradient" id="typewriter-text">1 Profile Away</span><span class="typewriter-caret">|</span>
+                </h1>
+                <p class="hero-desc text-themed-body !text-xl !mb-12 !max-w-xl leading-relaxed">
+                    Transform your digital presence from invisible to irresistible. Our AI engine scans 50+ data points to give you the exact roadmap to a 6-figure career.
+                </p>
+                
+                <!-- Instant URL Scan Form -->
+                <form th:action="@{/review/submit}" method="POST" class="flex flex-col sm:flex-row items-center gap-3 w-full max-w-2xl mt-4 mb-8">
+                    <div class="relative w-full">
+                        <input type="url" name="linkedinUrl" required placeholder="Paste your LinkedIn URL (e.g. linkedin.com/in/username)"
+                               class="w-full py-4 pl-12 pr-4 bg-themed-pure rounded-2xl border-2 border-emerald-500/30 focus:border-emerald-500 outline-none font-bold text-sm text-themed-main shadow-2xl transition-all">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-xl">🔗</span>
+                    </div>
+                    <button type="submit" class="w-full sm:w-auto py-4 px-8 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-sm uppercase tracking-wider shadow-xl transition-all whitespace-nowrap shrink-0 hover:scale-105 active:scale-95">
+                        🚀 Scan Profile Free
+                    </button>
+                </form>
+
+                <div class="flex flex-col sm:flex-row items-center gap-6 flex-wrap">
+                    <a href="/ai-tools/referral-finder" class="px-6 py-3 rounded-2xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 text-xs font-black uppercase tracking-wider hover:bg-indigo-500/20 transition-all">
+                        🤝 Referral Finder
+                    </a>
+                    <a href="/ai-tools/recruiter-outreach" class="px-6 py-3 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-xs font-black uppercase tracking-wider hover:bg-emerald-500/20 transition-all">
+                        ✉️ Outreach Studio
+                    </a>
+                    <a href="/ai-tools/roadmap" class="px-6 py-3 rounded-2xl bg-violet-500/10 text-violet-600 dark:text-violet-400 border border-violet-500/20 text-xs font-black uppercase tracking-wider hover:bg-violet-500/20 transition-all">
+                        🗺️ Skill Roadmap
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="relative group perspective-2000 hidden lg:block" data-reveal data-delay="200">
+                <div class="absolute -inset-20 bg-emerald-500/10 rounded-full blur-[120px] animate-pulse-soft"></div>
+                <div class="relative transform-gpu group-hover:rotate-y-[-10deg] transition-all duration-700">
+                    <div class="premium-card !p-0 overflow-hidden glass border-white/20 shadow-glow-emerald">
+                        <div class="bg-slate-900 p-4 flex items-center gap-2 border-b border-white/5">
+                            <div class="flex gap-1.5">
+                                <div class="w-3 h-3 rounded-full bg-rose-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-amber-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+                            </div>
+                            <div class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-4">Analysis Pipeline Active</div>
+                            <div class="ml-auto flex items-center gap-2">
+                                <div class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></div>
+                                <div class="text-[8px] font-black text-emerald-500 uppercase tracking-widest">Live Scan</div>
+                            </div>
+                        </div>
+                        <div class="relative p-8 bg-slate-950 text-white min-h-[350px] flex flex-col justify-between">
+                            <!-- Floating Glass Dashboard Elements -->
+                            <div>
+                                <div class="flex justify-between items-center mb-6">
+                                    <div>
+                                        <div class="text-[10px] font-black text-emerald-400 uppercase tracking-widest leading-none mb-1">ATS CLOUD SCAN</div>
+                                        <div class="text-lg font-black tracking-tight text-white">LinkedIn Audit Index</div>
+                                    </div>
+                                    <div class="text-2xl font-black text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-xl shadow-glow">94.8%</div>
+                                </div>
+                                <div class="space-y-4">
+                                    <div>
+                                        <div class="flex justify-between text-xs font-bold text-slate-400 mb-1.5">
+                                            <span>Keyword Density Match</span>
+                                            <span class="text-emerald-400">92%</span>
+                                        </div>
+                                        <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-white/5">
+                                            <div class="bg-gradient-to-r from-emerald-500 to-teal-500 h-full rounded-full" style="width: 92%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-xs font-bold text-slate-400 mb-1.5">
+                                            <span>Recruiter Search Index</span>
+                                            <span class="text-indigo-400">88%</span>
+                                        </div>
+                                        <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-white/5">
+                                            <div class="bg-gradient-to-r from-indigo-500 to-violet-500 h-full rounded-full" style="width: 88%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-xs font-bold text-slate-400 mb-1.5">
+                                            <span>Narrative Impact Ratio</span>
+                                            <span class="text-violet-400">95%</span>
+                                        </div>
+                                        <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-white/5">
+                                            <div class="bg-gradient-to-r from-violet-500 to-fuchsia-500 h-full rounded-full" style="width: 95%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-8 flex items-center gap-4 py-3 px-4 bg-white/5 rounded-2xl border border-white/10">
+                                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-indigo-500 flex items-center justify-center font-black text-sm text-white">AM</div>
+                                <div>
+                                    <div class="text-[10px] font-black text-emerald-400 uppercase tracking-widest leading-none mb-1">Target Account</div>
+                                    <div class="text-sm font-black text-white">Elite Candidate Profile</div>
+                                </div>
+                                <div class="ml-auto w-2 h-2 rounded-full bg-emerald-500 animate-ping"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         SOCIAL PROOF COUNTER BANNER
+         ═══════════════════════════════════════ -->
+    <section class="py-12 bg-slate-900 border-y border-white/5 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-emerald-900/20 via-transparent to-indigo-900/20 pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="space-y-2 group">
+                    <div class="text-5xl font-black text-white tracking-tight">
+                        <span class="counter-animate text-emerald-400" data-target="50000" data-suffix="+">0</span>
+                    </div>
+                    <div class="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Professionals Transformed</div>
+                    <div class="w-16 h-1 bg-emerald-500 rounded-full mx-auto mt-2 group-hover:w-24 transition-all duration-500"></div>
+                </div>
+                <div class="space-y-2 group">
+                    <div class="text-5xl font-black text-white tracking-tight">
+                        <span class="counter-animate text-amber-400" data-target="85" data-suffix="%">0</span>
+                    </div>
+                    <div class="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Got Interviews Within 2 Weeks</div>
+                    <div class="w-16 h-1 bg-amber-500 rounded-full mx-auto mt-2 group-hover:w-24 transition-all duration-500"></div>
+                </div>
+                <div class="space-y-2 group">
+                    <div class="text-5xl font-black text-white tracking-tight">
+                        <span class="counter-animate text-violet-400" data-target="49" data-suffix="" data-prefix="4." data-special="rating">4.0</span>
+                    </div>
+                    <div class="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Average Platform Rating ⭐</div>
+                    <div class="w-16 h-1 bg-violet-500 rounded-full mx-auto mt-2 group-hover:w-24 transition-all duration-500"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Live Profile Score Estimator -->
+    <section class="py-24 bg-themed-soft border-y border-themed-soft relative overflow-hidden" id="interactive-estimator">
+        <!-- Background blobs -->
+        <div class="absolute top-1/4 left-10 w-72 h-72 bg-emerald-500/5 rounded-full blur-[100px] pointer-events-none"></div>
+        <div class="absolute bottom-1/4 right-10 w-96 h-96 bg-indigo-500/5 rounded-full blur-[120px] pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <div class="text-center mb-16 max-w-3xl mx-auto">
+                <div class="hero-tag !bg-indigo-600/5 !text-indigo-600 dark:!text-indigo-400 border-indigo-600/10 mb-4 inline-flex">Interactive Dashboard</div>
+                <h2 class="text-4xl md:text-5xl font-black text-themed-main tracking-tight leading-tight">
+                    Estimate Your <span class="text-gradient">LinkedIn Score</span> in Real Time
+                </h2>
+                <p class="text-themed-body mt-4 font-semibold text-lg">
+                    Toggle your profile checklist and slide your connection count to see how search algorithms score your digital brand.
+                </p>
+            </div>
+
+            <div class="estimator-container">
+                <!-- Left Column: Interactive Inputs -->
+                <div class="space-y-8">
+                    <!-- Connections Slider Card -->
+                    <div class="estimator-card glass-panel">
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <h3 class="text-xl font-bold text-themed-main">LinkedIn Network Size</h3>
+                                <p class="text-xs text-themed-body font-semibold mt-1">Network volume influences organic recruiter reach.</p>
+                            </div>
+                            <div class="py-1.5 px-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-black text-sm uppercase">
+                                <span id="est-connections-val">0</span> Connections
+                            </div>
+                        </div>
+                        <input type="range" id="est-connections" min="0" max="500" value="120" step="10" class="premium-slider">
+                    </div>
+
+                    <!-- Checklist Card -->
+                    <div class="estimator-card glass-panel">
+                        <h3 class="text-xl font-bold text-themed-main mb-6">Profile Completeness & Optimizer Vectors</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="checklist-item checked" data-weight="15">
+                                <div class="checklist-checkbox"></div>
+                                <div>
+                                    <div class="text-sm font-black text-themed-main">Professional Avatar</div>
+                                    <div class="text-[10px] text-themed-body font-bold mt-0.5">High-quality, clear headshot (+15 pts)</div>
+                                </div>
+                            </div>
+                            <div class="checklist-item checked" data-weight="20">
+                                <div class="checklist-checkbox"></div>
+                                <div>
+                                    <div class="text-sm font-black text-themed-main">Optimized Headline</div>
+                                    <div class="text-[10px] text-themed-body font-bold mt-0.5">Targeted keywords, no generic fillers (+20 pts)</div>
+                                </div>
+                            </div>
+                            <div class="checklist-item" data-weight="15">
+                                <div class="checklist-checkbox"></div>
+                                <div>
+                                    <div class="text-sm font-black text-themed-main">Quantified Experience</div>
+                                    <div class="text-[10px] text-themed-body font-bold mt-0.5">Metrics, achievements, data points (+15 pts)</div>
+                                </div>
+                            </div>
+                            <div class="checklist-item" data-weight="15">
+                                <div class="checklist-checkbox"></div>
+                                <div>
+                                    <div class="text-sm font-black text-themed-main">5+ Endorsed Skills</div>
+                                    <div class="text-[10px] text-themed-body font-bold mt-0.5">Matched with target industry keywords (+15 pts)</div>
+                                </div>
+                            </div>
+                            <div class="checklist-item" data-weight="10">
+                                <div class="checklist-checkbox"></div>
+                                <div>
+                                    <div class="text-sm font-black text-themed-main">Custom Profile URL</div>
+                                    <div class="text-[10px] text-themed-body font-bold mt-0.5">Clean, branded recruiter-ready link (+10 pts)</div>
+                                </div>
+                            </div>
+                            <div class="checklist-item" data-weight="10">
+                                <div class="checklist-checkbox"></div>
+                                <div>
+                                    <div class="text-sm font-black text-themed-main">Engaging About Summary</div>
+                                    <div class="text-[10px] text-themed-body font-bold mt-0.5">ATS keyword-dense professional story (+10 pts)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Animated Circle Gauge & Tips -->
+                <div class="flex flex-col gap-8 justify-between">
+                    <!-- Gauge Card -->
+                    <div class="estimator-card glass-panel flex flex-col items-center justify-center text-center p-12 grow">
+                        <div class="score-circle-container mb-6">
+                            <svg class="circle-svg">
+                                <circle class="circle-bg" cx="90" cy="90" r="80"></circle>
+                                <circle class="circle-progress" id="est-circle-progress" cx="90" cy="90" r="80"></circle>
+                            </svg>
+                            <div class="circle-score-text">
+                                <div class="circle-score-val" id="est-score-val">0</div>
+                                <div class="circle-score-label">Score</div>
+                            </div>
+                        </div>
+                        <div class="text-lg font-black tracking-widest uppercase mb-4" id="est-score-label">NEEDS WORK</div>
+                        <p class="text-xs text-themed-body font-semibold max-w-xs leading-relaxed">
+                            This score reflects organic discoverability based on common applicant tracking system (ATS) filters.
+                        </p>
+                    </div>
+
+                    <!-- Dynamic Smart Advice Card -->
+                    <div class="estimator-card glass-panel flex flex-col justify-center p-8">
+                        <h4 class="text-xs font-black text-themed-main uppercase tracking-widest mb-4">💡 Algorithmic Action Steps</h4>
+                        <div class="space-y-4" id="est-tips-container">
+                            <!-- Dynamic tips go here via Javascript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Value Proposition -->
+    <section class="py-24 bg-themed-soft">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+                <div data-reveal class="active">
+                    <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6 text-2xl">⚡</div>
+                    <h3 class="text-xl font-bold mb-3">No Registration Required</h3>
+                    <p class="text-themed-body text-sm font-medium">Get your score instantly without giving away your personal details. We value your time and privacy.</p>
+                </div>
+                <div data-reveal class="active" data-delay="100">
+                    <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 text-2xl">🧠</div>
+                    <h3 class="text-xl font-bold mb-3">AI Powered Optimization</h3>
+                    <p class="text-themed-body text-sm font-medium">Using the same neural networks top recruiters use to find and rank candidates in the 2026 market.</p>
+                </div>
+                <div data-reveal class="active" data-delay="200">
+                    <div class="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6 text-2xl">🎁</div>
+                    <h3 class="text-xl font-bold mb-3">100% Free Forever</h3>
+                    <p class="text-themed-body text-sm font-medium">Our core intelligence tools are free forever. We believe everyone deserves a professional edge.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         CINEMATIC SUCCESS STORIES (Before/After)
+         ═══════════════════════════════════════ -->
+    <section class="py-32 bg-slate-950 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full" style="background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(16,185,129,0.08) 0%, transparent 100%);"></div>
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <div class="text-center mb-20">
+                <div class="hero-tag !bg-emerald-600/10 !text-emerald-400 border-emerald-600/20 mb-4 inline-flex">Real Transformations</div>
+                <h2 class="text-4xl md:text-5xl font-black text-white tracking-tight">From <span class="text-rose-400">Invisible</span> to <span class="text-emerald-400">Irresistible</span></h2>
+                <p class="text-slate-400 mt-4 max-w-xl mx-auto font-semibold">Real candidates. Real scores. Real dream jobs secured.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Story 1 -->
+                <div class="success-story-card group relative bg-white/5 border border-white/10 hover:border-emerald-500/40 rounded-[28px] p-8 transition-all duration-500 hover:-translate-y-2">
+                    <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 rounded-[28px] transition-opacity"></div>
+                    <!-- Before / After Scores -->
+                    <div class="flex items-center gap-4 mb-6 relative z-10">
+                        <div class="text-center">
+                            <div class="text-3xl font-black text-rose-400">42</div>
+                            <div class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Before</div>
+                        </div>
+                        <div class="flex-1 flex items-center gap-2">
+                            <div class="flex-1 h-0.5 bg-gradient-to-r from-rose-500 to-emerald-500 rounded-full"></div>
+                            <span class="text-emerald-400 text-lg">⚡</span>
+                            <div class="flex-1 h-0.5 bg-gradient-to-r from-emerald-500 to-emerald-500 rounded-full"></div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-black text-emerald-400">94</div>
+                            <div class="text-[9px] font-black text-slate-500 uppercase tracking-widest">After</div>
+                        </div>
+                    </div>
+                    <!-- Quote -->
+                    <p class="text-slate-300 italic text-sm leading-relaxed mb-6 relative z-10">&ldquo;I went from 2 views a week to 47 recruiter messages in one month. Careerthon.AI literally changed my career trajectory.&rdquo;</p>
+                    <!-- User + Company -->
+                    <div class="flex items-center justify-between relative z-10">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-sm font-black text-white shadow-lg">RK</div>
+                            <div>
+                                <div class="text-sm font-black text-white">Rahul Kumar</div>
+                                <div class="text-[9px] font-bold text-emerald-400 uppercase tracking-widest">Software Engineer</div>
+                            </div>
+                        </div>
+                        <div class="px-3 py-1.5 bg-white/10 rounded-xl border border-white/10 text-xs font-black text-white">🏢 Google</div>
+                    </div>
+                </div>
+                <!-- Story 2 -->
+                <div class="success-story-card group relative bg-white/5 border border-white/10 hover:border-amber-500/40 rounded-[28px] p-8 transition-all duration-500 hover:-translate-y-2">
+                    <div class="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 rounded-[28px] transition-opacity"></div>
+                    <div class="flex items-center gap-4 mb-6 relative z-10">
+                        <div class="text-center">
+                            <div class="text-3xl font-black text-rose-400">55</div>
+                            <div class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Before</div>
+                        </div>
+                        <div class="flex-1 flex items-center gap-2">
+                            <div class="flex-1 h-0.5 bg-gradient-to-r from-rose-500 to-amber-500 rounded-full"></div>
+                            <span class="text-amber-400 text-lg">⚡</span>
+                            <div class="flex-1 h-0.5 bg-gradient-to-r from-amber-500 to-amber-500 rounded-full"></div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-black text-amber-400">91</div>
+                            <div class="text-[9px] font-black text-slate-500 uppercase tracking-widest">After</div>
+                        </div>
+                    </div>
+                    <p class="text-slate-300 italic text-sm leading-relaxed mb-6 relative z-10">&ldquo;The ATS keyword recommendations were spot on. I got shortlisted at Amazon within 10 days of updating my profile using Careerthon.AI's roadmap.&rdquo;</p>
+                    <div class="flex items-center justify-between relative z-10">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-sm font-black text-white shadow-lg">PM</div>
+                            <div>
+                                <div class="text-sm font-black text-white">Priya Mehta</div>
+                                <div class="text-[9px] font-bold text-amber-400 uppercase tracking-widest">Product Manager</div>
+                            </div>
+                        </div>
+                        <div class="px-3 py-1.5 bg-white/10 rounded-xl border border-white/10 text-xs font-black text-white">🏢 Amazon</div>
+                    </div>
+                </div>
+                <!-- Story 3 -->
+                <div class="success-story-card group relative bg-white/5 border border-white/10 hover:border-violet-500/40 rounded-[28px] p-8 transition-all duration-500 hover:-translate-y-2">
+                    <div class="absolute inset-0 bg-gradient-to-br from-violet-500/5 to-transparent opacity-0 group-hover:opacity-100 rounded-[28px] transition-opacity"></div>
+                    <div class="flex items-center gap-4 mb-6 relative z-10">
+                        <div class="text-center">
+                            <div class="text-3xl font-black text-rose-400">38</div>
+                            <div class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Before</div>
+                        </div>
+                        <div class="flex-1 flex items-center gap-2">
+                            <div class="flex-1 h-0.5 bg-gradient-to-r from-rose-500 to-violet-500 rounded-full"></div>
+                            <span class="text-violet-400 text-lg">⚡</span>
+                            <div class="flex-1 h-0.5 bg-gradient-to-r from-violet-500 to-violet-500 rounded-full"></div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-black text-violet-400">96</div>
+                            <div class="text-[9px] font-black text-slate-500 uppercase tracking-widest">After</div>
+                        </div>
+                    </div>
+                    <p class="text-slate-300 italic text-sm leading-relaxed mb-6 relative z-10">&ldquo;Honestly didn't believe the score matters this much. After optimizing everything Careerthon.AI flagged, TCS hired me at a 40% salary hike over my previous role.&rdquo;</p>
+                    <div class="flex items-center justify-between relative z-10">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-sm font-black text-white shadow-lg">AS</div>
+                            <div>
+                                <div class="text-sm font-black text-white">Arjun Singh</div>
+                                <div class="text-[9px] font-bold text-violet-400 uppercase tracking-widest">Data Analyst</div>
+                            </div>
+                        </div>
+                        <div class="px-3 py-1.5 bg-white/10 rounded-xl border border-white/10 text-xs font-black text-white">🏢 TCS</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         DAILY MOTIVATION QUOTES
+         ═══════════════════════════════════════ -->
+    <section class="py-24 bg-themed-pure relative overflow-hidden">
+        <div class="absolute inset-0 bg-grid opacity-50 pointer-events-none"></div>
+        <div class="max-w-5xl mx-auto px-4 relative z-10">
+            <div class="text-center mb-12">
+                <div class="hero-tag !bg-amber-500/5 !text-amber-600 dark:!text-amber-400 border-amber-500/10 mb-4 inline-flex">Daily Spark ✨</div>
+                <h2 class="text-3xl font-black text-themed-main">Fuel Your <span class="text-gradient">Career Ambition</span></h2>
+            </div>
+            <!-- Quote Carousel -->
+            <div class="relative">
+                <div id="quote-display" class="glass border-themed-soft rounded-[32px] p-10 md:p-16 text-center shadow-2xl min-h-[200px] flex flex-col items-center justify-center transition-all duration-500">
+                    <div class="text-5xl mb-6">💡</div>
+                    <blockquote id="quote-text" class="text-xl md:text-2xl font-bold text-themed-main leading-relaxed mb-6 italic transition-opacity duration-500">
+                        &ldquo;Your LinkedIn profile is your 24/7 personal marketer. Make it shout.&rdquo;
+                    </blockquote>
+                    <cite id="quote-author" class="text-sm font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest not-italic transition-opacity duration-500">
+                        — Reid Hoffman, Co-Founder of LinkedIn
+                    </cite>
+                </div>
+                <!-- Dot Navigators -->
+                <div class="flex justify-center gap-2 mt-6" id="quote-dots"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Features Bento -->
+    <section class="py-32 bg-themed-pure">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="section-header !mb-16 text-center">
+                <h2 class="text-4xl font-black mb-4">Elite <span class="text-gradient">Intelligence Tools</span></h2>
+                <p class="text-themed-body max-w-2xl mx-auto font-medium">Everything you need to transform your professional narrative and dominate your industry.</p>
+            </div>
+            
+            <div class="bento-grid">
+                <!-- Deep Profile Scan -->
+                <div class="bento-item large group" data-reveal>
+                    <div class="flex flex-col h-full justify-between relative z-10">
+                        <div>
+                            <div class="w-16 h-16 rounded-2xl bg-emerald-600 text-white flex items-center justify-center text-3xl shadow-glow-emerald mb-8">🤖</div>
+                            <h3 class="text-3xl font-black mb-6 text-themed-main">Deep Profile Scan</h3>
+                            <p class="text-themed-body text-lg leading-relaxed max-w-md">Our AI analyzes your profile against 15M+ successful career trajectories to find your unique value proposition.</p>
+                        </div>
+                        <div class="mt-8 pt-8 border-t border-themed-soft flex items-center justify-between">
+                            <div class="flex items-center gap-3 text-sm font-black text-emerald-600 dark:text-emerald-400">
+                                CORE ENGINE ACTIVE <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                            </div>
+                            <div class="text-xs font-semibold text-themed-body">Scan version: 4.8.2</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ATS Optimization -->
+                <div class="bento-item wide bg-slate-900 text-white border-none group overflow-hidden" data-reveal data-delay="100">
+                    <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 to-transparent opacity-50"></div>
+                    <div class="flex flex-col md:flex-row items-stretch justify-between gap-8 h-full relative z-10 w-full">
+                        <div class="flex flex-col justify-center">
+                            <h3 class="text-2xl font-black mb-2">ATS Optimization</h3>
+                            <p class="text-slate-400 leading-relaxed max-w-sm">Beat the applicant tracking bots with algorithmically targeted keyword placement.</p>
+                        </div>
+                        <div class="flex flex-wrap gap-2 max-w-xs justify-center md:justify-end self-center bg-slate-950/40 p-4 rounded-2xl border border-white/5 backdrop-blur-md">
+                            <span class="px-2.5 py-1 text-[10px] font-black rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">System Architecture ✓</span>
+                            <span class="px-2.5 py-1 text-[10px] font-black rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Kubernetes ✓</span>
+                            <span class="px-2.5 py-1 text-[10px] font-black rounded-lg bg-rose-500/10 text-rose-400 border border-rose-500/20">Legacy Stack ✗</span>
+                            <span class="px-2.5 py-1 text-[10px] font-black rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Go Lang ✓</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Market Benchmarking -->
+                <div class="bento-item tall group flex flex-col justify-between" data-reveal data-delay="200">
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-400 flex items-center justify-center text-2xl mb-8">📈</div>
+                        <h3 class="text-xl font-black mb-4 text-themed-main">Market Benchmarking</h3>
+                        <p class="text-themed-body leading-relaxed text-sm">See how you stack up against the top 1% in your specific field and role.</p>
+                    </div>
+                    <!-- Mini visual chart mockup -->
+                    <div class="mt-6 flex items-end gap-3 h-16 border-b border-themed-soft pb-1 relative z-10">
+                        <div class="w-full bg-themed-soft rounded-t-lg h-[45%] relative">
+                            <div class="absolute -top-5 left-1/2 -translate-x-1/2 text-[9px] font-black text-themed-body">Avg</div>
+                        </div>
+                        <div class="w-full bg-gradient-to-t from-emerald-600 to-teal-500 rounded-t-lg h-[85%] relative">
+                            <div class="absolute -top-5 left-1/2 -translate-x-1/2 text-[9px] font-black text-emerald-500">You</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recruiter Insights -->
+                <div class="bento-item tall group flex flex-col justify-between" data-reveal data-delay="300">
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 rounded-2xl bg-violet-100 text-violet-600 dark:bg-violet-500/15 dark:text-violet-400 flex items-center justify-center text-2xl mb-8">👔</div>
+                        <h3 class="text-xl font-black mb-4 text-themed-main">Recruiter Insights</h3>
+                        <p class="text-themed-body leading-relaxed text-sm">Understand exactly what hiring managers see when they visit your profile.</p>
+                    </div>
+                    <!-- Mini recruiter feedback panel mockup -->
+                    <div class="mt-6 p-4 rounded-2xl bg-themed-soft border border-themed-soft text-left relative z-10">
+                        <div class="text-[9px] font-black text-indigo-500 uppercase tracking-widest leading-none mb-1">Search Appearance</div>
+                        <div class="text-[11px] font-black text-themed-main leading-snug">"Candidate matches 98% of target Senior Tech Lead criteria."</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it Works -->
+    <section class="py-32 bg-themed-pure overflow-hidden relative">
+        <div class="max-w-7xl mx-auto px-4 relative z-10 text-center">
+            <div class="mb-24">
+                <h2 class="text-4xl md:text-6xl font-black text-themed-main tracking-tighter">3 Steps to <span class="text-gradient">Career Excellence</span></h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
+                <div class="group" data-reveal>
+                    <div class="w-24 h-24 rounded-3xl bg-themed-soft flex items-center justify-center text-4xl mx-auto mb-8 shadow-xl group-hover:shadow-emerald-500/20 transition-all">🔗</div>
+                    <h3 class="text-2xl font-black mb-4">Paste Your URL</h3>
+                    <p class="text-themed-body font-medium">Simply copy and paste your LinkedIn profile link. No forms needed.</p>
+                </div>
+                <div class="group" data-reveal data-delay="100">
+                    <div class="w-24 h-24 rounded-3xl bg-themed-soft flex items-center justify-center text-4xl mx-auto mb-8 shadow-xl group-hover:shadow-emerald-500/20 transition-all">⚡</div>
+                    <h3 class="text-2xl font-black mb-4">AI Deep Scan</h3>
+                    <p class="text-themed-body font-medium">Our engine performs a multi-layer analysis of your professional presence.</p>
+                </div>
+                <div class="group" data-reveal data-delay="200">
+                    <div class="w-24 h-24 rounded-3xl bg-themed-soft flex items-center justify-center text-4xl mx-auto mb-8 shadow-xl group-hover:shadow-emerald-500/20 transition-all">🏆</div>
+                    <h3 class="text-2xl font-black mb-4">Get the Report</h3>
+                    <p class="text-themed-body font-medium">Receive a detailed breakdown with actionable steps to maximize your visibility.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section with CSS Carousel -->
+    <section class="py-32 bg-slate-900 text-white relative overflow-hidden">
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-emerald-500/5 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <h2 class="text-4xl font-black mb-6 text-center">Global Professionals <span class="text-emerald-400">Trust Us</span></h2>
+            <p class="text-center text-slate-400 max-w-2xl mx-auto mb-16 font-semibold">
+                See how candidates from around the globe unlocked their career potential and passed elite recruiter benchmarks.
+            </p>
+            
+            <!-- CSS Snap Carousel Wrapper -->
+            <div class="testimonial-carousel-container relative">
+                <div class="testimonial-carousel flex gap-8 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-8">
+                    <div th:each="story, stat : ${testimonials}" 
+                         class="testimonial-slide snap-start shrink-0 w-full md:w-[calc(50%-16px)] lg:w-[calc(33.333%-21.33px)] bg-slate-950/40 backdrop-blur border border-white/5 hover:border-emerald-500/40 p-8 rounded-[32px] flex flex-col justify-between transition-all duration-300 group relative">
+                        <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-[32px] pointer-events-none"></div>
+                        <div class="relative z-10">
+                            <!-- Star Rating -->
+                            <div class="flex text-amber-400 mb-6 text-lg">★★★★★</div>
+                            <!-- Testimonial Description -->
+                            <p class="text-slate-300 mb-8 italic leading-relaxed text-sm font-semibold" th:text="${story.story}">"The best career investment I've made..."</p>
+                        </div>
+                        <!-- Profile Card -->
+                        <div class="flex items-center gap-4 relative z-10 border-t border-white/5 pt-6">
+                            <div class="w-12 h-12 rounded-xl overflow-hidden shadow-2xl shrink-0 border border-white/10">
+                                <img th:if="${story.avatarUrl != null}" th:src="${story.avatarUrl}" class="w-full h-full object-cover" 
+                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="w-full h-full flex items-center justify-center text-sm font-black text-white" 
+                                     th:style="'background:' + ${story.avatarColor}"
+                                     th:text="${story.avatarInitials}">PS</div>
+                            </div>
+                            <div>
+                                <div class="font-bold text-white text-sm tracking-tight" th:text="${story.name}">User Name</div>
+                                <div class="text-[10px] font-black text-emerald-400 uppercase tracking-widest mt-0.5" th:text="${story.role}">Role</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Carousel Nav Dots -->
+                <div class="flex justify-center gap-2 mt-6">
+                    <button th:each="story, stat : ${testimonials}" 
+                            th:attr="onclick=|document.querySelectorAll('.testimonial-slide')[${stat.index}].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })|"
+                            class="w-3 h-3 rounded-full bg-white/10 hover:bg-emerald-500 transition-all focus:outline-none"></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="py-32 px-4 bg-themed-pure">
+        <div class="max-w-7xl mx-auto">
+            <div class="bg-emerald-600 rounded-[64px] p-12 md:p-32 text-center relative overflow-hidden shadow-glow-emerald" data-reveal>
+                <div class="relative z-10">
+                    <h2 class="text-4xl md:text-7xl font-black text-white mb-8 tracking-tighter leading-tight">Ready to be <br><span class="text-emerald-200">Headhunted?</span></h2>
+                    <p class="text-xl text-emerald-100 mb-12 max-w-2xl mx-auto font-medium">Stop waiting for opportunities. Create them with a profile that demands attention.</p>
+                    <a href="/review" class="bg-white text-emerald-600 py-6 px-12 text-xl rounded-2xl font-black shadow-2xl hover:scale-105 transition-transform inline-block">
+                        Start My Free Scan 🚀
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     GEMINI AI TOUR SIMULATOR — Interactive Platform Demo
+     ═══════════════════════════════════════════════════════════════ -->
+<style>
+/* Tour Simulator Scoped Styles */
+#tour-screen { position: relative; overflow: hidden; }
+
+/* Scan laser */
+@keyframes scanLaser {
+    0% { top: 0; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: calc(100% - 3px); opacity: 0; }
+}
+.tour-laser {
+    position: absolute; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, transparent 0%, #10b981 20%, #34d399 50%, #10b981 80%, transparent 100%);
+    box-shadow: 0 0 20px #10b981, 0 0 60px #10b98166;
+    animation: scanLaser 2.5s ease-in-out forwards;
+    z-index: 10;
+}
+
+/* Floating skill chip */
+@keyframes chipFloat {
+    0% { opacity: 0; transform: translateY(20px) scale(0.7); }
+    30% { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 1; transform: translateY(-4px) scale(1); }
+}
+.tour-chip {
+    animation: chipFloat 0.6s ease-out forwards;
+    opacity: 0;
+}
+
+/* Radial score dial */
+.tour-dial-circle {
+    transition: stroke-dashoffset 2.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Terminal blink cursor */
+@keyframes termBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+.tour-cursor {
+    display: inline-block;
+    width: 8px; height: 14px;
+    background: #10b981;
+    animation: termBlink 0.8s step-end infinite;
+    vertical-align: middle;
+    margin-left: 2px;
+}
+
+/* Progress scrubber */
+.tour-scrubber-track {
+    height: 6px; border-radius: 3px; cursor: pointer;
+    background: rgba(255,255,255,0.1);
+    position: relative; overflow: hidden;
+}
+.tour-scrubber-fill {
+    height: 100%; border-radius: 3px;
+    background: linear-gradient(90deg, #10b981, #34d399);
+    transition: width 0.3s ease;
+}
+
+/* Pulse ring animation */
+@keyframes pulseRing {
+    0% { transform: scale(0.9); opacity: 1; }
+    100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* Entry stagger */
+@keyframes staggerUp {
+    0% { opacity: 0; transform: translateY(16px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Upload bounce */
+@keyframes uploadBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+}
+</style>
+
+<div id="video-modal" class="fixed inset-0 z-[1100] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md opacity-0 invisible transition-all duration-300" onclick="closeVideoModalOnBackdrop(event)">
+    <div id="video-card" class="relative w-full max-w-4xl bg-themed-pure rounded-[32px] border border-themed-soft shadow-3xl p-6 md:p-8 transform scale-95 transition-all duration-300">
+
+        <!-- Modal Header -->
+        <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+                <div style="width:40px;height:40px;border-radius:14px;background:linear-gradient(135deg,#10b981,#059669);display:flex;align-items:center;justify-content:center;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                </div>
+                <div>
+                    <h3 class="text-xl font-black text-themed-main" style="font-family:'Outfit',sans-serif;">Gemini AI Platform Tour</h3>
+                    <p class="text-xs text-themed-body font-semibold mt-0.5">Interactive demo — watch our AI analyze a real profile</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button id="tour-audio-btn" onclick="tourToggleAudio()" title="Toggle Sound" style="width:36px;height:36px;border-radius:10px;border:1px solid var(--border-soft);background:var(--bg-soft);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-body);font-size:16px;transition:all 0.2s;">🔊</button>
+                <button onclick="closeVideoModal()" style="width:36px;height:36px;border-radius:10px;border:1px solid var(--border-soft);background:var(--bg-soft);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-body);font-size:14px;font-weight:900;transition:all 0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.1)';this.style.color='#ef4444'" onmouseout="this.style.background='var(--bg-soft)';this.style.color='var(--text-body)'">✕</button>
+            </div>
+        </div>
+
+        <!-- ══ Tour Screen ══ -->
+        <div id="tour-screen" class="relative w-full rounded-2xl overflow-hidden border border-themed-soft shadow-inner" style="aspect-ratio:16/9; background:#020617;">
+
+            <!-- Top Status Bar -->
+            <div style="position:absolute;top:0;left:0;right:0;height:40px;background:rgba(15,23,42,0.95);border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;padding:0 16px;z-index:20;gap:8px;">
+                <div style="display:flex;gap:5px;">
+                    <div style="width:10px;height:10px;border-radius:50%;background:#ef4444;"></div>
+                    <div style="width:10px;height:10px;border-radius:50%;background:#f59e0b;"></div>
+                    <div style="width:10px;height:10px;border-radius:50%;background:#10b981;"></div>
+                </div>
+                <div style="flex:1;text-align:center;font-size:10px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:0.15em;font-family:'Outfit',sans-serif;">Careerthon.AI Gemini Engine v3.4</div>
+                <div style="display:flex;align-items:center;gap:5px;">
+                    <div id="tour-live-dot" style="width:7px;height:7px;border-radius:50%;background:#10b981;"></div>
+                    <span id="tour-stage-label" style="font-size:9px;font-weight:800;color:#10b981;text-transform:uppercase;letter-spacing:0.2em;">Ready</span>
+                </div>
+            </div>
+
+            <!-- Scene Container -->
+            <div id="tour-scenes" style="position:absolute;top:40px;left:0;right:0;bottom:0;overflow:hidden;">
+
+                <!-- SCENE 1: Profile Upload -->
+                <div id="tour-scene-1" class="tour-scene" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity 0.5s;">
+                    <div style="text-align:center;">
+                        <div id="tour-upload-icon" style="width:80px;height:80px;border-radius:24px;background:linear-gradient(135deg,rgba(16,185,129,0.15),rgba(16,185,129,0.05));border:2px dashed rgba(16,185,129,0.4);margin:0 auto 20px;display:flex;align-items:center;justify-content:center;animation:uploadBounce 2s ease-in-out infinite;">
+                            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        </div>
+                        <div style="font-size:18px;font-weight:800;color:#f8fafc;font-family:'Outfit',sans-serif;margin-bottom:6px;">Uploading Profile Data</div>
+                        <div style="font-size:12px;color:#64748b;font-weight:600;margin-bottom:24px;">Importing LinkedIn profile for Aarav Mehta…</div>
+                        <div style="width:280px;height:8px;border-radius:4px;background:rgba(255,255,255,0.06);margin:0 auto;overflow:hidden;">
+                            <div id="tour-upload-bar" style="width:0%;height:100%;border-radius:4px;background:linear-gradient(90deg,#10b981,#34d399);transition:width 0.1s linear;"></div>
+                        </div>
+                        <div id="tour-upload-pct" style="font-size:11px;font-weight:800;color:#10b981;margin-top:10px;font-family:'Outfit',sans-serif;">0%</div>
+                    </div>
+                </div>
+
+                <!-- SCENE 2: Scanning & Extraction -->
+                <div id="tour-scene-2" class="tour-scene" style="position:absolute;inset:0;display:flex;opacity:0;transition:opacity 0.5s;">
+                    <!-- Left: Terminal -->
+                    <div style="flex:1;padding:20px 16px;display:flex;flex-direction:column;">
+                        <div style="font-size:10px;font-weight:800;color:#10b981;text-transform:uppercase;letter-spacing:0.2em;margin-bottom:10px;">⚡ Neural Scan Engine</div>
+                        <div id="tour-terminal" style="flex:1;background:rgba(0,0,0,0.4);border-radius:12px;border:1px solid rgba(255,255,255,0.04);padding:12px;font-family:'Courier New',monospace;font-size:11px;color:#94a3b8;overflow-y:auto;line-height:1.7;"></div>
+                    </div>
+                    <!-- Right: Extracted Skills -->
+                    <div style="width:220px;padding:20px 16px 20px 0;display:flex;flex-direction:column;">
+                        <div style="font-size:10px;font-weight:800;color:#f59e0b;text-transform:uppercase;letter-spacing:0.2em;margin-bottom:10px;">🏷️ Extracted Skills</div>
+                        <div id="tour-skills-grid" style="display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start;"></div>
+                    </div>
+                </div>
+
+                <!-- SCENE 3: ATS Score -->
+                <div id="tour-scene-3" class="tour-scene" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:40px;opacity:0;transition:opacity 0.5s;padding:20px;">
+                    <!-- Radial Dial -->
+                    <div style="text-align:center;">
+                        <svg width="180" height="180" viewBox="0 0 180 180">
+                            <circle cx="90" cy="90" r="78" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="10"/>
+                            <circle id="tour-dial" class="tour-dial-circle" cx="90" cy="90" r="78" fill="none" stroke="url(#dialGrad)" stroke-width="10" stroke-linecap="round"
+                                    stroke-dasharray="490" stroke-dashoffset="490" transform="rotate(-90 90 90)"/>
+                            <defs><linearGradient id="dialGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#10b981"/><stop offset="100%" stop-color="#34d399"/></linearGradient></defs>
+                            <text id="tour-score-text" x="90" y="85" text-anchor="middle" fill="#f8fafc" font-size="36" font-weight="900" font-family="Outfit,sans-serif">0%</text>
+                            <text x="90" y="108" text-anchor="middle" fill="#64748b" font-size="10" font-weight="700" text-transform="uppercase" letter-spacing="2">ATS SCORE</text>
+                        </svg>
+                    </div>
+                    <!-- Score Breakdown -->
+                    <div style="max-width:260px;">
+                        <div style="font-size:16px;font-weight:800;color:#f8fafc;font-family:'Outfit',sans-serif;margin-bottom:4px;">Profile Assessment</div>
+                        <div style="font-size:11px;color:#64748b;font-weight:600;margin-bottom:16px;">Real-time ATS compatibility scan</div>
+                        <div id="tour-score-bars" style="display:flex;flex-direction:column;gap:12px;"></div>
+                    </div>
+                </div>
+
+                <!-- SCENE 4: Career Roadmap -->
+                <div id="tour-scene-4" class="tour-scene" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity 0.5s;padding:24px;">
+                    <div style="text-align:center;margin-bottom:20px;">
+                        <div style="font-size:32px;margin-bottom:8px;">🎯</div>
+                        <div style="font-size:20px;font-weight:900;color:#f8fafc;font-family:'Outfit',sans-serif;margin-bottom:4px;">Career Match Complete</div>
+                        <div style="font-size:12px;color:#64748b;font-weight:600;">Top role matches based on your profile analysis</div>
+                    </div>
+                    <div id="tour-matches" style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;max-width:600px;"></div>
+                </div>
+
+            </div><!-- /tour-scenes -->
+        </div><!-- /tour-screen -->
+
+        <!-- ══ Custom Player Controls ══ -->
+        <div style="margin-top:14px;padding:14px 8px 6px;display:flex;flex-direction:column;gap:10px;">
+            <!-- Scrubber -->
+            <div class="tour-scrubber-track" id="tour-scrubber" onclick="tourScrubberClick(event)">
+                <div class="tour-scrubber-fill" id="tour-scrubber-fill" style="width:0%"></div>
+            </div>
+            <!-- Controls Row -->
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <button id="tour-play-btn" onclick="tourTogglePlay()" style="width:40px;height:40px;border-radius:12px;border:none;background:linear-gradient(135deg,#10b981,#059669);color:white;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(16,185,129,0.35);transition:all 0.2s;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                        <svg id="tour-play-icon" width="18" height="18" viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    </button>
+                    <span id="tour-time" style="font-size:11px;font-weight:700;color:var(--text-muted);font-family:'Outfit',sans-serif;min-width:70px;">0:00 / 0:20</span>
+                </div>
+                <!-- Stage Markers -->
+                <div style="display:flex;gap:6px;align-items:center;">
+                    <button onclick="tourJumpToScene(0)" class="tour-stage-dot" id="tour-dot-0" style="width:28px;height:6px;border-radius:3px;border:none;background:rgba(255,255,255,0.1);cursor:pointer;transition:all 0.3s;" title="Upload"></button>
+                    <button onclick="tourJumpToScene(1)" class="tour-stage-dot" id="tour-dot-1" style="width:28px;height:6px;border-radius:3px;border:none;background:rgba(255,255,255,0.1);cursor:pointer;transition:all 0.3s;" title="Scan"></button>
+                    <button onclick="tourJumpToScene(2)" class="tour-stage-dot" id="tour-dot-2" style="width:28px;height:6px;border-radius:3px;border:none;background:rgba(255,255,255,0.1);cursor:pointer;transition:all 0.3s;" title="Score"></button>
+                    <button onclick="tourJumpToScene(3)" class="tour-stage-dot" id="tour-dot-3" style="width:28px;height:6px;border-radius:3px;border:none;background:rgba(255,255,255,0.1);cursor:pointer;transition:all 0.3s;" title="Match"></button>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <!-- Speed Selector -->
+                    <select id="tour-speed" onchange="tourSetSpeed(this.value)" style="background:var(--bg-soft);border:1px solid var(--border-soft);border-radius:8px;padding:4px 8px;font-size:11px;font-weight:700;color:var(--text-body);cursor:pointer;font-family:'Outfit',sans-serif;">
+                        <option value="0.5">0.5×</option>
+                        <option value="1" selected>1×</option>
+                        <option value="2">2×</option>
+                    </select>
+                    <!-- Skip Tour -->
+                    <button onclick="tourSkip()" style="padding:6px 14px;border-radius:10px;border:1px solid var(--border-soft);background:var(--bg-soft);font-size:11px;font-weight:800;color:var(--text-body);cursor:pointer;transition:all 0.2s;text-transform:uppercase;letter-spacing:0.08em;" onmouseover="this.style.background='rgba(16,185,129,0.1)';this.style.color='#10b981';this.style.borderColor='rgba(16,185,129,0.3)'" onmouseout="this.style.background='var(--bg-soft)';this.style.color='var(--text-body)';this.style.borderColor='var(--border-soft)'">Skip ⏭</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- ══ Tour Controller Script ══ -->
+<script>
+(function(){
+    /* ─── State ─── */
+    const TOTAL_DURATION = 20000; /* 20 seconds at 1x */
+    const SCENE_TIMES = [0, 5000, 10000, 15000]; /* ms start of each scene */
+    let tourPlaying = false, tourPaused = false, tourElapsed = 0, tourSpeed = 1;
+    let tourTimer = null, tourAudioOn = true, tourAudioCtx = null;
+    let currentScene = -1;
+
+    /* ─── Data ─── */
+    const termLines = [
+        '> Initializing Gemini NLP Pipeline…',
+        '> Loading transformer model: Careerthon.AI-bert-v3.4',
+        '> Tokenizing profile headline…',
+        '> Extracting experience vectors (5 entries)',
+        '> Parsing skills taxonomy…',
+        '> Cross-referencing 12,450 job descriptions',
+        '> Computing semantic similarity matrix…',
+        '> Running ATS keyword density scan…',
+        '> Evaluating headline impact score…',
+        '> Matching against 847 active openings…',
+        '✓ Analysis complete. Generating report…'
+    ];
+    const skills = ['Java','Spring Boot','React','Kubernetes','AWS','Docker','GraphQL','TypeScript','PostgreSQL','Redis','CI/CD','Microservices'];
+    const scoreBars = [
+        { label: 'Keyword Density', pct: 96 },
+        { label: 'Headline Impact', pct: 92 },
+        { label: 'Experience Depth', pct: 98 },
+        { label: 'Skills Coverage', pct: 94 }
+    ];
+    const matches = [
+        { role: 'Senior Full Stack Engineer', company: 'TechCorp', pct: 98, color: '#10b981' },
+        { role: 'Cloud Platform Architect', company: 'CloudScale', pct: 94, color: '#3b82f6' },
+        { role: 'Staff Backend Engineer', company: 'FinanceAI', pct: 91, color: '#8b5cf6' }
+    ];
+
+    /* ─── Audio ─── */
+    function initAudio() {
+        if (!tourAudioCtx) {
+            try { tourAudioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){}
+        }
+    }
+    function playTone(freq, dur, type) {
+        if (!tourAudioOn || !tourAudioCtx) return;
+        try {
+            const osc = tourAudioCtx.createOscillator();
+            const gain = tourAudioCtx.createGain();
+            osc.type = type || 'sine';
+            osc.frequency.value = freq;
+            gain.gain.setValueAtTime(0.08, tourAudioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, tourAudioCtx.currentTime + dur);
+            osc.connect(gain); gain.connect(tourAudioCtx.destination);
+            osc.start(); osc.stop(tourAudioCtx.currentTime + dur);
+        } catch(e){}
+    }
+    function sfxClick() { playTone(880, 0.08, 'square'); }
+    function sfxScan() { playTone(440, 0.15, 'sawtooth'); setTimeout(()=>playTone(660,0.12,'sine'),100); }
+    function sfxSuccess() { playTone(523,0.15,'sine'); setTimeout(()=>playTone(659,0.15,'sine'),120); setTimeout(()=>playTone(784,0.25,'sine'),240); }
+    function sfxChip() { playTone(1200, 0.05, 'square'); }
+
+    /* ─── Helpers ─── */
+    function $(id) { return document.getElementById(id); }
+    function showScene(idx) {
+        document.querySelectorAll('.tour-scene').forEach((s,i)=>{
+            s.style.opacity = i===idx?'1':'0';
+            s.style.pointerEvents = i===idx?'auto':'none';
+        });
+        document.querySelectorAll('.tour-stage-dot').forEach((d,i)=>{
+            d.style.background = i===idx ? '#10b981' : i<idx ? 'rgba(16,185,129,0.3)' : 'rgba(255,255,255,0.1)';
+        });
+        const labels = ['Uploading','Scanning','Scoring','Complete'];
+        const stageLabel = $('tour-stage-label');
+        if (stageLabel) stageLabel.textContent = labels[idx] || 'Ready';
+        currentScene = idx;
+    }
+    function updateScrubber() {
+        const pct = Math.min(100, (tourElapsed / TOTAL_DURATION) * 100);
+        const fill = $('tour-scrubber-fill');
+        if (fill) fill.style.width = pct + '%';
+        const elapsed = Math.floor(tourElapsed/1000);
+        const total = Math.floor(TOTAL_DURATION/1000);
+        const timeEl = $('tour-time');
+        if (timeEl) timeEl.textContent = '0:' + String(elapsed).padStart(2,'0') + ' / 0:' + String(total).padStart(2,'0');
+    }
+    function updatePlayIcon(playing) {
+        const icon = $('tour-play-icon');
+        if (!icon) return;
+        if (playing) {
+            icon.innerHTML = '<rect x="6" y="4" width="4" height="16" rx="1" fill="white"/><rect x="14" y="4" width="4" height="16" rx="1" fill="white"/>';
+        } else {
+            icon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3" fill="white"/>';
+        }
+    }
+
+    /* ─── Scene Runners ─── */
+    let sceneIntervals = [];
+    function clearSceneIntervals() {
+        sceneIntervals.forEach(id => clearInterval(id));
+        sceneIntervals.forEach(id => clearTimeout(id));
+        sceneIntervals = [];
+    }
+
+    function runScene1() {
+        showScene(0);
+        sfxClick();
+        let pct = 0;
+        const bar = $('tour-upload-bar');
+        const label = $('tour-upload-pct');
+        const iv = setInterval(()=>{
+            if (tourPaused) return;
+            pct += 2;
+            if (pct > 100) pct = 100;
+            if (bar) bar.style.width = pct + '%';
+            if (label) label.textContent = pct + '%';
+            if (pct >= 100) clearInterval(iv);
+        }, 80 / tourSpeed);
+        sceneIntervals.push(iv);
+    }
+
+    function runScene2() {
+        showScene(1);
+        sfxScan();
+        const term = $('tour-terminal');
+        const grid = $('tour-skills-grid');
+        if (term) term.innerHTML = '';
+        if (grid) grid.innerHTML = '';
+        let lineIdx = 0, skillIdx = 0;
+
+        const termIv = setInterval(()=>{
+            if (tourPaused) return;
+            if (lineIdx < termLines.length) {
+                const color = termLines[lineIdx].startsWith('✓') ? '#10b981' : '#94a3b8';
+                if (term) {
+                    /* Remove old cursor */
+                    const oldCur = term.querySelector('.tour-cursor');
+                    if (oldCur) oldCur.remove();
+                    term.innerHTML += '<div style="color:'+color+'">'+termLines[lineIdx]+' <span class="tour-cursor"></span></div>';
+                    term.scrollTop = term.scrollHeight;
+                }
+                sfxChip();
+                lineIdx++;
+            } else { clearInterval(termIv); }
+        }, 400 / tourSpeed);
+        sceneIntervals.push(termIv);
+
+        const skillIv = setInterval(()=>{
+            if (tourPaused) return;
+            if (skillIdx < skills.length && grid) {
+                const chip = document.createElement('div');
+                chip.className = 'tour-chip';
+                chip.style.cssText = 'padding:5px 12px;border-radius:8px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.25);color:#34d399;font-size:11px;font-weight:700;font-family:Inter,sans-serif;';
+                chip.textContent = skills[skillIdx];
+                chip.style.animationDelay = '0s';
+                grid.appendChild(chip);
+                sfxChip();
+                skillIdx++;
+            } else { clearInterval(skillIv); }
+        }, 350 / tourSpeed);
+        sceneIntervals.push(skillIv);
+    }
+
+    function runScene3() {
+        showScene(2);
+        sfxScan();
+        const dial = $('tour-dial');
+        const scoreText = $('tour-score-text');
+        const barsEl = $('tour-score-bars');
+        if (barsEl) barsEl.innerHTML = '';
+
+        /* Animate radial dial */
+        const targetPct = 98.4;
+        const targetOffset = 490 - (490 * targetPct / 100);
+        setTimeout(()=>{
+            if (dial) dial.style.strokeDashoffset = targetOffset;
+        }, 200);
+
+        let countVal = 0;
+        const countIv = setInterval(()=>{
+            if (tourPaused) return;
+            countVal += 1.5;
+            if (countVal >= targetPct) { countVal = targetPct; clearInterval(countIv); sfxSuccess(); }
+            if (scoreText) scoreText.textContent = countVal.toFixed(1) + '%';
+        }, 35 / tourSpeed);
+        sceneIntervals.push(countIv);
+
+        /* Score breakdown bars */
+        scoreBars.forEach((b,i)=>{
+            const t = setTimeout(()=>{
+                if (!barsEl) return;
+                const row = document.createElement('div');
+                row.style.cssText = 'opacity:0;animation:staggerUp 0.4s ease forwards;animation-delay:'+(i*0.15)+'s';
+                row.innerHTML = `
+                    <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:#94a3b8;margin-bottom:4px;">
+                        <span>${b.label}</span><span style="color:#10b981;">${b.pct}%</span>
+                    </div>
+                    <div style="width:100%;height:6px;border-radius:3px;background:rgba(255,255,255,0.06);overflow:hidden;">
+                        <div style="width:0%;height:100%;border-radius:3px;background:linear-gradient(90deg,#10b981,#34d399);transition:width 1.2s ease ${i*0.2}s;"></div>
+                    </div>`;
+                barsEl.appendChild(row);
+                /* Trigger bar fill */
+                setTimeout(()=>{
+                    const barFill = row.querySelector('div > div:last-child > div');
+                    if (barFill) barFill.style.width = b.pct + '%';
+                }, 50);
+            }, (600 * i) / tourSpeed);
+            sceneIntervals.push(t);
+        });
+    }
+
+    function runScene4() {
+        showScene(3);
+        sfxSuccess();
+        const container = $('tour-matches');
+        if (container) container.innerHTML = '';
+
+        matches.forEach((m,i)=>{
+            const t = setTimeout(()=>{
+                if (!container) return;
+                const card = document.createElement('div');
+                card.style.cssText = 'opacity:0;animation:staggerUp 0.5s ease forwards;animation-delay:'+(i*0.15)+'s;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:16px 20px;min-width:170px;text-align:center;';
+                card.innerHTML = `
+                    <div style="font-size:28px;font-weight:900;color:${m.color};font-family:Outfit,sans-serif;margin-bottom:2px;">${m.pct}%</div>
+                    <div style="font-size:13px;font-weight:800;color:#f8fafc;margin-bottom:2px;font-family:Outfit,sans-serif;">${m.role}</div>
+                    <div style="font-size:11px;color:#64748b;font-weight:600;">${m.company}</div>`;
+                container.appendChild(card);
+            }, (400 * i) / tourSpeed);
+            sceneIntervals.push(t);
+        });
+    }
+
+    /* ─── Tour Timeline Engine ─── */
+    function tourTick() {
+        if (tourPaused) return;
+        tourElapsed += 100 * tourSpeed;
+        if (tourElapsed >= TOTAL_DURATION) {
+            tourElapsed = TOTAL_DURATION;
+            tourPlaying = false;
+            updatePlayIcon(false);
+            clearInterval(tourTimer);
+            tourTimer = null;
+        }
+        updateScrubber();
+
+        /* Determine scene */
+        let targetScene = 0;
+        for (let i = SCENE_TIMES.length - 1; i >= 0; i--) {
+            if (tourElapsed >= SCENE_TIMES[i]) { targetScene = i; break; }
+        }
+        if (targetScene !== currentScene) {
+            clearSceneIntervals();
+            if (targetScene === 0) runScene1();
+            else if (targetScene === 1) runScene2();
+            else if (targetScene === 2) runScene3();
+            else if (targetScene === 3) runScene4();
+        }
+    }
+
+    /* ─── Public API ─── */
+    window.tourTogglePlay = function() {
+        initAudio();
+        sfxClick();
+        if (!tourPlaying && tourElapsed >= TOTAL_DURATION) {
+            /* Replay */
+            tourElapsed = 0; tourPaused = false; currentScene = -1;
+            clearSceneIntervals();
+        }
+        if (!tourPlaying) {
+            tourPlaying = true; tourPaused = false;
+            updatePlayIcon(true);
+            tourTimer = setInterval(tourTick, 100);
+            /* Kickstart first scene if fresh */
+            if (currentScene === -1) { tourTick(); }
+        } else {
+            tourPaused = !tourPaused;
+            updatePlayIcon(!tourPaused);
+        }
+    };
+
+    window.tourToggleAudio = function() {
+        tourAudioOn = !tourAudioOn;
+        const btn = $('tour-audio-btn');
+        if (btn) btn.textContent = tourAudioOn ? '🔊' : '🔇';
+        if (tourAudioOn) initAudio();
+    };
+
+    window.tourSetSpeed = function(v) {
+        tourSpeed = parseFloat(v) || 1;
+    };
+
+    window.tourJumpToScene = function(idx) {
+        sfxClick();
+        clearSceneIntervals();
+        tourElapsed = SCENE_TIMES[idx] || 0;
+        currentScene = -1; /* force re-run */
+        updateScrubber();
+        if (!tourPlaying) {
+            tourPlaying = true; tourPaused = false;
+            updatePlayIcon(true);
+            tourTimer = setInterval(tourTick, 100);
+        }
+        tourTick();
+    };
+
+    window.tourScrubberClick = function(e) {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        tourElapsed = pct * TOTAL_DURATION;
+        currentScene = -1;
+        clearSceneIntervals();
+        updateScrubber();
+        if (!tourPlaying) {
+            tourPlaying = true; tourPaused = false;
+            updatePlayIcon(true);
+            tourTimer = setInterval(tourTick, 100);
+        }
+        tourTick();
+    };
+
+    window.tourSkip = function() {
+        sfxClick();
+        clearSceneIntervals();
+        tourElapsed = SCENE_TIMES[3];
+        currentScene = -1;
+        updateScrubber();
+        if (!tourPlaying) {
+            tourPlaying = true; tourPaused = false;
+            updatePlayIcon(true);
+            tourTimer = setInterval(tourTick, 100);
+        }
+        tourTick();
+    };
+
+    window.tourReset = function() {
+        clearInterval(tourTimer);
+        tourTimer = null;
+        clearSceneIntervals();
+        tourPlaying = false; tourPaused = false;
+        tourElapsed = 0; currentScene = -1;
+        updatePlayIcon(false);
+        updateScrubber();
+        document.querySelectorAll('.tour-scene').forEach(s=>{ s.style.opacity='0'; });
+        document.querySelectorAll('.tour-stage-dot').forEach(d=>{ d.style.background='rgba(255,255,255,0.1)'; });
+        const stageLabel = $('tour-stage-label');
+        if (stageLabel) stageLabel.textContent = 'Ready';
+        /* Reset scene internals */
+        const bar = $('tour-upload-bar'); if(bar) bar.style.width='0%';
+        const pctLabel = $('tour-upload-pct'); if(pctLabel) pctLabel.textContent='0%';
+        const term = $('tour-terminal'); if(term) term.innerHTML='';
+        const grid = $('tour-skills-grid'); if(grid) grid.innerHTML='';
+        const dial = $('tour-dial'); if(dial) dial.style.strokeDashoffset='490';
+        const scoreText = $('tour-score-text'); if(scoreText) scoreText.textContent='0%';
+        const barsEl = $('tour-score-bars'); if(barsEl) barsEl.innerHTML='';
+        const matchesEl = $('tour-matches'); if(matchesEl) matchesEl.innerHTML='';
+    };
+
+    /* ─── Modal Open/Close ─── */
+    window.openVideoModal = function() {
+        const modal = $('video-modal');
+        const card = $('video-card');
+        if (modal && card) {
+            modal.classList.remove('opacity-0','invisible');
+            card.classList.remove('scale-95');
+            card.classList.add('scale-100');
+            tourReset();
+        }
+    };
+
+    window.closeVideoModal = function() {
+        const modal = $('video-modal');
+        const card = $('video-card');
+        if (modal && card) {
+            modal.classList.add('opacity-0','invisible');
+            card.classList.add('scale-95');
+            card.classList.remove('scale-100');
+            tourReset();
+        }
+    };
+
+    window.closeVideoModalOnBackdrop = function(event) {
+        if (event.target === event.currentTarget) closeVideoModal();
+    };
+
+    /* Intersection observer for reveals */
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
+
+    /* ESC key */
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            const modal = $('video-modal');
+            if (modal && !modal.classList.contains('invisible')) closeVideoModal();
+        }
+    });
+})();
+</script>
+
+<!-- ═══════════════════ MOTIVATIONAL JS ENGINE ═══════════════════ -->
+<script>
+(function() {
+    /* ── 1. TYPEWRITER EFFECT ── */
+    const phrases = [
+        '1 Profile Away',
+        'Get Hired Faster',
+        'Beat The Algorithm',
+        'Stand Out From 1000 Candidates',
+        'Dominate LinkedIn Search',
+    ];
+    let phraseIndex = 0, charIndex = 0, isDeleting = false;
+    const twEl = document.getElementById('typewriter-text');
+    const caretEl = document.querySelector('.typewriter-caret');
+
+    function typeWriter() {
+        if (!twEl) return;
+        const current = phrases[phraseIndex];
+        if (isDeleting) {
+            twEl.textContent = current.substring(0, charIndex--);
+            if (charIndex < 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                setTimeout(typeWriter, 500);
+                return;
+            }
+        } else {
+            twEl.textContent = current.substring(0, charIndex++);
+            if (charIndex > current.length) {
+                isDeleting = true;
+                setTimeout(typeWriter, 1800);
+                return;
+            }
+        }
+        setTimeout(typeWriter, isDeleting ? 45 : 85);
+    }
+    setTimeout(typeWriter, 1000);
+
+    /* Caret blink */
+    if (caretEl) setInterval(() => caretEl.classList.toggle('opacity-0'), 530);
+
+    /* ── 2. ANIMATED COUNTERS ── */
+    function easeOutQuart(t) { return 1 - Math.pow(1 - t, 4); }
+
+    function animateCounter(el) {
+        const target  = parseInt(el.dataset.target, 10);
+        const suffix  = el.dataset.suffix  || '';
+        const prefix  = el.dataset.prefix  || '';
+        const special = el.dataset.special  || '';
+        const duration = 2200;
+        let startTime = null;
+
+        function step(ts) {
+            if (!startTime) startTime = ts;
+            const elapsed  = ts - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased    = easeOutQuart(progress);
+            const value    = Math.round(eased * target);
+
+            if (special === 'rating') {
+                el.textContent = (4 + (value / target) * 0.9).toFixed(1);
+            } else if (target >= 1000) {
+                el.textContent = (value >= 1000 ? (value / 1000).toFixed(0) + 'k' : value) + suffix;
+            } else {
+                el.textContent = prefix + value + suffix;
+            }
+
+            if (progress < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+    }
+
+    const counterObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateCounter(entry.target);
+                counterObs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.counter-animate').forEach(el => counterObs.observe(el));
+
+    /* ── 3. DAILY MOTIVATION QUOTES ── */
+    const quotes = [
+        { text: 'Your LinkedIn profile is your 24/7 personal marketer. Make it shout.', author: '— Reid Hoffman, Co-Founder of LinkedIn', emoji: '💡' },
+        { text: 'The people who get hired are not necessarily the most qualified — they are the most findable.', author: '— Lou Adler, Hiring Expert', emoji: '🔍' },
+        { text: 'Done is better than perfect. Update your profile today — not tomorrow.', author: '— Sheryl Sandberg, Former COO of Facebook', emoji: '🚀' },
+        { text: 'Your career is your business. Your LinkedIn profile is your storefront.', author: '— Jeff Weiner, Former CEO of LinkedIn', emoji: '🏆' },
+        { text: 'Opportunities don\'t happen. You create them — starting with your profile.', author: '— Chris Grosser, Entrepreneur', emoji: '✨' },
+        { text: 'A strong personal brand is the best career insurance you can have.', author: '— Dan Schawbel, Personal Branding Expert', emoji: '🛡️' },
+    ];
+
+    const quoteText   = document.getElementById('quote-text');
+    const quoteAuthor = document.getElementById('quote-author');
+    const quoteDots   = document.getElementById('quote-dots');
+    const quoteDisplay = document.getElementById('quote-display');
+    let currentQuote  = Math.floor(Math.random() * quotes.length);
+
+    function buildDots() {
+        if (!quoteDots) return;
+        quoteDots.innerHTML = '';
+        quotes.forEach((_, i) => {
+            const dot = document.createElement('button');
+            dot.className = 'w-2 h-2 rounded-full transition-all duration-300 ' + (i === currentQuote ? 'bg-emerald-500 w-6' : 'bg-slate-600 hover:bg-slate-400');
+            dot.setAttribute('aria-label', 'Quote ' + (i + 1));
+            dot.addEventListener('click', () => showQuote(i));
+            quoteDots.appendChild(dot);
+        });
+    }
+
+    function showQuote(idx) {
+        if (!quoteText || !quoteAuthor) return;
+        quoteText.style.opacity = '0';
+        quoteAuthor.style.opacity = '0';
+        setTimeout(() => {
+            currentQuote = idx;
+            const q = quotes[currentQuote];
+            const emojiEl = quoteDisplay ? quoteDisplay.querySelector('.text-5xl') : null;
+            if (emojiEl) emojiEl.textContent = q.emoji;
+            quoteText.innerHTML   = '&ldquo;' + q.text + '&rdquo;';
+            quoteAuthor.textContent = q.author;
+            quoteText.style.opacity = '1';
+            quoteAuthor.style.opacity = '1';
+            buildDots();
+        }, 350);
+    }
+
+    buildDots();
+    setInterval(() => showQuote((currentQuote + 1) % quotes.length), 6000);
+
+    /* ── 4. URGENCY LIVE RECRUITER COUNTER ── */
+    const urgencyEl = document.getElementById('urgency-recruiter-count');
+    if (urgencyEl) {
+        function randomBetween(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; }
+        let count = randomBetween(1180, 1320);
+        urgencyEl.textContent = count.toLocaleString();
+        setInterval(() => {
+            count += randomBetween(-3, 7);
+            count = Math.max(1100, Math.min(1500, count));
+            urgencyEl.textContent = count.toLocaleString();
+        }, 4500);
+    }
+})();
+</script>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

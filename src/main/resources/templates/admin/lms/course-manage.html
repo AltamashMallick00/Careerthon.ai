@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Manage Course Curriculum - Careerthon.AI')}"></head>
+<body class="bg-slate-50 min-h-screen pt-24 pb-12">
+    <header th:replace="~{fragments/header :: header}"></header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-8 flex justify-between items-center">
+            <div>
+                <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Manage Curriculum</h1>
+                <p class="text-slate-600 mt-2" th:text="${course.title}">Course Name</p>
+            </div>
+            <a href="/admin/lms/courses" class="text-indigo-600 hover:text-indigo-900 font-medium">&larr; Back to Courses</a>
+        </div>
+        
+        <div th:if="${message}" class="mb-6 bg-green-50 text-green-800 p-4 rounded-lg border border-green-200" th:text="${message}"></div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Add Lesson Form -->
+            <div class="lg:col-span-1">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-lg font-bold text-slate-900 mb-4">Add New Lesson</h3>
+                    <form th:action="@{'/admin/lms/course/' + ${course.id} + '/lesson/add'}" method="post">
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-slate-700">Module Name</label>
+                            <input type="text" name="moduleName" placeholder="e.g. Module 1: Basics" required class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2 border">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-slate-700">Lesson Title</label>
+                            <input type="text" name="title" required class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2 border">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-slate-700">YouTube Video ID</label>
+                            <input type="text" name="youtubeVideoId" placeholder="e.g. dQw4w9WgXcQ" required class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2 border">
+                            <p class="text-xs text-slate-500 mt-1">The 11-character code in the YouTube URL.</p>
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-slate-700">Duration</label>
+                            <input type="text" name="duration" placeholder="e.g. 10:45" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2 border">
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 text-white rounded-md py-2 font-medium hover:bg-indigo-700">Add Lesson</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Current Curriculum -->
+            <div class="lg:col-span-2">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-lg font-bold text-slate-900 mb-6">Current Curriculum</h3>
+                    <div th:if="${#lists.isEmpty(course.lectures)}" class="text-center py-8 text-slate-500 bg-slate-50 rounded-lg">
+                        No lessons added yet.
+                    </div>
+                    
+                    <ul class="space-y-4">
+                        <li th:each="lecture : ${course.lectures}" class="flex items-center justify-between p-4 bg-slate-50 border border-slate-200 rounded-lg">
+                            <div>
+                                <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider block mb-1" th:text="${lecture.moduleName}">Module</span>
+                                <h4 class="font-medium text-slate-900" th:text="${lecture.title}">Lesson Title</h4>
+                                <p class="text-sm text-slate-500 mt-1">Video ID: <span th:text="${lecture.youtubeVideoId}"></span> | <span th:text="${lecture.duration}"></span></p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

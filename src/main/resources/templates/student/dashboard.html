@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Student Dashboard - Careerthon.AI')}"></head>
+<body class="bg-slate-50 min-h-screen pt-24 pb-12">
+    <header th:replace="~{fragments/header :: header}"></header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-10 border-b border-slate-200 pb-8 flex flex-col md:flex-row md:justify-between md:items-end">
+            <div>
+                <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight" th:text="'Welcome back, ' + ${user.fullName}">Welcome</h1>
+                <p class="mt-2 text-lg text-slate-600" th:if="${profile != null}" th:text="${profile.collegeName} + ' • ' + ${profile.branch}"></p>
+            </div>
+            <div class="mt-4 md:mt-0 flex gap-4">
+                <a href="/student/certificates" class="px-4 py-2 border border-slate-300 rounded-lg text-sm font-medium text-slate-700 bg-white hover:bg-slate-50">
+                    My Certificates
+                </a>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <!-- Sidebar Navigation -->
+            <div class="lg:col-span-1">
+                <nav class="space-y-2">
+                    <a href="/student/dashboard" class="flex items-center px-4 py-3 bg-indigo-50 text-indigo-700 font-bold rounded-lg">
+                        <span class="mr-3">📚</span> My Courses
+                    </a>
+                    <a href="/student/assignments" class="flex items-center px-4 py-3 text-slate-700 hover:bg-slate-100 font-medium rounded-lg transition-colors">
+                        <span class="mr-3">📝</span> Assignments
+                    </a>
+                    <a href="/student/internships" class="flex items-center px-4 py-3 text-slate-700 hover:bg-slate-100 font-medium rounded-lg transition-colors">
+                        <span class="mr-3">💼</span> Internships
+                    </a>
+                    <a href="/student/certificates" class="flex items-center px-4 py-3 text-slate-700 hover:bg-slate-100 font-medium rounded-lg transition-colors">
+                        <span class="mr-3">🎓</span> Certificates
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Content Area -->
+            <div class="lg:col-span-3">
+                <h2 class="text-2xl font-bold text-slate-900 mb-6">Enrolled Courses</h2>
+                
+                <div th:if="${#lists.isEmpty(enrollments)}" class="text-center py-16 bg-white rounded-xl border border-slate-200 shadow-sm">
+                    <div class="text-5xl mb-4">🎓</div>
+                    <h3 class="text-xl font-bold text-slate-900">No Courses Yet</h3>
+                    <p class="text-slate-500 mt-2">You haven't been enrolled in any courses.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div th:each="enrollment : ${enrollments}" class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-shadow flex flex-col">
+                        <img th:if="${enrollment.course.thumbnailUrl != null}" th:src="${enrollment.course.thumbnailUrl}" class="w-full h-48 object-cover" alt="Course Thumbnail">
+                        <div th:unless="${enrollment.course.thumbnailUrl != null}" class="w-full h-48 bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center">
+                            <span class="text-white text-4xl font-bold" th:text="${#strings.substring(enrollment.course.title,0,1)}">C</span>
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider" th:text="${enrollment.course.category}">Category</span>
+                                <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-1 rounded" th:if="${enrollment.completed}">Completed</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2 leading-tight" th:text="${enrollment.course.title}">Course Title</h3>
+                            <p class="text-slate-500 text-sm mb-6 flex-1 line-clamp-2" th:text="${enrollment.course.description}">Description</p>
+                            
+                            <a th:href="@{'/student/course/' + ${enrollment.course.id}}" class="w-full text-center bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition-colors">
+                                <span th:text="${enrollment.completed ? 'Review Course' : 'Continue Learning'}"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-12">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-6">Available Courses</h2>
+                    
+                    <div th:if="${#lists.isEmpty(availableCourses)}" class="text-center py-12 bg-slate-50 rounded-xl border border-slate-200">
+                        <p class="text-slate-500 font-medium">No other courses available at the moment.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div th:each="course : ${availableCourses}" class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-shadow flex flex-col opacity-90 hover:opacity-100">
+                            <img th:if="${course.thumbnailUrl != null}" th:src="${course.thumbnailUrl}" class="w-full h-40 object-cover filter grayscale hover:grayscale-0 transition-all" alt="Course Thumbnail">
+                            <div th:unless="${course.thumbnailUrl != null}" class="w-full h-40 bg-gradient-to-r from-slate-400 to-slate-500 flex items-center justify-center">
+                                <span class="text-white text-4xl font-bold" th:text="${#strings.substring(course.title,0,1)}">C</span>
+                            </div>
+                            <div class="p-6 flex-1 flex flex-col">
+                                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2" th:text="${course.category}">Category</span>
+                                <h3 class="text-lg font-bold text-slate-900 mb-2 leading-tight" th:text="${course.title}">Course Title</h3>
+                                <p class="text-slate-500 text-sm mb-6 flex-1 line-clamp-2" th:text="${course.description}">Description</p>
+                                
+                                <form th:action="@{'/student/enroll/' + ${course.id}}" method="post">
+                                    <button type="submit" class="w-full text-center bg-white hover:bg-indigo-50 text-indigo-600 border border-indigo-200 font-bold py-2 px-4 rounded-lg transition-colors">
+                                        Enroll Now
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

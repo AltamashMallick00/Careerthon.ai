@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Your LinkedIn Profile Report - Careerthon.AI')}"></head>
+<body class="bg-soft">
+
+<header th:replace="~{fragments/header :: header}"></header>
+
+<main class="min-h-screen pb-24">
+    <!-- Report Hero -->
+    <section class="section-padding mesh-bg-light relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-indigo-100/30 rounded-full blur-[120px] -z-10"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 flex flex-col lg:flex-row gap-16 items-center">
+            
+            <!-- Profile Info -->
+            <div class="lg:w-1/2" data-animate="fadeInLeft">
+                <div class="hero-tag">Intelligence Report Generated ✨</div>
+                <div class="flex items-center gap-6 mb-8 mt-4">
+                    <div class="w-24 h-24 rounded-3xl bg-indigo-600 text-white flex items-center justify-center text-4xl font-black shadow-2xl ring-4 ring-white" 
+                         th:text="${review.userName != null ? review.userName.substring(0,1) : 'U'}">U</div>
+                    <div>
+                        <h1 class="text-4xl font-black text-slate-900 mb-2" th:text="${review.userName ?: 'LinkedIn User'}">User</h1>
+                        <p class="text-indigo-600 font-bold mb-2 flex items-center gap-2">
+                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                             <span th:text="${review.linkedinUrl}">linkedin.com/in/user</span>
+                        </p>
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                            Verified on <span th:text="${#temporals.format(review.completedAt, 'dd MMM yyyy')}">date</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Score Visual -->
+            <div class="lg:w-1/2 flex justify-center" data-animate="fadeInRight">
+                <div class="premium-card p-10 glass border-white max-w-sm w-full text-center group translate-y-0 hover:-translate-y-2 transition-transform shadow-3xl">
+                    <div class="relative w-48 h-48 mx-auto mb-8">
+                        <svg viewBox="0 0 100 100" class="w-full h-full transform -rotate-90">
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="#f1f5f9" stroke-width="8"></circle>
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="url(#score-grad)" stroke-width="10" 
+                                    th:attr="stroke-dasharray=${(282.7 * review.overallScore / 100) + ' 282.7'}"
+                                    stroke-linecap="round"></circle>
+                            <defs>
+                                <linearGradient id="score-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#4f46e5" />
+                                    <stop offset="100%" stop-color="#0ea5e9" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center">
+                            <span class="text-7xl font-black text-slate-900 leading-none" th:text="${review.overallScore}">82</span>
+                            <span class="text-[10px] font-black text-indigo-600 uppercase tracking-widest mt-2" th:text="${review.scoreLabel}">Excellent</span>
+                        </div>
+                    </div>
+                    
+                    <button onclick="generateScorecard()" class="btn-premium w-full justify-center">
+                        Share Social Card 🏆
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROGRESS MOTIVATION PANEL -->
+    <section class="py-8 bg-gradient-to-r from-slate-900 to-indigo-950 relative overflow-hidden">
+        <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 70% 60% at 60% 50%, rgba(99,102,241,0.12) 0%, transparent 100%);"></div>
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+                <div class="flex-1">
+                    <div class="text-xs font-black text-indigo-400 uppercase tracking-[0.2em] mb-3">&#127919; Your Standing vs. 50,000+ Candidates</div>
+                    <h2 id="progress-headline" class="text-2xl md:text-3xl font-black text-white mb-2">Calculating your ranking...</h2>
+                    <p id="progress-subtext" class="text-slate-400 font-semibold text-sm mb-6">Our AI is comparing your profile score against our database.</p>
+                    <div class="relative h-4 bg-white/10 rounded-full overflow-hidden">
+                        <div id="progress-bar-fill" class="h-full rounded-full bg-gradient-to-r from-indigo-500 via-violet-500 to-emerald-400 transition-all duration-1000" style="width: 0%;"></div>
+                    </div>
+                    <div class="flex justify-between text-[10px] text-slate-500 font-black uppercase tracking-wider mt-2">
+                        <span>Bottom 25%</span><span>Average</span><span>Top 10%</span><span>Top 1%</span>
+                    </div>
+                </div>
+                <div class="flex-1 max-w-xs bg-white/5 border border-white/10 rounded-3xl p-6">
+                    <div class="text-xs font-black text-emerald-400 uppercase tracking-widest mb-4">&#9889; Quick Wins to Level Up</div>
+                    <ul class="space-y-3 text-sm text-slate-300 font-semibold">
+                        <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">&#8594;</span> Add a professional photo if missing</li>
+                        <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">&#8594;</span> Write a keyword-rich headline</li>
+                        <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">&#8594;</span> Get 5 endorsements from connections</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- URGENCY LIVE BANNER -->
+    <div class="bg-amber-500/10 border-y border-amber-500/20 py-3">
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-center gap-4 text-center">
+            <span class="inline-flex items-center gap-2 text-sm font-black text-amber-600 dark:text-amber-400">
+                <span class="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></span>
+                <span id="urgency-report-count">1,247</span> recruiters searched for profiles like yours in the last hour
+            </span>
+            <a href="/review" class="text-xs font-black text-white bg-amber-500 hover:bg-amber-400 px-4 py-1.5 rounded-full transition-colors">Optimize Now &#8594;</a>
+        </div>
+    </div>
+
+    <!-- Score Breakdown -->
+    <section class="section-padding bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-black text-slate-900 mb-12 text-center">Section Breakdown</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" th:if="${breakdown != null}">
+                <!-- Profile Photo -->
+                <div class="premium-card p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-sm font-black text-slate-400 uppercase tracking-widest">Profile Photo</span>
+                        <span class="text-xl font-black text-indigo-600" th:text="${breakdown.profilePhoto} + '/10'">0/10</span>
+                    </div>
+                    <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+                        <div class="h-full bg-indigo-600 rounded-full" th:style="'width:' + ${breakdown.profilePhoto * 10} + '%'"></div>
+                    </div>
+                </div>
+                <!-- Headline -->
+                <div class="premium-card p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-sm font-black text-slate-400 uppercase tracking-widest">Headline</span>
+                        <span class="text-xl font-black text-indigo-600" th:text="${breakdown.headline} + '/10'">0/10</span>
+                    </div>
+                    <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+                        <div class="h-full bg-indigo-600 rounded-full" th:style="'width:' + ${breakdown.headline * 10} + '%'"></div>
+                    </div>
+                </div>
+                <!-- About -->
+                <div class="premium-card p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-sm font-black text-slate-400 uppercase tracking-widest">About Section</span>
+                        <span class="text-xl font-black text-indigo-600" th:text="${breakdown.aboutSection} + '/10'">0/10</span>
+                    </div>
+                    <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+                        <div class="h-full bg-indigo-600 rounded-full" th:style="'width:' + ${breakdown.aboutSection * 10} + '%'"></div>
+                    </div>
+                </div>
+                <!-- Experience -->
+                <div class="premium-card p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-sm font-black text-slate-400 uppercase tracking-widest">Experience</span>
+                        <span class="text-xl font-black text-indigo-600" th:text="${breakdown.experience} + '/10'">0/10</span>
+                    </div>
+                    <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+                        <div class="h-full bg-indigo-600 rounded-full" th:style="'width:' + ${breakdown.experience * 10} + '%'"></div>
+                    </div>
+                </div>
+                <!-- Skills -->
+                <div class="premium-card p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-sm font-black text-slate-400 uppercase tracking-widest">Skills</span>
+                        <span class="text-xl font-black text-indigo-600" th:text="${breakdown.skills} + '/10'">0/10</span>
+                    </div>
+                    <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+                        <div class="h-full bg-indigo-600 rounded-full" th:style="'width:' + ${breakdown.skills * 10} + '%'"></div>
+                    </div>
+                </div>
+                <!-- ATS Match -->
+                <div class="premium-card p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-sm font-black text-slate-400 uppercase tracking-widest">ATS Compatibility</span>
+                        <span class="text-xl font-black text-indigo-600" th:text="${breakdown.atsScore} + '/10'">0/10</span>
+                    </div>
+                    <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+                        <div class="h-full bg-indigo-600 rounded-full" th:style="'width:' + ${breakdown.atsScore * 10} + '%'"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Expert Recommendations -->
+    <section class="section-padding mesh-bg-light">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-black text-slate-900 mb-12">Expert Recommendations</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div th:if="${review.headlineRecommendation}" class="premium-card glass">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-xl">✍️</div>
+                        <h3 class="text-xl font-black">Headline Strategy</h3>
+                    </div>
+                    <p class="text-slate-600 leading-relaxed" th:text="${review.headlineRecommendation}"></p>
+                </div>
+                <div th:if="${review.aboutRecommendation}" class="premium-card glass">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-xl">📝</div>
+                        <h3 class="text-xl font-black">About Section Polish</h3>
+                    </div>
+                    <p class="text-slate-600 leading-relaxed" th:text="${review.aboutRecommendation}"></p>
+                </div>
+                <!-- Actionable Roadmap -->
+                <div class="lg:col-span-2 p-10 rounded-[40px] bg-slate-900 text-white relative overflow-hidden mt-12 shadow-3xl">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-[80px]"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-4 mb-8">
+                            <div class="w-12 h-12 rounded-2xl bg-indigo-600 flex items-center justify-center text-2xl">⚡</div>
+                            <h2 class="text-3xl font-black">Your Actionable Career Roadmap</h2>
+                        </div>
+                        <pre class="whitespace-pre-wrap font-sans text-lg leading-relaxed text-slate-400" th:text="${review.actionableInsights}"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ACHIEVEMENT BADGES -->
+    <section class="py-16 bg-themed-soft">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-10">
+                <div class="hero-tag !bg-amber-500/5 !text-amber-600 dark:!text-amber-400 border-amber-500/10 mb-3 inline-flex">&#127942; Achievements Unlocked</div>
+                <h2 class="text-2xl font-black text-themed-main">Your Profile Badges</h2>
+                <p class="text-themed-body text-sm mt-2">Collect badges as you improve your LinkedIn score</p>
+            </div>
+            <div id="badges-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <!-- Badges injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Actions -->
+    <div class="max-w-7xl mx-auto px-4 mt-4 mb-20 flex flex-wrap justify-center gap-6 relative z-10">
+        <a href="/review" class="btn-premium py-5 px-12 text-lg group">
+            <span class="mr-2">&#128260;</span> Re-Analyze Profile
+        </a>
+        <button onclick="window.print()" class="btn-premium py-5 px-12 text-lg bg-white text-slate-900 border-slate-200 hover:bg-slate-50">
+            <span class="mr-2">&#128424;&#65039;</span> Save as PDF
+        </button>
+        <button onclick="toggleEmailModal()" class="btn-premium py-5 px-12 text-lg bg-indigo-600 text-white border-indigo-600 shadow-glow group">
+            <span class="mr-2">&#9993;&#65039;</span> Send to Email
+        </button>
+    </div>
+
+    <!-- Email Modal (Hidden by default) -->
+    <div id="email-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/50 backdrop-blur-sm transition-opacity duration-300 opacity-0">
+        <div class="bg-themed-pure p-8 rounded-3xl shadow-2xl max-w-md w-full mx-4 border border-themed-soft transform scale-95 transition-transform duration-300 relative">
+            <button onclick="toggleEmailModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center text-xl mb-6 shadow-sm">✉️</div>
+            <h3 class="text-2xl font-black text-themed-main mb-2">Send Report via Email</h3>
+            <p class="text-themed-body text-sm mb-6 font-medium">Enter your email address to receive a secure link to this analysis report.</p>
+            
+            <form id="email-form" onsubmit="sendEmailReport(event)" class="space-y-4">
+                <input type="email" id="recipient-email" required placeholder="name@company.com"
+                       class="w-full px-4 py-3 bg-themed-soft rounded-xl border border-themed-soft focus:border-indigo-500 outline-none transition-all text-sm font-bold text-themed-main placeholder:text-slate-400">
+                
+                <div id="email-status" class="hidden text-sm font-bold p-3 rounded-xl text-center"></div>
+
+                <button type="submit" id="email-submit-btn" class="w-full btn-premium py-3 rounded-xl flex justify-center items-center group shadow-glow">
+                    <span>Send Secure Link</span>
+                    <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                </button>
+            </form>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<input type="hidden" id="report-review-id" th:value="${review.id}">
+<script th:src="@{/js/app.js}"></script>
+<script>
+    const emailModal = document.getElementById('email-modal');
+    
+    function toggleEmailModal() {
+        if (emailModal.classList.contains('hidden')) {
+            emailModal.classList.remove('hidden');
+            setTimeout(() => {
+                emailModal.classList.remove('opacity-0');
+                emailModal.firstElementChild.classList.remove('scale-95');
+            }, 10);
+        } else {
+            emailModal.classList.add('opacity-0');
+            emailModal.firstElementChild.classList.add('scale-95');
+            setTimeout(() => emailModal.classList.add('hidden'), 300);
+        }
+    }
+
+    async function sendEmailReport(e) {
+        e.preventDefault();
+        const btn = document.getElementById('email-submit-btn');
+        const status = document.getElementById('email-status');
+        const email = document.getElementById('recipient-email').value;
+        const reviewId = document.getElementById('report-review-id').value;
+        
+        btn.innerHTML = '<span class="animate-pulse">Sending...</span>';
+        btn.disabled = true;
+        status.classList.add('hidden');
+        
+        try {
+            const response = await fetch(`/report/${reviewId}/email`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({ email: email })
+            });
+            const data = await response.json();
+            
+            status.classList.remove('hidden', 'bg-rose-50', 'text-rose-600');
+            status.classList.add('bg-emerald-50', 'text-emerald-600');
+            status.innerText = '✅ ' + data.message;
+            
+            setTimeout(() => {
+                toggleEmailModal();
+                btn.innerHTML = '<span>Send Secure Link</span><svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>';
+                btn.disabled = false;
+                status.classList.add('hidden');
+            }, 2500);
+            
+        } catch (error) {
+            status.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-600');
+            status.classList.add('bg-rose-50', 'text-rose-600');
+            status.innerText = '❌ Failed to send email. Please try again.';
+            
+            btn.innerHTML = '<span>Send Secure Link</span><svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>';
+            btn.disabled = false;
+        }
+    }
+</script>
+
+<!-- MOTIVATIONAL REPORT ENGINE -->
+<script>
+(function() {
+    /* Read score from the DOM */
+    const scoreEl = document.querySelector('.text-7xl');
+    const score = parseInt(scoreEl ? scoreEl.textContent.trim() : '70', 10) || 70;
+
+    /* ── 1. PROGRESS MOTIVATION PANEL ── */
+    const headline = document.getElementById('progress-headline');
+    const subtext  = document.getElementById('progress-subtext');
+    const barFill  = document.getElementById('progress-bar-fill');
+
+    const percentile = score >= 90 ? 99 : score >= 80 ? 92 : score >= 70 ? 77 : score >= 60 ? 55 : 35;
+    const stepsAway  = score >= 90 ? 1  : score >= 80 ? 2  : score >= 70 ? 3  : score >= 60 ? 4  : 5;
+
+    const msg = score >= 90
+        ? { h: '&#127881; You\'re in the TOP 1%! Your profile is fully recruiter-ready.',                     s: 'Exceptional. Recruiters are actively messaging candidates at your level right now.' }
+        : score >= 80
+        ? { h: '&#128640; You\'re in the Top ' + (100 - percentile) + '% \u2014 just ' + stepsAway + ' steps from your dream job!', s: 'Recruiters are searching for profiles at your level. Strike while the iron is hot!' }
+        : score >= 70
+        ? { h: '&#9889; You beat ' + percentile + '% of candidates \u2014 ' + stepsAway + ' quick wins to go from good to great.', s: 'Your profile has strong fundamentals. A few strategic tweaks will skyrocket your visibility.' }
+        : score >= 60
+        ? { h: '&#128170; You\'re above average! ' + stepsAway + ' targeted improvements unlock 3x more recruiter views.', s: 'You\'re closer than you think. Focus on the quick wins in the roadmap below.' }
+        : { h: '&#127919; Great start! Our roadmap will push you past ' + Math.round(65 + (score * 0.3)) + '% of candidates.', s: 'Every point gained on your LinkedIn score translates to more recruiter messages.' };
+
+    setTimeout(function() {
+        if (headline) headline.innerHTML = msg.h;
+        if (subtext)  subtext.textContent = msg.s;
+        if (barFill)  barFill.style.width  = Math.min(score, 100) + '%';
+    }, 700);
+
+    /* ── 2. URGENCY LIVE COUNTER ── */
+    var urgency = document.getElementById('urgency-report-count');
+    if (urgency) {
+        var count = Math.floor(Math.random() * 200) + 1100;
+        urgency.textContent = count.toLocaleString();
+        setInterval(function() {
+            count += Math.floor(Math.random() * 10) - 3;
+            count = Math.max(1000, Math.min(1500, count));
+            urgency.textContent = count.toLocaleString();
+        }, 4000);
+    }
+
+    /* ── 3. ACHIEVEMENT BADGES ── */
+    var badges = [
+        { emoji: '&#128300;', name: 'Profile Analyzed',  desc: 'You took the first step!',   unlock: 0  },
+        { emoji: '&#127775;', name: 'Halfway There',     desc: 'Score above 50',              unlock: 50 },
+        { emoji: '&#128188;', name: 'Job Ready',         desc: 'Score above 65',              unlock: 65 },
+        { emoji: '&#128640;', name: 'ATS Crusher',       desc: 'Score above 75',              unlock: 75 },
+        { emoji: '&#127942;', name: 'Top Performer',     desc: 'Score above 85',              unlock: 85 },
+        { emoji: '&#128142;', name: 'Elite Profile',     desc: 'Score above 95',              unlock: 95 },
+    ];
+    var grid = document.getElementById('badges-grid');
+    if (grid) {
+        grid.innerHTML = '';
+        badges.forEach(function(b) {
+            var unlocked = score >= b.unlock;
+            var div = document.createElement('div');
+            div.className = 'flex flex-col items-center text-center p-4 rounded-2xl border transition-all duration-300 ' +
+                (unlocked ? 'bg-gradient-to-br from-amber-500/10 to-yellow-500/5 border-amber-500/30 shadow-lg' : 'border-themed-soft opacity-40 grayscale');
+            div.innerHTML =
+                '<div class="text-4xl mb-2">' + b.emoji + '</div>' +
+                '<div class="text-xs font-black ' + (unlocked ? 'text-themed-main' : 'text-slate-500') + ' uppercase tracking-wider leading-tight">' + b.name + '</div>' +
+                '<div class="text-[9px] ' + (unlocked ? 'text-themed-body' : 'text-slate-600') + ' mt-1">' + (unlocked ? b.desc : 'Score ' + b.unlock + '+ to unlock') + '</div>';
+            grid.appendChild(div);
+        });
+    }
+
+    /* ── 4. CONFETTI CELEBRATION (score >= 75) ── */
+    if (score >= 75) {
+        function launchConfetti() {
+            var canvas = document.createElement('canvas');
+            canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;';
+            document.body.appendChild(canvas);
+            var ctx = canvas.getContext('2d');
+            canvas.width  = window.innerWidth;
+            canvas.height = window.innerHeight;
+            var colors = ['#10b981','#6366f1','#f59e0b','#ec4899','#3b82f6','#a855f7'];
+            var pieces = [];
+            for (var i = 0; i < 130; i++) {
+                pieces.push({
+                    x: Math.random() * canvas.width,
+                    y: -20 - Math.random() * 100,
+                    w: 8 + Math.random() * 10,
+                    h: 4 + Math.random() * 6,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    vx: (Math.random() - 0.5) * 3,
+                    vy: 2 + Math.random() * 3,
+                    rot: Math.random() * 360,
+                    spin: (Math.random() - 0.5) * 6
+                });
+            }
+            var frame = 0;
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                pieces.forEach(function(p) {
+                    ctx.save();
+                    ctx.translate(p.x + p.w / 2, p.y + p.h / 2);
+                    ctx.rotate(p.rot * Math.PI / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+                    ctx.restore();
+                    p.x += p.vx; p.y += p.vy; p.rot += p.spin; p.vy += 0.05;
+                });
+                frame++;
+                if (frame < 220) requestAnimationFrame(draw);
+                else canvas.remove();
+            }
+            draw();
+        }
+        setTimeout(launchConfetti, 900);
+    }
+})();
+</script>
+</body>
+</html>

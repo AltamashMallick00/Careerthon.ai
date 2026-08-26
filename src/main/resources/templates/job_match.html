@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Job Match Engine - Careerthon.AI')}"></head>
+<body class="bg-themed-pure selection:bg-emerald-500 selection:text-white">
+
+<header th:replace="~{fragments/header :: header}"></header>
+
+<main class="pt-32 pb-24 min-h-screen relative overflow-hidden">
+    <!-- Decorative background glow blobs -->
+    <div class="absolute top-1/4 -left-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute bottom-1/4 -right-24 w-96 h-96 bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 relative z-10">
+        <!-- Page Header -->
+        <div class="text-center mb-16 max-w-3xl mx-auto">
+            <div class="hero-tag !bg-emerald-600/5 !text-emerald-600 dark:!text-emerald-400 border-emerald-600/10 mb-4 inline-flex">
+                ATS Compatibility Checker
+            </div>
+            <h1 class="text-4xl md:text-5xl font-black text-themed-main tracking-tight leading-tight">
+                Job Fit <span class="text-gradient">Analyzer</span>
+            </h1>
+            <p class="text-themed-body mt-4 font-semibold text-lg">
+                Compare your resume or profile keywords directly against a target job description to discover gaps and boost search visibility.
+            </p>
+        </div>
+
+        <!-- Analyzer Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Input Form Pane (Left) -->
+            <div class="lg:col-span-6 space-y-6">
+                <div class="glass border-themed-soft rounded-3xl p-8 shadow-2xl relative overflow-hidden">
+                    <h3 class="text-2xl font-black text-themed-main mb-6 flex items-center gap-3">
+                        <span>📝</span> Paste Workspace
+                    </h3>
+                    
+                    <form id="job-match-form" class="space-y-6">
+                        <!-- Resume Textarea -->
+                        <div>
+                            <label for="resumeText" class="block text-sm font-black text-themed-main uppercase tracking-widest mb-2 flex justify-between">
+                                <span>Your Resume / Profile Text</span>
+                                <span class="text-slate-400 normal-case font-bold" id="resume-count">0 words</span>
+                            </label>
+                            <textarea id="resumeText" name="resumeText" rows="8" 
+                                      class="w-full bg-themed-soft text-themed-main border border-themed-soft rounded-2xl p-4 text-sm font-semibold focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all placeholder-slate-400 resize-y" 
+                                      placeholder="Paste your executive summary, core competencies, skills list, or parsed profile text here..." required></textarea>
+                        </div>
+
+                        <!-- Job Description Textarea -->
+                        <div>
+                            <label for="jobDescription" class="block text-sm font-black text-themed-main uppercase tracking-widest mb-2 flex justify-between">
+                                <span>Target Job Description</span>
+                                <span class="text-slate-400 normal-case font-bold" id="jd-count">0 words</span>
+                            </label>
+                            <textarea id="jobDescription" name="jobDescription" rows="8" 
+                                      class="w-full bg-themed-soft text-themed-main border border-themed-soft rounded-2xl p-4 text-sm font-semibold focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all placeholder-slate-400 resize-y" 
+                                      placeholder="Paste the full job description details, qualifications, and role responsibilities here..." required></textarea>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" id="submit-btn" 
+                                class="w-full btn-premium group shadow-glow-emerald py-4 flex items-center justify-center gap-3 justify-center">
+                            Run Match Diagnostics ⚡
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Analysis Dashboard (Right) -->
+            <div class="lg:col-span-6 space-y-6">
+                <!-- Results Initial State / Placeholder -->
+                <div id="no-results-card" class="glass border-themed-soft rounded-3xl p-12 text-center shadow-2xl min-h-[500px] flex flex-col items-center justify-center">
+                    <div class="w-24 h-24 rounded-full bg-themed-soft flex items-center justify-center text-4xl mb-6 shadow-inner border border-themed-soft animate-float">
+                        🎯
+                    </div>
+                    <h4 class="text-xl font-black text-themed-main mb-2">Awaiting Diagnosis</h4>
+                    <p class="text-sm text-themed-body max-w-sm font-semibold leading-relaxed">
+                        Input your profile summary and the target job description to compute a compatibility score and missing keyword roadmap.
+                    </p>
+                </div>
+
+                <!-- Live Diagnostics Card -->
+                <div id="results-card" class="hidden glass border-themed-soft rounded-3xl p-8 shadow-2xl space-y-8 animate-fade-in">
+                    
+                    <!-- Header with Gauge and Overview -->
+                    <div class="flex flex-col sm:flex-row items-center gap-8 border-b border-themed-soft pb-6">
+                        <!-- Gauge Circle -->
+                        <div class="relative w-40 h-40">
+                            <svg class="w-full h-full transform -rotate-90">
+                                <circle cx="80" cy="80" r="70" fill="none" stroke="var(--border-soft)" stroke-width="8"></circle>
+                                <circle id="match-circle-progress" cx="80" cy="80" r="70" fill="none" 
+                                        stroke="#10b981" stroke-width="8" stroke-linecap="round"
+                                        stroke-dasharray="440" stroke-dashoffset="440" 
+                                        class="transition-all duration-1000 ease-out"></circle>
+                            </svg>
+                            <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                                <span id="match-pct-text" class="text-4xl font-black text-themed-main tracking-tight">0%</span>
+                                <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Match Index</span>
+                            </div>
+                        </div>
+
+                        <!-- Diagnostics Details -->
+                        <div class="text-center sm:text-left space-y-2 grow">
+                            <div class="px-3 py-1 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-black text-xs uppercase tracking-widest inline-block" id="fit-label">
+                                Elite Compatibility
+                            </div>
+                            <h4 class="text-2xl font-black text-themed-main">ATS Compatibility Results</h4>
+                            <p class="text-sm text-themed-body font-semibold">
+                                The score represents estimated algorithmic keyword overlap based on modern Applicant Tracking Systems.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Keywords Highlight Summary -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-emerald-500/5 rounded-2xl border border-emerald-500/10 p-4 text-center">
+                            <span class="text-2xl font-black text-emerald-500 block mb-1" id="matched-count">0</span>
+                            <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Matched Keywords</span>
+                        </div>
+                        <div class="bg-rose-500/5 rounded-2xl border border-rose-500/10 p-4 text-center">
+                            <span class="text-2xl font-black text-rose-500 block mb-1" id="missing-count">0</span>
+                            <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Missing Keywords</span>
+                        </div>
+                    </div>
+
+                    <!-- Highlighted JD Box -->
+                    <div class="space-y-3">
+                        <h4 class="text-xs font-black text-themed-main uppercase tracking-[0.2em]">Highlighted Job Description</h4>
+                        <p class="text-xs text-themed-body font-bold mb-2">
+                            Missing keywords from your resume are highlighted in <span class="text-rose-500 underline">red</span>.
+                        </p>
+                        <div id="highlighted-text-box" class="w-full bg-themed-soft rounded-2xl p-6 text-sm font-semibold text-themed-main border border-themed-soft max-h-[300px] overflow-y-auto leading-relaxed whitespace-pre-wrap">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+<!-- Custom styling and dynamic match javascript logic -->
+<script>
+    // Word counts
+    const resumeTextarea = document.getElementById('resumeText');
+    const jdTextarea = document.getElementById('jobDescription');
+    const resumeCount = document.getElementById('resume-count');
+    const jdCount = document.getElementById('jd-count');
+
+    function updateWordCount(textarea, counter) {
+        const text = textarea.value.trim();
+        const words = text ? text.split(/\s+/).length : 0;
+        counter.textContent = `${words} word${words !== 1 ? 's' : ''}`;
+    }
+
+    resumeTextarea.addEventListener('input', () => updateWordCount(resumeTextarea, resumeCount));
+    jdTextarea.addEventListener('input', () => updateWordCount(jdTextarea, jdCount));
+
+    // Form submission
+    const form = document.getElementById('job-match-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const noResultsCard = document.getElementById('no-results-card');
+    const resultsCard = document.getElementById('results-card');
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Analyzing Workspace... ⚡';
+
+        const formData = new FormData(form);
+        
+        fetch('/api/job-match', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Run Match Diagnostics ⚡';
+
+            if (data.success) {
+                noResultsCard.classList.add('hidden');
+                resultsCard.classList.remove('hidden');
+
+                // Render metrics
+                const pct = data.matchPercentage;
+                document.getElementById('match-pct-text').textContent = `${pct}%`;
+                document.getElementById('matched-count').textContent = data.matchedKeywords.length;
+                document.getElementById('missing-count').textContent = data.missingKeywords.length;
+                document.getElementById('highlighted-text-box').innerHTML = data.highlightedJobDescription;
+
+                // Animate progress circle (radius 70 => circumference = 2 * PI * r = ~440)
+                const circle = document.getElementById('match-circle-progress');
+                const circumference = 440;
+                const offset = circumference - (pct / 100) * circumference;
+                circle.style.strokeDashoffset = offset;
+
+                // Color coding circle and fit label based on percentage
+                let color = '#ef4444'; // Red
+                let label = 'Needs Improvement';
+                if (pct >= 80) {
+                    color = '#10b981'; // Green
+                    label = 'Excellent Compatibility';
+                } else if (pct >= 60) {
+                    color = '#2563eb'; // Blue
+                    label = 'Good Alignment';
+                } else if (pct >= 40) {
+                    color = '#f59e0b'; // Amber
+                    label = 'Average Overlap';
+                }
+
+                circle.style.stroke = color;
+                const labelBadge = document.getElementById('fit-label');
+                labelBadge.textContent = label;
+                labelBadge.style.backgroundColor = `${color}15`;
+                labelBadge.style.color = color;
+                labelBadge.style.borderColor = `${color}30`;
+                
+                // Smooth scroll to results on mobile devices
+                resultsCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            } else {
+                alert(data.message || 'An error occurred during keyword matching.');
+            }
+        })
+        .catch(err => {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Run Match Diagnostics ⚡';
+            alert('Unable to connect to match engine. Please try again.');
+            console.error(err);
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body class="bg-slate-950">
+
+<footer th:fragment="footer" class="bg-slate-950 pt-24 pb-12 border-t border-white/5 overflow-hidden relative">
+    <!-- Background Accents -->
+    <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-indigo-500/10 rounded-full blur-[120px]"></div>
+    
+    <div class="max-w-7xl mx-auto px-4 relative z-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20">
+            <!-- Brand Column -->
+            <div class="lg:col-span-1">
+                <a href="/" class="flex items-center gap-3.5 mb-8 group">
+                    <svg class="w-10 h-10 group-hover:scale-110 transition-transform duration-300 shadow-glow" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="logoGradFooter" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#10B981"/>
+                                <stop offset="50%" stop-color="#3B82F6"/>
+                                <stop offset="100%" stop-color="#8B5CF6"/>
+                            </linearGradient>
+                        </defs>
+                        <!-- Background soft glass pill -->
+                        <rect width="100" height="100" rx="28" fill="url(#logoGradFooter)" fill-opacity="0.15" stroke="url(#logoGradFooter)" stroke-width="1.5"/>
+                        <!-- Outer Arc / Stylized "C" -->
+                        <path d="M 70 32 A 22 22 0 1 0 70 68" stroke="url(#logoGradFooter)" stroke-width="9" stroke-linecap="round" />
+                        <!-- Inner Chevrons / Accelerators -->
+                        <path d="M 46 36 L 58 48 L 46 60" stroke="url(#logoGradFooter)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M 32 41 L 41 48 L 32 55" stroke="url(#logoGradFooter)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+                    </svg>
+                    <span class="text-2xl font-black text-white tracking-tighter group-hover:text-emerald-500 transition-colors">Careerthon.AI</span>
+                </a>
+                <p class="text-slate-400 text-sm leading-relaxed mb-8">
+                    The world's most advanced LinkedIn intelligence engine. Engineered to bridge the gap between human talent and algorithmic discovery.
+                </p>
+                <div class="flex flex-col gap-4">
+                    <div class="flex gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-all cursor-pointer">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <!-- Product Column -->
+            <div>
+                <h4 class="text-white font-black text-xs uppercase tracking-[0.2em] mb-8">Intelligence</h4>
+                <div class="flex flex-col gap-4 text-sm font-bold">
+                    <a href="/review" class="text-slate-400 hover:text-emerald-400 transition-colors">Profile Scoring</a>
+                    <a href="/review" class="text-slate-400 hover:text-emerald-400 transition-colors">ATS Optimization</a>
+                    <a href="/resume" class="text-slate-400 hover:text-emerald-400 transition-colors">Resume Scan</a>
+                    <a href="/review" class="text-slate-400 hover:text-emerald-400 transition-colors">Skill Gap Analysis</a>
+                </div>
+            </div>
+
+            <!-- Company Column -->
+            <div>
+                <h4 class="text-white font-black text-xs uppercase tracking-[0.2em] mb-8">Platform</h4>
+                <div class="flex flex-col gap-4 text-sm font-bold">
+                    <a href="/about" class="text-slate-400 hover:text-emerald-400 transition-colors">Our Mission</a>
+                    <a href="/about" class="text-slate-400 hover:text-emerald-400 transition-colors">Team</a>
+                    <a href="/careers" class="text-slate-400 hover:text-emerald-400 transition-colors">Careers 💼</a>
+                    <a href="/login" class="text-slate-400 hover:text-emerald-400 transition-colors">Access Panel</a>
+                    <a href="/signup" class="text-slate-400 hover:text-emerald-400 transition-colors">Join Elite</a>
+                </div>
+            </div>
+
+            <!-- Team Support -->
+            <div class="bg-white/5 border border-white/5 rounded-[32px] p-8">
+                <h4 class="text-white font-black text-xs uppercase tracking-[0.2em] mb-6">Expertise</h4>
+                <p class="text-slate-400 text-xs mb-6">Engineered by Priyanshu Shekhar & the Careerthon.AI Team. Optimized for high-end recruitment.</p>
+                <div class="flex items-center gap-4 py-3 px-4 bg-white/5 rounded-xl border border-white/5">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-500 flex items-center justify-center text-xs">✉️</div>
+                    <div class="text-[10px] font-black text-emerald-400 uppercase tracking-widest break-all">priyanshushekhar616@gmail.com</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                &copy; 2026 Careerthon.AI Intelligence Systems. All Rights Reserved.
+            </div>
+            <div class="flex gap-8 text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                <a href="#" class="hover:text-white transition-colors">Terms</a>
+                <a href="#" class="hover:text-white transition-colors">Status</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed bottom-8 right-8 z-[1000] group">
+        <div id="ai-bubble" class="absolute bottom-full right-0 mb-4 w-72 bg-themed-pure rounded-3xl p-6 shadow-3xl border border-themed-soft opacity-0 invisible translate-y-2 transition-all">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center text-xs">🤖</div>
+                <div class="text-[10px] font-black text-themed-body uppercase tracking-widest leading-none">Career Assistant<br><span class="text-emerald-600">MIKE-1</span></div>
+            </div>
+            <p id="ai-text" class="text-sm font-bold text-themed-main leading-relaxed">
+                Welcome to Careerthon.AI. Paste your URL on the review page to start your transformation.
+            </p>
+        </div>
+        <button onclick="toggleAI()" class="w-16 h-16 rounded-2xl bg-emerald-600 text-white flex items-center justify-center text-2xl shadow-glow active:scale-95 transition-all">
+            🤖
+        </button>
+    </div>
+
+    <script>
+        function toggleAI() {
+            const bubble = document.getElementById('ai-bubble');
+            bubble.classList.toggle('opacity-0');
+            bubble.classList.toggle('invisible');
+            bubble.classList.toggle('translate-y-2');
+            
+            if (!bubble.classList.contains('invisible')) {
+                speakAI();
+            }
+        }
+
+        function speakAI() {
+            const text = document.getElementById('ai-text').innerText;
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.pitch = 1.2;
+                utterance.rate = 1.0;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+    </script>
+</footer>
+
+<div th:fragment="sticky-banner" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-[1000] w-[95%] max-w-2xl">
+    <div class="glass border-themed-soft p-4 rounded-2xl flex items-center justify-between shadow-3xl animate-float">
+        <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-xl shadow-glow">⚡</div>
+            <div>
+                <div class="text-sm font-black text-white leading-tight">Elite Profile Analysis</div>
+                <div class="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">Available now</div>
+            </div>
+        </div>
+        <a href="/review" class="border border-emerald-600 text-white py-3 px-6 rounded-xl text-xs font-black shadow-lg hover:bg-emerald-600 hover:scale-105 transition-all">Get Started</a>
+    </div>
+</div>
+</body>
+</html>

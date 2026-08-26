@@ -1,0 +1,27 @@
+@REM ----------------------------------------------------------------------------
+@REM Maven Wrapper startup batch script (FIXED)
+@REM ----------------------------------------------------------------------------
+@echo off
+SET "MAVEN_PROJECTBASEDIR=%~dp0"
+IF NOT "%MAVEN_PROJECTBASEDIR:~-1%"=="\" SET "MAVEN_PROJECTBASEDIR=%MAVEN_PROJECTBASEDIR%\"
+
+@SET MAVEN_WRAPPER_JAR="%MAVEN_PROJECTBASEDIR%.mvn\wrapper\maven-wrapper.jar"
+@SET MAVEN_WRAPPER_PROPERTIES="%MAVEN_PROJECTBASEDIR%.mvn\wrapper\maven-wrapper.properties"
+
+title %0
+IF "%MAVEN_BATCH_ECHO%" == "on"  echo %MAVEN_BATCH_ECHO%
+
+IF "%HOME%" == "" (SET "HOME=%HOMEDRIVE%%HOMEPATH%")
+
+SET JAVA_EXECUTABLE=java
+IF DEFINED JAVA_HOME (
+  IF EXIST "%JAVA_HOME%\bin\java.exe" SET JAVA_EXECUTABLE="%JAVA_HOME%\bin\java.exe"
+)
+
+@REM Detect Maven distribution URL from wrapper properties
+SET DISTRIBUTION_URL=
+FOR /F "usebackq tokens=1,* delims==" %%a IN (%MAVEN_WRAPPER_PROPERTIES%) DO (
+  IF "%%a"=="distributionUrl" SET DISTRIBUTION_URL=%%b
+)
+
+%JAVA_EXECUTABLE% "-Dmaven.multiModuleProjectDirectory=%MAVEN_PROJECTBASEDIR%" -classpath %MAVEN_WRAPPER_JAR% org.apache.maven.wrapper.MavenWrapperMain %*

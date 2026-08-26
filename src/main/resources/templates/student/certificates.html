@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('My Certificates - Careerthon.AI')}"></head>
+<body class="bg-slate-50 min-h-screen pt-24 pb-12">
+    <header th:replace="~{fragments/header :: header}"></header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-10 flex justify-between items-center border-b border-slate-200 pb-8">
+            <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">My Certificates</h1>
+            <a href="/student/dashboard" class="bg-white border border-slate-300 text-slate-700 px-4 py-2 rounded-lg text-sm font-bold">Back to Dashboard</a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div th:each="cert : ${certificates}" class="bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden flex flex-col text-center p-6">
+                <div class="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4 text-indigo-600">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-1" th:text="${cert.certificateType == 'COURSE_COMPLETION' ? cert.courseName : cert.internshipName}">Course Name</h3>
+                <p class="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-4" th:text="${#strings.replace(cert.certificateType, '_', ' ')}">Type</p>
+                
+                <p class="text-xs text-slate-500 mb-6">Issued on: <span th:text="${#temporals.format(cert.issuedAt, 'MMM dd, yyyy')}">Date</span></p>
+                
+                <div class="mt-auto">
+                    <a th:href="${cert.pdfUrl}" target="_blank" class="block w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-lg transition-colors">
+                        Download PDF
+                    </a>
+                </div>
+            </div>
+            
+            <div th:if="${#lists.isEmpty(certificates)}" class="col-span-full py-16 text-center bg-white rounded-xl border border-slate-200">
+                <p class="text-slate-500 font-medium text-lg">No certificates earned yet.</p>
+                <p class="text-slate-400 mt-2">Complete a course or internship to automatically earn your verified certificate!</p>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

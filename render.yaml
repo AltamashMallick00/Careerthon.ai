@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: careerthon-ai
+    env: docker
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: KEEP_ALIVE_ENABLED
+        value: "true"
+      - key: RENDER_EXTERNAL_URL
+        value: https://careerthon-ai.onrender.com

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Expert Mock Interview - Careerthon.AI')}"></head>
+<body class="bg-slate-50 min-h-screen pt-24 pb-12">
+    <header th:replace="~{fragments/header :: header}"></header>
+
+    <main class="max-w-4xl mx-auto px-4">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">Expert Mock Interview Explorer</h1>
+            <p class="mt-4 text-xl text-slate-600">Simulate real technical and behavioral interviews with professional evaluation.</p>
+        </div>
+
+        <div class="bg-white p-8 rounded-3xl shadow-xl border border-slate-200">
+            <!-- Step 1: Generate Questions -->
+            <form th:if="${questions == null && feedback == null}" th:action="@{/ai-tools/interview/generate}" method="POST" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Target Job Role</label>
+                    <input type="text" name="role" required placeholder="e.g. Senior Java Developer, Product Manager"
+                        class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all">
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-bold text-lg hover:bg-indigo-700 transition-all shadow-lg active:scale-[0.98]">
+                    Start Interview Prep 🔥
+                </button>
+            </form>
+
+            <!-- Step 2: Display Questions and Submit Answers -->
+            <div th:if="${questions != null && feedback == null}" class="space-y-6">
+                <div class="p-6 bg-slate-50 rounded-2xl border border-indigo-100">
+                    <h3 class="text-lg font-bold text-indigo-900 mb-4">Interview Questions for <span th:text="${role}">Role</span>:</h3>
+                    <div class="whitespace-pre-wrap text-slate-700 leading-relaxed" th:text="${questions}">Questions</div>
+                </div>
+
+                <form th:action="@{/ai-tools/interview/evaluate}" method="POST" class="space-y-6">
+                    <input type="hidden" name="role" th:value="${role}">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Type Your Answers Here</label>
+                        <textarea name="answers" required rows="10" placeholder="1. My approach to X is... \n2. In my previous role I..."
+                            class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all font-mono text-sm"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-green-600 text-white py-4 rounded-2xl font-bold text-lg hover:bg-green-700 transition-all shadow-lg active:scale-[0.98]">
+                        Submit for Expert Evaluation 🕵️‍♂️
+                    </button>
+                </form>
+            </div>
+
+            <!-- Step 3: Evaluation -->
+            <div th:if="${feedback != null}" class="space-y-6 animate-fade-in">
+                <div class="p-6 bg-white rounded-2xl border-2 border-green-500 shadow-xl">
+                    <h3 class="text-xl font-black text-slate-900 mb-6 flex items-center gap-3">
+                        <span class="text-3xl">🚀</span> Professional Performance Evaluation
+                    </h3>
+                    <div class="prose prose-slate max-w-none whitespace-pre-wrap text-slate-700 leading-relaxed font-medium" th:text="${feedback}">Feedback</div>
+                </div>
+                <a href="/ai-tools/interview" class="block w-full bg-slate-900 text-white py-4 rounded-2xl font-bold text-center hover:bg-slate-800 transition-all shadow-lg">
+                    Start Another Mock Interview
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

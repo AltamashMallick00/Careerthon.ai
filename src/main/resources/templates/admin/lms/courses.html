@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('LMS Courses - Admin')}"></head>
+<body class="bg-slate-50 min-h-screen pt-24 pb-12">
+    <header th:replace="~{fragments/header :: header}"></header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-10 flex justify-between items-center border-b border-slate-200 pb-8">
+            <div>
+                <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Course Management</h1>
+            </div>
+            <div class="flex gap-4">
+                <a href="/admin/lms/import" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-md">
+                    + Import via YouTube
+                </a>
+                <a href="/admin/lms/dashboard" class="bg-white border border-slate-300 text-slate-700 px-4 py-2 rounded-lg text-sm font-bold">
+                    Back to LMS Dashboard
+                </a>
+            </div>
+        </div>
+
+        <div th:if="${message}" class="mb-6 bg-green-50 text-green-700 p-4 rounded-lg border border-green-200 font-medium" th:text="${message}"></div>
+
+        <div class="bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden">
+            <table class="min-w-full divide-y divide-slate-200">
+                <thead class="bg-slate-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Course</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Instructor</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Lessons</th>
+                        <th class="px-6 py-3 text-right text-xs font-semibold text-slate-500 uppercase tracking-wider">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-slate-200">
+                    <tr th:each="course : ${courses}">
+                        <td class="px-6 py-4">
+                            <div class="text-sm font-bold text-slate-900" th:text="${course.title}">Title</div>
+                            <div class="text-xs text-slate-500" th:text="${course.category}">Category</div>
+                        </td>
+                        <td class="px-6 py-4 text-sm text-slate-700" th:text="${course.instructor}">Instructor</td>
+                        <td class="px-6 py-4 text-sm font-bold text-indigo-600" th:text="${course.totalLectures}">0</td>
+                        <td class="px-6 py-4 text-right flex justify-end gap-3 items-center">
+                            <a th:href="@{'/admin/lms/course/' + ${course.id} + '/manage'}" class="text-indigo-600 hover:text-indigo-900 text-sm font-bold bg-indigo-50 px-3 py-1 rounded">Curriculum</a>
+                            <a th:href="@{'/admin/lms/course/edit/' + ${course.id}}" class="text-blue-600 hover:text-blue-900 text-sm font-bold bg-blue-50 px-3 py-1 rounded">Edit</a>
+                            <form th:action="@{/admin/lms/courses/delete/{id}(id=${course.id})}" method="POST" onsubmit="return confirm('Delete this course?')">
+                                <button type="submit" class="text-red-600 hover:text-red-900 text-sm font-bold">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(courses)}">
+                        <td colspan="4" class="px-6 py-10 text-center text-slate-500">No courses available.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

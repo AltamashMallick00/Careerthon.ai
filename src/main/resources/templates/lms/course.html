@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Course - ' + ${course.title})}"></head>
+<body class="bg-themed-pure">
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main>
+    <!-- Course Header -->
+    <section class="pt-32 pb-8 bg-slate-900 text-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-violet-900/30 via-transparent to-indigo-900/20 pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                <div>
+                    <a href="/lms" class="inline-flex items-center gap-2 text-xs font-black text-slate-400 hover:text-white uppercase tracking-widest mb-4 transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                        Back to Courses
+                    </a>
+                    <h1 class="text-2xl md:text-4xl font-black tracking-tight" th:text="${course.title}">Java Full Stack Development</h1>
+                    <div class="flex flex-wrap items-center gap-3 mt-4">
+                        <span class="px-3 py-1 bg-violet-500/20 text-violet-300 rounded-full text-[10px] font-black uppercase tracking-wider" th:text="${course.difficulty}">Beginner</span>
+                        <span class="px-3 py-1 bg-white/10 text-slate-300 rounded-full text-[10px] font-black uppercase tracking-wider">
+                            📚 <span th:text="${totalLectures}">25</span> Lectures
+                        </span>
+                        <span class="px-3 py-1 bg-white/10 text-slate-300 rounded-full text-[10px] font-black uppercase tracking-wider">
+                            ⏱ <span th:text="${course.totalDuration}">45+ Hours</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Player + Sidebar Layout -->
+    <section class="bg-themed-pure">
+        <div class="max-w-[1600px] mx-auto">
+            <div class="flex flex-col lg:flex-row" style="min-height: calc(100vh - 200px);">
+
+                <!-- Video Player Column -->
+                <div class="flex-1 flex flex-col">
+                    <!-- YouTube Player -->
+                    <div class="w-full bg-black flex flex-col items-center justify-center text-slate-400" style="aspect-ratio: 16/9; max-height: 70vh;">
+                        <iframe th:if="${activeLecture != null}"
+                            id="lms-video-player"
+                            th:src="'https://www.youtube.com/embed/' + ${activeLecture.youtubeVideoId} + '?rel=0&modestbranding=1'"
+                            class="w-full h-full"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen>
+                        </iframe>
+                        <div th:if="${activeLecture == null}" class="flex flex-col items-center justify-center h-full w-full">
+                            <span class="text-4xl mb-2">🎥</span>
+                            <p>No video available for this lesson</p>
+                        </div>
+                    </div>
+
+                    <!-- Current Lecture Info -->
+                    <div class="p-6 md:p-8 border-b border-themed-soft">
+                        <div th:if="${activeLecture != null}">
+                            <div class="flex items-start gap-3 mb-3">
+                                <span class="px-2.5 py-1 bg-violet-500/10 text-violet-600 dark:text-violet-400 rounded-lg text-[10px] font-black uppercase tracking-wider shrink-0 mt-1" th:text="${activeLecture.moduleName}">Module 1</span>
+                                <span th:if="${activeLecture.duration}" class="px-2.5 py-1 bg-slate-100 dark:bg-slate-800 text-slate-500 rounded-lg text-[10px] font-black uppercase tracking-wider shrink-0 mt-1" th:text="'⏱ ' + ${activeLecture.duration}">⏱ 2:30:00</span>
+                            </div>
+                            <h2 class="text-xl md:text-2xl font-black text-themed-main mb-3" id="active-lecture-title" th:text="${activeLecture.title}">Lecture Title</h2>
+                            <p class="text-sm text-themed-body leading-relaxed max-w-3xl" id="active-lecture-desc" th:text="${activeLecture.description}">Lecture description...</p>
+                        </div>
+                        <div th:if="${activeLecture == null}">
+                            <h2 class="text-xl md:text-2xl font-black text-themed-main mb-3" id="active-lecture-title" th:text="${course.title}">Course Title</h2>
+                            <p class="text-sm text-themed-body leading-relaxed max-w-3xl" id="active-lecture-desc" th:text="${course.description}">Course description...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar: Lecture List -->
+                <div class="lg:w-[400px] xl:w-[440px] border-l border-themed-soft bg-themed-soft flex flex-col shrink-0 overflow-hidden">
+                    <div class="p-5 border-b border-themed-soft bg-themed-pure flex items-center justify-between shrink-0">
+                        <h3 class="text-sm font-black text-themed-main uppercase tracking-widest">Course Content</h3>
+                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest" th:text="${totalLectures} + ' lectures'">25 lectures</span>
+                    </div>
+
+                    <div class="flex-1 overflow-y-auto" id="lecture-sidebar" style="-webkit-overflow-scrolling: touch;">
+                        <div th:each="moduleEntry : ${modules}" class="border-b border-themed-soft">
+                            <!-- Module Header -->
+                            <button class="w-full p-4 flex items-center justify-between text-left hover:bg-white/50 dark:hover:bg-white/5 transition-colors lms-module-toggle" onclick="toggleModule(this)">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-violet-500/10 text-violet-600 dark:text-violet-400 flex items-center justify-center text-xs font-black shrink-0"
+                                         th:text="${moduleEntry.value[0].moduleOrder}">1</div>
+                                    <div>
+                                        <div class="text-sm font-black text-themed-main" th:text="${moduleEntry.key}">Module 1: Java Fundamentals</div>
+                                        <div class="text-[10px] font-bold text-slate-400 mt-0.5" th:text="${#lists.size(moduleEntry.value)} + ' lectures'">4 lectures</div>
+                                    </div>
+                                </div>
+                                <svg class="w-4 h-4 text-slate-400 transition-transform lms-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                            </button>
+
+                            <!-- Lectures in Module -->
+                            <div class="lms-module-lectures">
+                                <a th:each="lecture : ${moduleEntry.value}"
+                                   th:href="@{/lms/course/{id}(id=${course.id}, lectureId=${lecture.id})}"
+                                   th:classappend="${lecture.id == activeLecture.id} ? 'lms-lecture-active' : ''"
+                                   class="lms-lecture-item flex items-center gap-3 px-4 py-3 mx-2 mb-1 rounded-xl transition-all hover:bg-white dark:hover:bg-white/5 cursor-pointer group"
+                                   th:attr="data-video-id=${lecture.youtubeVideoId}, data-lecture-id=${lecture.id}, data-title=${lecture.title}, data-desc=${lecture.description}"
+                                   onclick="playLecture(event, this)">
+                                    <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 text-xs transition-colors"
+                                         th:classappend="${lecture.id == activeLecture.id} ? 'bg-violet-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 group-hover:bg-violet-500/10 group-hover:text-violet-600'">
+                                        <span th:if="${lecture.id == activeLecture.id}">▶</span>
+                                        <span th:if="${lecture.id != activeLecture.id}" th:text="${lecture.lectureOrder}">1</span>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="text-xs font-bold text-themed-main truncate group-hover:text-violet-600 transition-colors"
+                                             th:classappend="${lecture.id == activeLecture.id} ? '!text-violet-600 dark:!text-violet-400' : ''"
+                                             th:text="${lecture.title}">Lecture Title</div>
+                                        <div th:if="${lecture.duration}" class="text-[10px] font-bold text-slate-400 mt-0.5" th:text="${lecture.duration}">2:30:00</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<style>
+    .lms-lecture-active {
+        background: rgba(139, 92, 246, 0.06) !important;
+        border: 1px solid rgba(139, 92, 246, 0.15);
+    }
+
+    .lms-module-lectures {
+        max-height: 600px;
+        overflow: hidden;
+        transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        padding-bottom: 4px;
+    }
+
+    .lms-module-toggle.collapsed + .lms-module-lectures {
+        max-height: 0;
+        padding-bottom: 0;
+    }
+
+    .lms-module-toggle.collapsed .lms-chevron {
+        transform: rotate(-90deg);
+    }
+
+    /* Responsive adjustments for course page */
+    @media (max-width: 1024px) {
+        #lecture-sidebar {
+            max-height: 50vh;
+        }
+    }
+
+    @media (max-width: 768px) {
+        #lecture-sidebar {
+            max-height: 60vh;
+        }
+    }
+</style>
+
+<script>
+    function toggleModule(btn) {
+        btn.classList.toggle('collapsed');
+    }
+
+    function playLecture(event, el) {
+        event.preventDefault();
+        const videoId = el.getAttribute('data-video-id');
+        const title = el.getAttribute('data-title');
+        const desc = el.getAttribute('data-desc');
+
+        // Update video player
+        const player = document.getElementById('lms-video-player');
+        player.src = 'https://www.youtube.com/embed/' + videoId + '?rel=0&modestbranding=1&autoplay=1';
+
+        // Update lecture info
+        document.getElementById('active-lecture-title').textContent = title;
+        document.getElementById('active-lecture-desc').textContent = desc;
+
+        // Update active states
+        document.querySelectorAll('.lms-lecture-item').forEach(item => {
+            item.classList.remove('lms-lecture-active');
+            const icon = item.querySelector('.w-8');
+            if (icon) {
+                icon.classList.remove('bg-violet-600', 'text-white');
+                icon.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-500');
+                const order = item.querySelector('.w-8 span');
+                if (order) order.textContent = icon.closest('a').querySelector('[data-lecture-id]') ? '' : order.textContent;
+            }
+        });
+
+        el.classList.add('lms-lecture-active');
+        const activeIcon = el.querySelector('.w-8');
+        if (activeIcon) {
+            activeIcon.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-500');
+            activeIcon.classList.add('bg-violet-600', 'text-white');
+        }
+
+        // Update URL without reload
+        const url = new URL(window.location);
+        url.searchParams.set('lectureId', el.getAttribute('data-lecture-id'));
+        window.history.replaceState({}, '', url);
+
+        // Scroll video into view on mobile
+        if (window.innerWidth < 1024) {
+            player.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+</script>
+
+</body>
+</html>

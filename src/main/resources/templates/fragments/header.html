@@ -1,0 +1,253 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Careerthon.AI - Get expert LinkedIn profile analysis. Score your profile, optimize for ATS, boost visibility to recruiters. Free professional review!">
+    <title th:text="${title}">Careerthon.AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script>
+        // Check theme immediately to prevent FOUC
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        emerald: {
+                            50: '#F0F9FF',
+                            100: '#E0F2FE',
+                            200: '#BAE6FD',
+                            300: '#7DD3FC',
+                            400: '#38BDF8',
+                            500: '#0EA5E9',
+                            600: '#2563EB',
+                            700: '#1D4ED8',
+                            800: '#1E40AF',
+                            900: '#1E3A8A',
+                            950: '#172554',
+                        },
+                        green: {
+                            50: '#F0F9FF',
+                            100: '#E0F2FE',
+                            200: '#BAE6FD',
+                            300: '#7DD3FC',
+                            400: '#38BDF8',
+                            500: '#0EA5E9',
+                            600: '#2563EB',
+                            700: '#1D4ED8',
+                            800: '#1E40AF',
+                            900: '#1E3A8A',
+                            950: '#172554',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script th:src="@{/js/app.js}" defer></script>
+</head>
+<body>
+
+<!-- Header Fragment -->
+<header th:fragment="header" class="site-header" id="site-header">
+    <nav class="nav-container py-4 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-3.5 group">
+            <svg class="w-10 h-10 group-hover:scale-110 transition-transform duration-300 shadow-glow" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="logoGradHeader" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#2563EB"/>
+                        <stop offset="50%" stop-color="#3B82F6"/>
+                        <stop offset="100%" stop-color="#8B5CF6"/>
+                    </linearGradient>
+                </defs>
+                <!-- Background soft glass pill -->
+                <rect width="100" height="100" rx="28" fill="url(#logoGradHeader)" fill-opacity="0.15" stroke="url(#logoGradHeader)" stroke-width="1.5"/>
+                <!-- Outer Arc / Stylized "C" -->
+                <path d="M 70 32 A 22 22 0 1 0 70 68" stroke="url(#logoGradHeader)" stroke-width="9" stroke-linecap="round" />
+                <!-- Inner Chevrons / Accelerators -->
+                <path d="M 46 36 L 58 48 L 46 60" stroke="url(#logoGradHeader)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M 32 41 L 41 48 L 32 55" stroke="url(#logoGradHeader)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+            </svg>
+            <span class="text-2xl font-black text-themed-main tracking-tighter group-hover:text-emerald-500 transition-colors">Careerthon.AI</span>
+        </a>
+        
+        <div class="nav-links hidden lg:flex items-center bg-slate-100/50 backdrop-blur-md p-1.5 rounded-2xl border border-slate-200/50">
+            <a href="/" class="nav-link py-2 px-4 rounded-xl text-sm font-bold text-slate-600 hover:text-emerald-600 hover:bg-white transition-all">Home</a>
+
+            <a href="/ai-tools/recruiter-outreach" class="nav-link py-2 px-4 rounded-xl text-sm font-bold text-slate-600 hover:text-emerald-600 hover:bg-white transition-all">Outreach ✉️</a>
+            <a href="/ai-tools/roadmap" class="nav-link py-2 px-4 rounded-xl text-sm font-bold text-slate-600 hover:text-emerald-600 hover:bg-white transition-all">Roadmap 🗺️</a>
+            <a href="/ai-tools/referral-finder" class="nav-link py-2 px-4 rounded-xl text-sm font-bold text-slate-600 hover:text-emerald-600 hover:bg-white transition-all">Referrals 🤝</a>
+            <a href="/blog" class="nav-link py-2 px-4 rounded-xl text-sm font-bold text-slate-600 hover:text-emerald-600 hover:bg-white transition-all">Blog 📝</a>
+            <a href="/about" class="nav-link py-2 px-4 rounded-xl text-sm font-bold text-slate-600 hover:text-emerald-600 hover:bg-white transition-all">About</a>
+            <a href="/careers" class="nav-link py-2 px-4 rounded-xl text-sm font-bold text-slate-600 hover:text-emerald-600 hover:bg-white transition-all">Careers 💼</a>
+            <a href="/lms" class="nav-link py-2 px-4 rounded-xl text-sm font-bold text-violet-600 hover:text-violet-700 hover:bg-violet-50 transition-all">Academy 🎓</a>
+            <a href="/student/dashboard" sec:authorize="hasRole('STUDENT')" class="nav-link py-2 px-4 rounded-xl text-sm font-bold text-emerald-600 bg-white shadow-sm transition-all">LMS Dashboard</a>
+            <a href="/user/profile" sec:authorize="isAuthenticated() and !hasRole('STUDENT')" class="nav-link py-2 px-4 rounded-xl text-sm font-bold text-emerald-600 bg-white shadow-sm transition-all">Dashboard</a>
+        </div>
+        
+        <div class="auth-links flex items-center gap-4">
+            <!-- Theme Toggle -->
+            <button id="theme-toggle" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all border border-slate-200 dark:border-slate-700">
+                <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+            </button>
+
+            <div sec:authorize="isAnonymous()" class="flex items-center gap-2">
+                <a href="/login" class="text-sm font-black text-slate-500 dark:text-slate-400 hover:text-emerald-600 px-4">Login</a>
+                <a href="/signup" class="text-sm font-black text-white bg-emerald-600 hover:bg-emerald-700 px-5 py-2.5 rounded-xl shadow-sm transition-all">Sign Up</a>
+            </div>
+
+            <div sec:authorize="isAuthenticated()" class="flex items-center gap-4">
+                <div class="text-right hidden sm:block">
+                    <div class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Authenticated</div>
+                    <div sec:authentication="name" class="text-sm font-black text-slate-900 dark:text-white leading-none">User</div>
+                </div>
+                <form th:action="@{/logout}" method="post" class="m-0">
+                    <button type="submit" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-[10px] font-black uppercase tracking-widest hover:bg-slate-200 dark:hover:bg-slate-700 transition-all border border-slate-200 dark:border-slate-700">
+                        Logout
+                    </button>
+                </form>
+            </div>
+
+            <button class="mobile-menu-btn lg:hidden p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300" onclick="toggleMobileMenu()">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Drawer -->
+    <div id="mobile-menu" class="mobile-menu-drawer">
+        <div class="mobile-menu-overlay" onclick="toggleMobileMenu()"></div>
+        <div class="mobile-menu-panel">
+            <div class="mobile-menu-header">
+                <a href="/" class="flex items-center gap-3">
+                    <svg class="w-8 h-8" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="logoGradMobile" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#2563EB"/>
+                                <stop offset="50%" stop-color="#3B82F6"/>
+                                <stop offset="100%" stop-color="#8B5CF6"/>
+                            </linearGradient>
+                        </defs>
+                        <rect width="100" height="100" rx="28" fill="url(#logoGradMobile)" fill-opacity="0.15" stroke="url(#logoGradMobile)" stroke-width="1.5"/>
+                        <path d="M 70 32 A 22 22 0 1 0 70 68" stroke="url(#logoGradMobile)" stroke-width="9" stroke-linecap="round" />
+                        <path d="M 46 36 L 58 48 L 46 60" stroke="url(#logoGradMobile)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M 32 41 L 41 48 L 32 55" stroke="url(#logoGradMobile)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+                    </svg>
+                    <span class="text-xl font-black text-themed-main tracking-tighter">Careerthon.AI</span>
+                </a>
+                <button onclick="toggleMobileMenu()" class="mobile-menu-close">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+
+            <nav class="mobile-menu-nav">
+                <a href="/" class="mobile-menu-link" onclick="toggleMobileMenu()">
+                    <span class="mobile-menu-link-icon">🏠</span> Home
+                </a>
+
+                <a href="/blog" class="mobile-menu-link" onclick="toggleMobileMenu()">
+                    <span class="mobile-menu-link-icon">📝</span> Blog
+                </a>
+                <a href="/about" class="mobile-menu-link" onclick="toggleMobileMenu()">
+                    <span class="mobile-menu-link-icon">👥</span> About
+                </a>
+                <a href="/careers" class="mobile-menu-link" onclick="toggleMobileMenu()">
+                    <span class="mobile-menu-link-icon">💼</span> Careers
+                </a>
+                <a href="/lms" class="mobile-menu-link !text-violet-600" onclick="toggleMobileMenu()">
+                    <span class="mobile-menu-link-icon">🎓</span> Academy
+                </a>
+                <a href="/student/dashboard" sec:authorize="hasRole('STUDENT')" class="mobile-menu-link mobile-menu-link--active" onclick="toggleMobileMenu()">
+                    <span class="mobile-menu-link-icon">📊</span> LMS Dashboard
+                </a>
+                <a href="/user/profile" sec:authorize="isAuthenticated() and !hasRole('STUDENT')" class="mobile-menu-link mobile-menu-link--active" onclick="toggleMobileMenu()">
+                    <span class="mobile-menu-link-icon">📊</span> Dashboard
+                </a>
+            </nav>
+
+            <div class="mobile-menu-footer">
+                <div sec:authorize="isAnonymous()" class="mobile-menu-auth">
+                    <a href="/login" class="mobile-menu-auth-link" onclick="toggleMobileMenu()">Login</a>
+                    <a href="/signup" class="mobile-menu-auth-link bg-emerald-600 !text-white hover:bg-emerald-700 mt-2" onclick="toggleMobileMenu()">Sign Up</a>
+                </div>
+                <div sec:authorize="isAuthenticated()" class="mobile-menu-auth">
+                    <div class="flex items-center gap-3 mb-4 p-4 bg-emerald-500/5 rounded-2xl border border-emerald-500/10">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-sm font-black text-white">👤</div>
+                        <div>
+                            <div class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Signed in as</div>
+                            <div sec:authentication="name" class="text-sm font-black text-themed-main leading-none">User</div>
+                        </div>
+                    </div>
+                    <form th:action="@{/logout}" method="post" class="m-0">
+                        <button type="submit" class="w-full p-4 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-black uppercase tracking-widest hover:bg-slate-200 dark:hover:bg-slate-700 transition-all border border-slate-200 dark:border-slate-700 text-center">
+                            Logout
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<script>
+    // Theme logic
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const darkIcon = document.getElementById('theme-toggle-dark-icon');
+    const lightIcon = document.getElementById('theme-toggle-light-icon');
+
+    // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        document.documentElement.classList.add('dark');
+        lightIcon.classList.remove('hidden');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        document.documentElement.classList.remove('dark');
+        darkIcon.classList.remove('hidden');
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+        darkIcon.classList.toggle('hidden');
+        lightIcon.classList.toggle('hidden');
+
+        if (document.documentElement.getAttribute('data-theme') === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'light');
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+
+    window.addEventListener('scroll', () => {
+        const header = document.getElementById('site-header');
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+</script>
+
+<div sec:authorize="isAuthenticated()">
+    <div th:replace="~{fragments/chatbot :: chatbot}"></div>
+</div>
+
+</body>
+</html>

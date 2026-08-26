@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Careers & Opportunities - Careerthon.AI')}"></head>
+<body class="bg-themed-pure text-themed-main min-h-screen flex flex-col">
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main class="flex-grow pt-32 pb-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header Section -->
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-black uppercase tracking-widest mb-6">
+                <span>💼 Join Team Careerthon.AI</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black tracking-tight mb-6 text-themed-main">
+                Pioneering Talent <span class="text-gradient">Intelligence</span>
+            </h1>
+            <p class="text-lg text-themed-body font-medium leading-relaxed">
+                Work alongside elite developers and technical strategists building state-of-the-art AI parsers and SaaS career tools.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Info Panel -->
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-themed-soft border border-themed-soft p-8 rounded-3xl shadow-xl">
+                    <h3 class="text-xl font-black text-themed-main mb-6">Why Join Careerthon.AI?</h3>
+                    <ul class="space-y-4 text-sm font-semibold text-themed-body">
+                        <li class="flex items-start gap-3">
+                            <span class="text-emerald-500 font-bold">✓</span>
+                            <span><strong>Pioneering Tech:</strong> Scale robust NLP algorithms and microservice parsers in Spring Boot 3.4.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-emerald-500 font-bold">✓</span>
+                            <span><strong>Remote First:</strong> Fully remote flexibility with distributed team pipelines.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-emerald-500 font-bold">✓</span>
+                            <span><strong>Elite Perks:</strong> Competitive compensation, medical health coverage, and certification support.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Right Openings Panel -->
+            <div class="lg:col-span-2 space-y-6">
+                <div th:each="job : ${jobs}" class="p-6 md:p-8 bg-themed-soft rounded-3xl border border-themed-soft shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                    <div>
+                        <div class="flex items-center gap-3 mb-2">
+                            <h3 class="text-lg font-black text-themed-main" th:text="${job.title}">Position Title</h3>
+                            <span class="py-1 px-3 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-lg text-xs font-bold uppercase tracking-wider" th:text="${job.commitment}">Full-Time</span>
+                        </div>
+                        <p class="text-xs font-bold text-slate-400 mb-3" th:text="${job.location}">Engineering | Fully Remote</p>
+                        <p class="text-sm text-themed-body leading-relaxed font-medium" th:text="${job.description}">Description</p>
+                    </div>
+                    <button onclick="alert('Thank you for your interest! Applications are processed via our recruiter team.')" 
+                            class="py-3 px-6 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black uppercase tracking-wider transition-all whitespace-nowrap self-stretch md:self-auto">
+                        Apply Now
+                    </button>
+                </div>
+
+                <div th:if="${jobs == null or jobs.isEmpty()}" class="text-center py-16 bg-themed-soft rounded-3xl border border-themed-soft">
+                    <span class="text-5xl">📭</span>
+                    <h3 class="text-xl font-black text-themed-main mt-4">No Active Openings</h3>
+                    <p class="text-xs text-themed-body mt-1.5 font-semibold">We are not hiring at this exact moment. Check back soon!</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

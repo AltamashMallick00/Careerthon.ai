@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Bulk ATS CV Scanner - Careerthon.AI')}"></head>
+<body class="bg-themed-pure">
+    <header th:replace="~{fragments/header :: header}"></header>
+
+    <main class="bg-themed-pure min-h-screen pt-40 pb-20 relative overflow-hidden">
+        <!-- Background Grid and Accents -->
+        <div class="absolute inset-0 bg-grid opacity-[0.03] pointer-events-none"></div>
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_50%_0%,rgba(16,185,129,0.08),transparent_70%)] pointer-events-none"></div>
+        
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12">
+                <div class="hero-tag !bg-emerald-500/5 !text-emerald-500 border-emerald-500/10 mb-6 inline-flex">
+                    💼 Recruiter Suite
+                </div>
+                <h1 class="text-4xl font-black text-themed-main tracking-tight sm:text-5xl">
+                    Bulk <span class="text-gradient">ATS CV Scanner</span>
+                </h1>
+                <p class="mt-4 text-lg text-themed-body max-w-2xl mx-auto font-medium">
+                    Upload up to <span class="text-emerald-500 font-extrabold">20 CVs</span> simultaneously to parse, score, and rank candidates instantly in a unified comparison grid.
+                </p>
+            </div>
+
+            <div th:if="${error}" class="mb-6 p-4 bg-red-500/10 border-l-4 border-red-500 text-red-600 dark:text-red-400 rounded-2xl shadow-sm font-semibold">
+                <p class="font-black text-sm uppercase tracking-wider mb-1">Queue Pipeline Alert</p>
+                <p th:text="${error}">Something went wrong.</p>
+            </div>
+
+            <div class="premium-card !p-8 md:!p-12 glass border-white/20 shadow-glow-emerald">
+                <form th:action="@{/resume/bulk/upload}" method="POST" enctype="multipart/form-data" id="bulk-upload-form" class="space-y-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-[10px] font-black text-emerald-500 uppercase tracking-[0.3em] mb-2">Recruiter Name</label>
+                            <input type="text" name="userName" required placeholder="Priyanshu Shekhar"
+                                class="relative w-full py-4 px-6 bg-themed-pure rounded-2xl border-2 border-themed-soft focus:border-emerald-500 outline-none transition-all font-bold text-themed-main placeholder:text-slate-400">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-black text-emerald-500 uppercase tracking-[0.3em] mb-2">Corporate Email</label>
+                            <input type="email" name="userEmail" required placeholder="recruiter@company.com"
+                                class="relative w-full py-4 px-6 bg-themed-pure rounded-2xl border-2 border-themed-soft focus:border-emerald-500 outline-none transition-all font-bold text-themed-main placeholder:text-slate-400">
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <label class="block text-[10px] font-black text-emerald-500 uppercase tracking-[0.3em]">Resumes Upload Queue</label>
+                            <span id="queue-counter" class="text-xs font-bold text-slate-400">0 / 20 files queued</span>
+                        </div>
+                        
+                        <!-- Drag & Drop Zone -->
+                        <div id="dropzone" class="relative flex items-center justify-center p-12 border-2 border-dashed border-themed-soft rounded-3xl hover:border-emerald-500 transition-all bg-themed-pure/50 group">
+                            <input type="file" name="resumes" id="resumeFiles" required accept=".pdf,.doc,.docx" multiple
+                                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                                onchange="handleFileSelection(this)">
+                            
+                            <div class="text-center" id="uploadStateDefault">
+                                <div class="bg-themed-soft p-4 rounded-2xl inline-block mb-4 group-hover:bg-emerald-500/10 transition-colors">
+                                    <span class="text-3xl">📂</span>
+                                </div>
+                                <p class="text-themed-main font-black">Select multiple files or drag and drop</p>
+                                <p class="text-themed-body text-xs mt-1 font-semibold">PDF, DOCX formats supported (Max 20 files)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- File Warning Message -->
+                    <div id="warning-message" class="hidden p-4 bg-amber-500/10 border-l-4 border-amber-500 text-amber-600 dark:text-amber-400 rounded-2xl font-bold text-sm">
+                        ⚠️ Maximum limit of 20 CVs exceeded. Please remove some files to proceed.
+                    </div>
+
+                    <!-- Queue List Container -->
+                    <div id="file-queue-container" class="hidden space-y-3">
+                        <h4 class="text-xs font-black text-themed-main uppercase tracking-wider mb-2">Queued Documents</h4>
+                        <div id="file-queue-list" class="space-y-2 max-h-60 overflow-y-auto pr-2">
+                            <!-- Dynamic items injected here -->
+                        </div>
+                    </div>
+
+                    <button type="submit" id="submit-btn" class="w-full btn-premium py-5 rounded-2xl text-lg flex justify-center items-center group shadow-glow">
+                        Analyze Candidate Batch
+                        <svg class="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let fileQueue = [];
+
+        function handleFileSelection(input) {
+            if (input.files && input.files.length > 0) {
+                // Add new files to our local queue array
+                for (let i = 0; i < input.files.length; i++) {
+                    // Prevent duplicate files by checking name and size
+                    let file = input.files[i];
+                    let exists = fileQueue.some(f => f.name === file.name && f.size === file.size);
+                    if (!exists) {
+                        fileQueue.push(file);
+                    }
+                }
+                
+                updateUIQueue();
+            }
+        }
+
+        function removeFileFromQueue(index) {
+            fileQueue.splice(index, 1);
+            updateUIQueue();
+        }
+
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+
+        function updateUIQueue() {
+            const queueList = document.getElementById('file-queue-list');
+            const queueContainer = document.getElementById('file-queue-container');
+            const counter = document.getElementById('queue-counter');
+            const warning = document.getElementById('warning-message');
+            const submitBtn = document.getElementById('submit-btn');
+            const defaultState = document.getElementById('uploadStateDefault');
+
+            // Clear previous list
+            queueList.innerHTML = '';
+
+            if (fileQueue.length > 0) {
+                defaultState.classList.add('opacity-40');
+                queueContainer.classList.remove('hidden');
+                
+                fileQueue.forEach((file, index) => {
+                    const row = document.createElement('div');
+                    row.className = "flex items-center justify-between p-3.5 bg-themed-soft rounded-2xl border border-themed-soft hover:border-emerald-500/20 transition-all";
+                    row.innerHTML = `
+                        <div class="flex items-center gap-3">
+                            <span class="text-xl">📄</span>
+                            <div>
+                                <p class="text-themed-main font-bold text-sm truncate max-w-md">${file.name}</p>
+                                <p class="text-themed-body text-[10px] font-semibold">${formatBytes(file.size)}</p>
+                            </div>
+                        </div>
+                        <button type="button" onclick="removeFileFromQueue(${index})" class="p-2 rounded-xl hover:bg-red-500/10 text-red-500 transition-colors text-xs font-black uppercase tracking-wider">
+                            Remove
+                        </button>
+                    `;
+                    queueList.appendChild(row);
+                });
+
+                counter.textContent = `${fileQueue.length} / 20 files queued`;
+
+                // Handle limit warning
+                if (fileQueue.length > 20) {
+                    warning.classList.remove('hidden');
+                    counter.classList.add('text-red-500');
+                    submitBtn.disabled = true;
+                    submitBtn.style.opacity = '0.5';
+                } else {
+                    warning.classList.add('hidden');
+                    counter.classList.remove('text-red-500');
+                    submitBtn.disabled = false;
+                    submitBtn.style.opacity = '1';
+                }
+            } else {
+                defaultState.classList.remove('opacity-40');
+                queueContainer.classList.add('hidden');
+                warning.classList.add('hidden');
+                counter.textContent = '0 / 20 files queued';
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = '1';
+            }
+
+            // Sync files list with the underlying file input for submission
+            syncInputFiles();
+        }
+
+        function syncInputFiles() {
+            const input = document.getElementById('resumeFiles');
+            const dataTransfer = new DataTransfer();
+            fileQueue.forEach(file => dataTransfer.items.add(file));
+            input.files = dataTransfer.files;
+        }
+
+        document.getElementById('bulk-upload-form').addEventListener('submit', (e) => {
+            if (fileQueue.length === 0) {
+                e.preventDefault();
+                alert('Please add at least one CV to the queue.');
+                return;
+            }
+            if (fileQueue.length > 20) {
+                e.preventDefault();
+                alert('Maximum upload capacity exceeded (Limit: 20 CVs).');
+                return;
+            }
+
+            const btn = document.getElementById('submit-btn');
+            btn.innerHTML = '<span class="btn-text">Analyzing Candidate Batch...</span><span class="btn-icon">⏳</span>';
+            btn.disabled = true;
+            btn.style.opacity = '0.7';
+        });
+    </script>
+
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

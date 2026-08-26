@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('LinkedIn Optimization Tips Blog - Careerthon.AI')}"></head>
+<body class="bg-themed-pure selection:bg-emerald-500 selection:text-white">
+
+<header th:replace="~{fragments/header :: header}"></header>
+
+<main class="pt-32 pb-24 min-h-screen relative overflow-hidden">
+    <!-- Accent background bubbles -->
+    <div class="absolute top-1/4 -left-24 w-96 h-96 bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute bottom-1/4 -right-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 relative z-10">
+        <!-- Section Header -->
+        <div class="text-center mb-16 max-w-3xl mx-auto">
+            <div class="hero-tag !bg-emerald-600/5 !text-emerald-600 dark:!text-emerald-400 border-emerald-600/10 mb-4 inline-flex">
+                Knowledge Hub
+            </div>
+            <h1 class="text-4xl md:text-5xl font-black text-themed-main tracking-tight leading-tight">
+                Careerthon.AI <span class="text-gradient">Blog</span>
+            </h1>
+            <p class="text-themed-body mt-4 font-semibold text-lg">
+                Exclusive insights, professional guides, and algorithmic strategies compiled by elite recruitment engineers to give your career a digital edge.
+            </p>
+        </div>
+
+        <!-- Blog Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div th:each="post : ${posts}" 
+                 class="glass border-themed-soft rounded-3xl overflow-hidden hover:border-emerald-500/30 transition-all duration-300 shadow-xl group flex flex-col justify-between">
+                <div>
+                    <!-- Visual Mockup Image for Blog Header -->
+                    <div class="h-48 bg-slate-900 relative flex items-center justify-center overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/30 to-indigo-600/30 opacity-60"></div>
+                        <div class="relative z-10 text-4xl">📄</div>
+                        <!-- Meta Floating Tag -->
+                        <div class="absolute top-4 right-4 bg-slate-950/80 backdrop-blur text-[10px] font-black text-emerald-400 uppercase tracking-widest px-2.5 py-1 rounded-lg border border-white/10" th:text="${post.readTime}">
+                            5 min read
+                        </div>
+                    </div>
+
+                    <!-- Post Info Body -->
+                    <div class="p-6 space-y-4">
+                        <div class="text-[9px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                            <span th:text="${post.date}">May 28, 2026</span>
+                        </div>
+                        
+                        <h3 class="text-xl font-black text-themed-main leading-snug group-hover:text-emerald-500 transition-colors">
+                            <a th:href="@{'/blog/' + ${post.slug}}" th:text="${post.title}">Blog Title</a>
+                        </h3>
+                        
+                        <p class="text-sm text-themed-body font-semibold line-clamp-3 leading-relaxed" th:text="${post.summary}">
+                            Brief summary of the article contents...
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Footer with Author -->
+                <div class="p-6 pt-0 border-t border-themed-soft flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center text-xs font-black text-white" 
+                             th:text="${#strings.substring(post.author, 0, 1)}">A</div>
+                        <div>
+                            <div class="text-[10px] font-black text-themed-main" th:text="${post.author}">Author</div>
+                            <div class="text-[8px] font-bold text-slate-400 uppercase tracking-widest leading-none mt-0.5">Contributor</div>
+                        </div>
+                    </div>
+                    
+                    <a th:href="@{'/blog/' + ${post.slug}}" class="text-xs font-black text-emerald-600 dark:text-emerald-400 hover:underline uppercase tracking-wider flex items-center gap-1 group/btn">
+                        Read Guide
+                        <span class="group-hover/btn:translate-x-1 transition-transform">→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

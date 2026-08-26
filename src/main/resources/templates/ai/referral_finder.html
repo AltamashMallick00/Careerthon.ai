@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('AI LinkedIn Referral Finder & Warm Connect Studio - Careerthon.AI')}"></head>
+<body class="bg-themed-pure text-themed-main min-h-screen flex flex-col">
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main class="flex-grow pt-32 pb-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header -->
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-600 dark:text-indigo-400 text-xs font-black uppercase tracking-widest mb-6">
+                <span>🤝 Warm Employee Referral Network</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black tracking-tight mb-6 text-themed-main">
+                LinkedIn Referral <span class="text-gradient">& Active Insider Studio</span>
+            </h1>
+            <p class="text-lg text-themed-body font-medium leading-relaxed">
+                Discover active LinkedIn employees & HR recruiters at target companies, launch direct search filters, and copy 1-click high-converting referral request pitches.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            
+            <!-- Left Search Form -->
+            <div class="lg:col-span-4 bg-themed-soft rounded-3xl p-8 border border-themed-soft shadow-xl">
+                <h3 class="text-xl font-black mb-6 text-themed-main flex items-center gap-3">
+                    <span>🔍 Referral Parameters</span>
+                </h3>
+
+                <form th:action="@{/ai-tools/referral-finder/search}" method="POST" class="space-y-6">
+                    <div>
+                        <label class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2">Target Company</label>
+                        <input type="text" name="targetCompany" th:value="${targetCompany}" placeholder="e.g. Google / Microsoft / TCS / Swiggy"
+                               class="w-full py-3.5 px-4 bg-themed-pure rounded-xl border border-themed-soft focus:border-indigo-600 outline-none font-bold text-sm text-themed-main transition-all">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2">Target Job Role</label>
+                        <input type="text" name="targetRole" th:value="${targetRole}" placeholder="e.g. Data Engineer / Java Full Stack"
+                               class="w-full py-3.5 px-4 bg-themed-pure rounded-xl border border-themed-soft focus:border-indigo-600 outline-none font-bold text-sm text-themed-main transition-all">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2">Referral Persona</label>
+                        <select name="referralType" class="w-full py-3.5 px-4 bg-themed-pure rounded-xl border border-themed-soft focus:border-indigo-600 outline-none font-bold text-sm text-themed-main transition-all">
+                            <option value="Engineering Insider" th:selected="${referralType == 'Engineering Insider'}">Engineering Insider (High Referral Rate)</option>
+                            <option value="HR / Talent Recruiter" th:selected="${referralType == 'HR / Talent Recruiter'}">HR / Talent Recruiter (Direct Hiring Gatekeeper)</option>
+                            <option value="Engineering Lead" th:selected="${referralType == 'Engineering Lead'}">Engineering Lead / Manager</option>
+                            <option value="Alumni Network" th:selected="${referralType == 'Alumni Network'}">Alumni Network</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2">Target Job Requisition ID (Optional)</label>
+                        <input type="text" name="jobId" th:value="${jobId}" placeholder="e.g. REQ-2026-948"
+                               class="w-full py-3.5 px-4 bg-themed-pure rounded-xl border border-themed-soft focus:border-indigo-600 outline-none font-bold text-sm text-themed-main transition-all">
+                    </div>
+
+                    <button type="submit" class="w-full py-4 rounded-2xl bg-gradient-to-r from-indigo-600 to-emerald-600 hover:from-indigo-500 hover:to-emerald-500 text-white font-black text-base shadow-xl transition-all active:scale-[0.98]">
+                        ⚡ Find Active Insiders & Pitches
+                    </button>
+                </form>
+            </div>
+
+            <!-- Right Active Insiders Section -->
+            <div class="lg:col-span-8 space-y-8">
+                
+                <div th:if="${targets == null}" class="bg-themed-soft rounded-3xl p-12 text-center border border-themed-soft">
+                    <div class="text-5xl mb-4">🤝</div>
+                    <h4 class="text-xl font-black text-themed-main mb-2">Connect with Active Employees & HRs</h4>
+                    <p class="text-slate-400 text-sm max-w-md mx-auto">
+                        Enter a target company and role to generate active employee search links and tailored referral pitches.
+                    </p>
+                </div>
+
+                <div th:if="${targets != null}" class="space-y-8">
+                    
+                    <!-- Search Header Banner -->
+                    <div class="bg-gradient-to-r from-indigo-900/40 via-purple-900/40 to-slate-900/40 border border-indigo-500/30 rounded-3xl p-8 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div>
+                            <div class="text-xs font-black text-indigo-400 uppercase tracking-widest mb-1">LinkedIn Referral Search Ready</div>
+                            <h3 class="text-2xl font-black text-white" th:text="${targetCompany} + ' • ' + ${targetRole}">Target Company</h3>
+                            <p class="text-slate-300 text-sm mt-1">Deep-link search launched for active employees and hiring contacts.</p>
+                        </div>
+                        <a th:href="${linkedinSearchUrl}" target="_blank" class="px-6 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs uppercase tracking-wider shadow-xl transition-all flex items-center gap-2 shrink-0">
+                            <span>🔗 Launch Live LinkedIn Search Filter</span>
+                        </a>
+                    </div>
+
+                    <!-- Target Profile Cards -->
+                    <div class="space-y-6">
+                        <div th:each="target, stat : ${targets}" class="bg-themed-soft rounded-3xl p-8 border border-themed-soft relative shadow-xl space-y-6">
+                            
+                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-themed-soft pb-4">
+                                <div>
+                                    <div class="flex items-center gap-3 mb-1">
+                                        <span class="px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold text-[10px] uppercase tracking-wider" th:text="${target.referralLikelihood}">Likelihood</span>
+                                        <span class="text-xs font-bold text-slate-400" th:text="${target.activityStatus}">Activity</span>
+                                    </div>
+                                    <h4 class="text-lg font-black text-themed-main" th:text="${target.title}">Title</h4>
+                                    <div class="text-xs font-bold text-slate-400" th:text="${target.department}">Department</div>
+                                </div>
+                                <a th:href="${target.linkedinSearchUrl}" target="_blank" class="px-4 py-2 rounded-xl bg-themed-pure text-indigo-600 dark:text-indigo-400 font-black text-xs border border-themed-soft hover:bg-indigo-600 hover:text-white transition-all shrink-0">
+                                    🔍 Find on LinkedIn
+                                </a>
+                            </div>
+
+                            <!-- Connection Request Note -->
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-xs font-black uppercase tracking-widest text-slate-400">1. Short Connection Request Note (&lt; 300 chars)</span>
+                                    <button th:onclick="|copyToClipboard('conn-${stat.index}')|" class="text-xs font-black text-indigo-600 dark:text-indigo-400 hover:underline">
+                                        📋 Copy Note
+                                    </button>
+                                </div>
+                                <div th:id="'conn-' + ${stat.index}" class="p-4 bg-themed-pure rounded-2xl font-mono text-xs text-themed-main leading-relaxed border border-themed-soft" th:text="${target.connectionNote}"></div>
+                            </div>
+
+                            <!-- Full Referral InMail Pitch -->
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-xs font-black uppercase tracking-widest text-slate-400">2. Full InMail / Warm Referral Pitch</span>
+                                    <button th:onclick="|copyToClipboard('pitch-${stat.index}')|" class="text-xs font-black text-emerald-600 dark:text-emerald-400 hover:underline">
+                                        📋 Copy Pitch
+                                    </button>
+                                </div>
+                                <div th:id="'pitch-' + ${stat.index}" class="p-4 bg-themed-pure rounded-2xl font-mono text-xs text-themed-main leading-relaxed whitespace-pre-wrap border border-themed-soft" th:text="${target.referralPitch}"></div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script>
+function copyToClipboard(elementId) {
+    const text = document.getElementById(elementId).innerText;
+    navigator.clipboard.writeText(text).then(() => {
+        alert('Copied to clipboard!');
+    });
+}
+</script>
+
+</body>
+</html>

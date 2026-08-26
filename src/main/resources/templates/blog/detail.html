@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Dynamic SEO Meta Tags -->
+    <title th:text="${post.metaTitle} + ' | Careerthon.AI'"></title>
+    <meta name="description" th:content="${post.metaDesc}">
+    <link rel="canonical" th:href="'https://Careerthon.AI.onrender.com/blog/' + ${post.slug}">
+    
+    <!-- OpenGraph SEO Tags for Social Sharing -->
+    <meta property="og:title" th:content="${post.metaTitle}">
+    <meta property="og:description" th:content="${post.metaDesc}">
+    <meta property="og:type" content="article">
+    <meta property="og:url" th:content="'https://Careerthon.AI.onrender.com/blog/' + ${post.slug}">
+    <meta property="og:image" content="https://Careerthon.AI.onrender.com/images/blog_share_default.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <!-- Standard fonts & style links -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Check theme immediately to prevent FOUC
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+    <script th:src="@{/js/app.js}" defer></script>
+</head>
+<body class="bg-themed-pure selection:bg-emerald-500 selection:text-white">
+
+<header th:replace="~{fragments/header :: header}"></header>
+
+<main class="pt-32 pb-24 min-h-screen relative overflow-hidden">
+    <!-- Accent background blobs -->
+    <div class="absolute top-1/4 -left-24 w-96 h-96 bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute bottom-1/4 -right-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <div class="max-w-4xl mx-auto px-4 relative z-10">
+        
+        <!-- Navigation Back -->
+        <a href="/blog" class="inline-flex items-center gap-2 text-xs font-black text-emerald-600 dark:text-emerald-400 hover:underline uppercase tracking-wider mb-8">
+            ← Back to Knowledge Hub
+        </a>
+
+        <!-- Article Card Header -->
+        <article class="glass border-themed-soft rounded-[32px] p-8 md:p-12 shadow-2xl space-y-8">
+            <header class="space-y-6 border-b border-themed-soft pb-8">
+                <!-- Badges -->
+                <div class="flex flex-wrap gap-4 items-center">
+                    <span class="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-black text-[10px] uppercase tracking-widest rounded-xl" th:text="${post.readTime}">
+                        5 min read
+                    </span>
+                    <span class="text-xs text-slate-400 font-bold" th:text="'Published: ' + ${post.date}">
+                        May 28, 2026
+                    </span>
+                </div>
+
+                <!-- Title -->
+                <h1 class="text-3xl md:text-5xl font-black text-themed-main tracking-tight leading-tight" th:text="${post.title}">
+                    Full Blog Post Title Goes Here
+                </h1>
+
+                <!-- Contributor Profile -->
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-sm font-black text-white"
+                         th:text="${#strings.substring(post.author, 0, 1)}">A</div>
+                    <div>
+                        <div class="text-xs font-black text-themed-main" th:text="${post.author}">Author Name</div>
+                        <div class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">SaaS Core Contributor</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Blog Content Typography -->
+            <div class="prose prose-slate dark:prose-invert max-w-none text-themed-body font-semibold leading-relaxed space-y-6 
+                        prose-h3:text-themed-main prose-h3:font-black prose-h3:text-xl prose-h3:mt-8 
+                        prose-h4:text-themed-main prose-h4:font-black prose-h4:text-lg prose-h4:mt-6
+                        prose-p:text-themed-body prose-p:font-semibold prose-p:leading-relaxed" 
+                 th:utext="${post.content}">
+                <!-- Populated dynamically via th:utext -->
+            </div>
+            
+            <!-- Article Footer -->
+            <footer class="border-t border-themed-soft pt-8 mt-12 text-center">
+                <p class="text-xs text-slate-400 font-bold uppercase tracking-widest mb-4">Optimized your resume yet?</p>
+                <a href="/review" class="btn-premium group shadow-glow-emerald !py-3.5 !px-8 text-sm">
+                    Start Dynamic Profile Scan 🚀
+                </a>
+            </footer>
+        </article>
+
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

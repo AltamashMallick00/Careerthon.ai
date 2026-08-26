@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Resume Templates - Careerthon.AI')}"></head>
+<body class="bg-indigo-50 min-h-screen pt-24 pb-12">
+    <header th:replace="~{fragments/header :: header}"></header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight sm:text-5xl">
+                High-Performance Resume Templates
+            </h1>
+            <p class="mt-4 text-xl text-slate-600 max-w-2xl mx-auto">
+                ATS-optimized, recruiter-approved, and designed for conversion.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <!-- Fresher Section -->
+            <div class="bg-white p-10 rounded-3xl shadow-xl transition-all hover:scale-[1.02] border border-slate-200 flex flex-col items-center">
+                <div class="p-4 bg-indigo-100 rounded-2xl mb-8 group-hover:bg-indigo-50 text-3xl">☕</div>
+                <h3 class="text-2xl font-black text-slate-900 mb-4">Fresher Standard</h3>
+                <p class="text-slate-500 mb-8 max-w-sm text-center">Perfect for recent graduates and entry-level professionals. Focuses on projects, skills, and academic achievements.</p>
+                
+                <div class="w-full bg-slate-50 p-6 rounded-2xl border-4 border-dashed border-slate-200 mb-10 overflow-hidden text-xs relative group cursor-pointer hover:border-indigo-400">
+                    <div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent flex items-end justify-center pb-8 opacity-0 group-hover:opacity-100 transition-opacity z-20">
+                        <span class="bg-indigo-600 text-white px-6 py-2 rounded-xl font-bold text-sm shadow-xl">Get Template</span>
+                    </div>
+                    <strong>Priyanshu Shekhar</strong><br/>
+                    <em>Software Engineer Intern</em><br/>
+                    <strong>EDUCATION:</strong> IIT Kharagpur (2025)<br/>
+                    <strong>SKILLS:</strong> Java, React, SQL<br/>
+                    <strong>PROJECTS:</strong> Careerthon.AI LinkedIn Reviewer...<br/>
+                    <div class="h-20"></div>
+                </div>
+
+                <a href="/resume/download/fresher" class="w-full bg-indigo-600 hover:bg-slate-900 text-white p-4 rounded-2xl font-bold text-center transition-all shadow-lg active:scale-[0.98]">
+                    Download Fresher Template (PDF)
+                </a>
+            </div>
+
+            <!-- Experienced Section -->
+            <div class="bg-white p-10 rounded-3xl shadow-xl transition-all hover:scale-[1.02] border border-slate-200 flex flex-col items-center">
+                <div class="p-4 bg-green-100 rounded-2xl mb-8 group-hover:bg-indigo-50 text-3xl">🛠️</div>
+                <h3 class="text-2xl font-black text-slate-900 mb-4">Corporate Pro</h3>
+                <p class="text-slate-500 mb-8 max-w-sm text-center">Optimized for professionals with 3-10 years of experience. Highlights impact, KPIs, and stakeholder management.</p>
+                
+                <div class="w-full bg-slate-50 p-6 rounded-2xl border-4 border-dashed border-slate-200 mb-10 overflow-hidden text-xs relative group cursor-pointer hover:border-indigo-400">
+                    <div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent flex items-end justify-center pb-8 opacity-0 group-hover:opacity-100 transition-opacity z-20">
+                        <span class="bg-green-600 text-white px-6 py-2 rounded-xl font-bold text-sm shadow-xl">Get Template</span>
+                    </div>
+                    <strong>Priyanshu Shekhar</strong><br/>
+                    <em>Sr. Backend Developer | 5+ Years Exp</em><br/>
+                    <strong>EXPERIENCE:</strong> Software Lead at Google...<br/>
+                    <strong>IMPACT:</strong> Improved latency by 35%...<br/>
+                    <strong>SKILLS:</strong> Microservices, K8s, AWS...<br/>
+                    <div class="h-20"></div>
+                </div>
+
+                <a href="/resume/download/pro" class="w-full bg-slate-900 hover:bg-green-600 text-white p-4 rounded-2xl font-bold text-center transition-all shadow-lg active:scale-[0.98]">
+                    Download Experienced Template (PDF)
+                </a>
+            </div>
+        </div>
+        
+        <div class="mt-24 p-12 bg-white rounded-3xl shadow-xl border border-slate-200 mb-12 flex flex-col md:flex-row items-center gap-12">
+             <div class="flex-shrink-0 w-48 h-48 bg-indigo-500 rounded-3xl flex items-center justify-center text-7xl shadow-2xl rotate-3">
+                 🧠
+             </div>
+             <div>
+                <h2 class="text-3xl font-black text-slate-900 mb-4 tracking-tighter">Why use our templates?</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+                    <div class="flex items-center gap-3">
+                        <span class="text-green-500">✓</span>
+                        <span class="text-slate-600 font-semibold">100% ATS Readable</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-green-500">✓</span>
+                        <span class="text-slate-600 font-semibold">Clean Typography</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-green-500">✓</span>
+                        <span class="text-slate-600 font-semibold">Quantifiable Achievements</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-green-500">✓</span>
+                        <span class="text-slate-600 font-semibold">Modern Layouts</span>
+                    </div>
+                </div>
+             </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

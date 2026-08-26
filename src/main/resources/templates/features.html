@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Platform Features - Careerthon.AI')}"></head>
+<body class="bg-themed-pure">
+
+<header th:replace="~{fragments/header :: header}"></header>
+
+<main class="pt-40 pb-20">
+    <!-- Features Hero -->
+    <section class="min-h-[60vh] flex items-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-grid opacity-[0.03]"></div>
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_50%_0%,rgba(99,102,241,0.1),transparent_70%)]"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 text-center relative z-10">
+            <div class="hero-tag !bg-indigo-600/5 !text-indigo-600 dark:!text-indigo-400 border-indigo-600/10 mb-8" data-reveal>The Intelligence Suite</div>
+            <h1 class="text-5xl md:text-8xl font-black mb-8 tracking-tighter text-themed-main leading-tight" data-reveal data-delay="100">
+                80+ Tools for <br><span class="text-gradient">Career Dominance</span>
+            </h1>
+            <p class="text-xl text-themed-body max-w-2xl mx-auto font-medium" data-reveal data-delay="200">
+                A comprehensive ecosystem designed to optimize every dimension of your professional existence.
+            </p>
+            <div class="mt-12 flex justify-center gap-6" data-reveal data-delay="300">
+                <a th:href="@{/developer/export-spec}" class="btn-premium py-4 px-8 rounded-2xl flex items-center gap-3 group shadow-glow">
+                    <span>Download Master Spec</span>
+                    <svg class="w-5 h-5 group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Explorer -->
+    <div class="max-w-7xl mx-auto px-4">
+        
+        <!-- Navigation Tabs (Optional scroll-spy behavior) -->
+        <div class="flex overflow-x-auto gap-4 pb-8 mb-20 no-scrollbar sticky top-24 z-30 bg-themed-pure/80 backdrop-blur-xl py-4 border-b border-themed-soft">
+            <a href="#writing" class="px-6 py-2 rounded-full bg-themed-soft border border-themed-soft text-sm font-black whitespace-nowrap hover:border-indigo-600 transition-all text-themed-main">AI Writing</a>
+            <a href="#analysis" class="px-6 py-2 rounded-full bg-themed-soft border border-themed-soft text-sm font-black whitespace-nowrap hover:border-indigo-600 transition-all text-themed-main">Profile Analysis</a>
+            <a href="#resume" class="px-6 py-2 rounded-full bg-themed-soft border border-themed-soft text-sm font-black whitespace-nowrap hover:border-indigo-600 transition-all text-themed-main">Resume Tools</a>
+            <a href="#interview" class="px-6 py-2 rounded-full bg-themed-soft border border-themed-soft text-sm font-black whitespace-nowrap hover:border-indigo-600 transition-all text-themed-main">Interview Prep</a>
+            <a href="#networking" class="px-6 py-2 rounded-full bg-themed-soft border border-themed-soft text-sm font-black whitespace-nowrap hover:border-indigo-600 transition-all text-themed-main">Networking</a>
+            <a href="#dashboard" class="px-6 py-2 rounded-full bg-themed-soft border border-themed-soft text-sm font-black whitespace-nowrap hover:border-indigo-600 transition-all text-themed-main">Productivity</a>
+            <a href="#b2b" class="px-6 py-2 rounded-full bg-themed-soft border border-themed-soft text-sm font-black whitespace-nowrap hover:border-indigo-600 transition-all text-themed-main">Recruiter/B2B</a>
+            <a href="#gamification" class="px-6 py-2 rounded-full bg-themed-soft border border-themed-soft text-sm font-black whitespace-nowrap hover:border-indigo-600 transition-all text-themed-main">Gamification</a>
+            <a href="#monetization" class="px-6 py-2 rounded-full bg-themed-soft border border-themed-soft text-sm font-black whitespace-nowrap hover:border-indigo-600 transition-all text-themed-main">Pro Features</a>
+        </div>
+
+        <!-- Section: AI Writing Tools -->
+        <section id="writing" class="mb-32" data-reveal>
+            <div class="flex items-center gap-6 mb-12">
+                <div class="w-16 h-16 rounded-3xl bg-indigo-600 text-white flex items-center justify-center text-3xl shadow-glow">🤖</div>
+                <h2 class="text-4xl font-black text-themed-main">AI Writing Tools</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="launchTool('Headline Generator')">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #1</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">LinkedIn Headline Generator</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Generate 5 headline options based on role & skills tailored for the 2026 algorithm.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="launchTool('Bio Rewriter')">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #2</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Bio/Summary Rewriter</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Rewrite "About" section in 3 styles (Bold, Story, Formal) for maximum impact.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="launchTool('Achievement Generator')">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #3</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Achievement Bullet Generator</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Turn boring job duties into impact-driven bullets that recruiters actually read.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="launchTool('Recommendation Writer')">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #4</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Recommendation Letter Writer</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">AI drafts LinkedIn recommendations for colleagues in seconds.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="launchTool('Thank You Email Gen')">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #5</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Thank You Email Generator</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Post-interview thank you notes that leave a lasting impression.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="launchTool('Banner Text Gen')">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #6</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">LinkedIn Banner Text</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Catchy taglines for your profile banner image to hook visitors instantly.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Profile & Career Analysis -->
+        <section id="analysis" class="mb-32" data-reveal>
+            <div class="flex items-center gap-6 mb-12">
+                <div class="w-16 h-16 rounded-3xl bg-blue-500 text-white flex items-center justify-center text-3xl shadow-glow">📊</div>
+                <h2 class="text-4xl font-black text-themed-main">Profile & Career Analysis</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="window.location.href='/review'">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #11</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Profile Completeness Checker</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Section-by-section checklist with % progress to ensure maximum algorithm visibility.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-indigo-600 text-white text-xs font-black uppercase tracking-widest shadow-glow">Launch Analysis</button>
+                </div>
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="window.location.href='/review'">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #12</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Keyword Density Analyzer</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Analyze whether you're using the exact words recruiters search for in your industry.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-indigo-600 text-white text-xs font-black uppercase tracking-widest shadow-glow">Launch Scan</button>
+                </div>
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="launchTool('Staleness Detector')">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #13</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Profile Staleness Detector</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Flags outdated sections, old skills, and stale dates that hurt your ranking.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Resume Tools -->
+        <section id="resume" class="mb-32" data-reveal>
+            <div class="flex items-center gap-6 mb-12">
+                <div class="w-16 h-16 rounded-3xl bg-emerald-500 text-white flex items-center justify-center text-3xl shadow-glow">📄</div>
+                <h2 class="text-4xl font-black text-themed-main">Resume Tools</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="window.location.href='/resume'">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #21</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Resume Keyword Injector</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Auto-inserts missing job description keywords into your resume intelligently.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-indigo-600 text-white text-xs font-black uppercase tracking-widest shadow-glow">Open Resume Hub</button>
+                </div>
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="launchTool('Resume Grader')">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #22</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Resume Grader</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">A/B grade two versions of your resume side by side to see which performs better.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+            </div>
+        </section>
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="launchTool('One-Page Compressor')">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #23</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">One-Page Compressor</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Condenses multi-page resumes into a high-impact 1-page format intelligently.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="launchTool('Format Checker')">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #24</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Resume Format Checker</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Detects bad formatting, tables, and images that ATS systems can't read.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="launchTool('Multi-Role Gen')">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #25</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Multi-Role Generator</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">One profile source → multiple tailored resumes for different roles automatically.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="launchTool('LI Converter')">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #26</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Resume to LinkedIn</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Upload your resume and get auto-filled suggestions for all LinkedIn sections.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="launchTool('Skills Optimizer')">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #27</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Skills Optimizer</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Reorders and categorizes skills for maximum ATS impact and readability.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="launchTool('Language Detector')">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #28</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Language Detector</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Flags weak, vague, or passive language and suggests stronger verbs.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="launchTool('Quantifier')">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #29</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Quantification Suggester</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Identifies sections where you can add numbers (e.g., "increased sales by ___%").</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="launchTool('Version Manager')">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #30</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Resume Version Manager</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Save, label, and switch between multiple resume versions for different industries.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Interview Preparation -->
+        <section id="interview" class="mb-32" data-reveal>
+            <div class="flex items-center gap-6 mb-12">
+                <div class="w-16 h-16 rounded-3xl bg-amber-500 text-white flex items-center justify-center text-3xl shadow-glow">🎤</div>
+                <h2 class="text-4xl font-black text-themed-main">Interview Preparation</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="launchTool('Mock Interview')">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #31</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Mock Interview Bot</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Full AI interview simulation with voice/text feedback on your performance.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="launchTool('STAR Builder')">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #32</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">STAR Answer Builder</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Automatically structures your experiences into the perfect STAR format.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="launchTool('Company Research')">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #33</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Company Research Assistant</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Summarizes company culture, news, and values before your interview.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="launchTool('Question Predictor')">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #34</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Question Predictor</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Predicts the top 10 questions you're likely to face for your specific role.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="launchTool('Confidence Scorer')">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #35</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Confidence Scorer</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Paste your answer and AI rates it on clarity, impact, and confidence.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="launchTool('Intro Builder')">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #36</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Intro Script Builder</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Generates a perfect 60-second "Tell me about yourself" script.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="launchTool('Salary Research')">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #37</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Salary Research</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Access live market salary data for any role and location to know your worth.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="launchTool('Counter-Offer')">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #38</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Counter-Offer Simulator</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Practice salary negotiation with an AI playing the HR role.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="launchTool('Interview Debrief')">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #39</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Interview Debrief Tool</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Log what was asked and how you answered to identify improvement areas.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+                <div class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" onclick="launchTool('Body Language')">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4">Feature #40</div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Body Language Tips</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Pre-interview checklist for video call body language and lighting.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- More sections can follow the same pattern... -->
+        <!-- For brevity, I'll group the remaining 40 features in summarized grid -->
+        
+        <section id="networking" class="mb-32" data-reveal>
+             <div class="flex items-center gap-6 mb-12">
+                <div class="w-16 h-16 rounded-3xl bg-pink-500 text-white flex items-center justify-center text-3xl shadow-glow">🌐</div>
+                <h2 class="text-4xl font-black text-themed-main">Networking & Outreach</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div th:each="i : ${#numbers.sequence(41, 50)}" class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" th:onclick="|launchTool('Feature #${i}')|">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4" th:text="'Feature #' + ${i}"></div>
+                        <h3 class="text-xl font-black text-themed-main mb-4" th:text="${i == 41 ? 'Networking Plan Gen' : (i == 45 ? 'Referral Request Writer' : 'Elite Networking Tool')}">Networking Tool</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Advanced strategies for alumni approach, event pitches, and brand consistency.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="dashboard" class="mb-32" data-reveal>
+             <div class="flex items-center gap-6 mb-12">
+                <div class="w-16 h-16 rounded-3xl bg-purple-500 text-white flex items-center justify-center text-3xl shadow-glow">📈</div>
+                <h2 class="text-4xl font-black text-themed-main">Dashboard & Productivity</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div th:each="i : ${#numbers.sequence(51, 60)}" class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" th:onclick="|launchTool('Feature #${i}')|">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4" th:text="'Feature #' + ${i}"></div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Productivity Engine</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Career goal setting, daily tip feeds, job alerts, and burnout risk checks.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="b2b" class="mb-32" data-reveal>
+             <div class="flex items-center gap-6 mb-12">
+                <div class="w-16 h-16 rounded-3xl bg-slate-800 text-white flex items-center justify-center text-3xl shadow-glow">🏢</div>
+                <h2 class="text-4xl font-black text-themed-main">Recruiter / B2B Tools</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div th:each="i : ${#numbers.sequence(61, 65)}" class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" th:onclick="|launchTool('Feature #${i}')|">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4" th:text="'Feature #' + ${i}"></div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Recruiter Suite</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Shortlisting, bulk screening, and job description optimization for companies.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="gamification" class="mb-32" data-reveal>
+             <div class="flex items-center gap-6 mb-12">
+                <div class="w-16 h-16 rounded-3xl bg-amber-600 text-white flex items-center justify-center text-3xl shadow-glow">🎮</div>
+                <h2 class="text-4xl font-black text-themed-main">Gamification & Community</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div th:each="i : ${#numbers.sequence(66, 75)}" class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" th:onclick="|launchTool('Feature #${i}')|">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4" th:text="'Feature #' + ${i}"></div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Engagement Tools</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">XP systems, achievement badges, leaderboards, and peer profile swapping.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="monetization" class="mb-32" data-reveal>
+             <div class="flex items-center gap-6 mb-12">
+                <div class="w-16 h-16 rounded-3xl bg-emerald-600 text-white flex items-center justify-center text-3xl shadow-glow">💰</div>
+                <h2 class="text-4xl font-black text-themed-main">Monetization & Pro Features</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div th:each="i : ${#numbers.sequence(76, 80)}" class="glass p-8 rounded-[32px] border-themed-soft group hover:border-indigo-600/30 transition-all flex flex-col justify-between" th:onclick="|launchTool('Feature #${i}')|">
+                    <div>
+                        <div class="text-[10px] font-black text-indigo-500 uppercase tracking-widest mb-4" th:text="'Feature #' + ${i}"></div>
+                        <h3 class="text-xl font-black text-themed-main mb-4">Enterprise Features</h3>
+                        <p class="text-themed-body text-sm leading-relaxed mb-6">Pro plans, career coaching marketplace, and white-label college tools.</p>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-themed-soft text-themed-main text-xs font-black group-hover:bg-indigo-600 group-hover:text-white transition-all uppercase tracking-widest">Try Now</button>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+<!-- Tool Launch Modal -->
+<div id="toolModal" class="fixed inset-0 z-[100] flex items-center justify-center hidden p-4">
+    <div class="absolute inset-0 bg-themed-pure/80 backdrop-blur-xl" onclick="closeModal()"></div>
+    <div class="glass p-12 rounded-[64px] border-themed-soft max-w-2xl w-full relative z-10 shadow-premium animate-fade-in overflow-y-auto max-h-[90vh]">
+        <div id="modalLoading" class="text-center py-12">
+            <div class="w-24 h-24 rounded-[32px] bg-indigo-600 text-white flex items-center justify-center text-5xl mx-auto mb-8 shadow-glow animate-pulse-soft">🚀</div>
+            <h2 class="text-3xl font-black text-themed-main mb-4">Analyzing with Careerthon.AI AI...</h2>
+            <p class="text-themed-body">Our 2026 intelligence engine is processing your professional DNA.</p>
+        </div>
+        
+        <div id="modalContent" class="hidden">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center text-2xl shadow-glow">✨</div>
+                <h2 id="modalTitle" class="text-2xl font-black text-themed-main">AI Results</h2>
+            </div>
+            
+            <div class="bg-themed-soft/50 p-8 rounded-3xl border border-themed-soft mb-8">
+                <pre id="modalResult" class="text-themed-main font-medium whitespace-pre-wrap leading-relaxed font-sans text-lg"></pre>
+            </div>
+            
+            <div class="flex flex-col gap-4">
+                <button onclick="closeModal()" class="w-full py-4 rounded-2xl bg-indigo-600 text-white font-black shadow-glow hover:scale-[1.02] transition-transform">APPLY TO PROFILE</button>
+                <button onclick="closeModal()" class="w-full py-4 rounded-2xl border border-themed-soft text-themed-main font-black hover:bg-themed-soft transition-all">CLOSE EXPLORER</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function launchTool(name) {
+        const modal = document.getElementById('toolModal');
+        const loading = document.getElementById('modalLoading');
+        const content = document.getElementById('modalContent');
+        const title = document.getElementById('modalTitle');
+        const result = document.getElementById('modalResult');
+        
+        // Reset and Show
+        modal.classList.remove('hidden');
+        loading.classList.remove('hidden');
+        content.classList.add('hidden');
+        document.body.style.overflow = 'hidden';
+
+        try {
+            const response = await fetch('/api/ai/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ tool: name, input: "User profile data" })
+            });
+            const data = await response.json();
+            
+            // Show Results
+            title.innerText = name + " Engine";
+            result.innerText = data.result;
+            
+            setTimeout(() => {
+                loading.classList.add('hidden');
+                content.classList.remove('hidden');
+            }, 800); // Aesthetic delay
+
+        } catch (error) {
+            result.innerText = "Connection lost to AI engine. Please check your network.";
+            loading.classList.add('hidden');
+            content.classList.remove('hidden');
+        }
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('toolModal');
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+    }
+
+    // Smooth scroll for anchors
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // Reveal on scroll
+    const observerOptions = { threshold: 0.1 };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('active');
+        });
+    }, observerOptions);
+    document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

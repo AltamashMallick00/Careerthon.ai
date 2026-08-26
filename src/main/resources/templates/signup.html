@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Create Your Account - Careerthon.AI')}"></head>
+<body class="bg-themed-pure min-h-screen flex flex-col relative overflow-x-hidden">
+    <!-- Background Effects -->
+    <div class="absolute inset-0 bg-grid opacity-[0.03]"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-4xl max-h-4xl bg-[radial-gradient(circle_at_50%_50%,rgba(16,185,129,0.1),transparent_60%)] animate-pulse-soft"></div>
+
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <main class="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative z-10 pt-32">
+        <div class="max-w-md w-full active" data-reveal>
+            
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center text-white font-black text-3xl shadow-glow-emerald mx-auto mb-6 transform hover:-rotate-12 transition-transform">🚀</div>
+                <h2 class="text-4xl font-black text-themed-main mb-2">Join Elite</h2>
+                <p class="text-themed-body font-medium">Create your secure intelligence profile.</p>
+            </div>
+
+            <div class="premium-card !p-10 glass border-white/20 shadow-[0_40px_100px_-20px_rgba(15,23,42,0.3)]">
+                
+                <div th:if="${error}" class="bg-rose-500/10 border border-rose-500/50 p-4 rounded-xl mb-6 flex items-center gap-3">
+                    <div class="text-rose-500">⚠</div>
+                    <p class="text-sm font-bold text-rose-600 dark:text-rose-400" th:text="${error}">Error message</p>
+                </div>
+
+                <form th:action="@{/signup}" method="POST" class="space-y-6">
+                    
+                    <div>
+                        <label class="block text-[10px] font-black text-emerald-500 dark:text-emerald-400 uppercase tracking-[0.2em] mb-2">Full Name</label>
+                        <div class="relative group">
+                            <div class="absolute -inset-1 bg-emerald-500/10 rounded-xl blur-md group-focus-within:bg-emerald-500/20 transition-all"></div>
+                            <input type="text" name="fullName" required 
+                                   class="relative w-full py-4 px-5 bg-themed-pure rounded-xl border-2 border-themed-soft focus:border-emerald-500 outline-none transition-all text-sm font-bold text-themed-main placeholder:text-slate-400" 
+                                   placeholder="Priyanshu Shekhar">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-black text-emerald-500 dark:text-emerald-400 uppercase tracking-[0.2em] mb-2">Username</label>
+                        <div class="relative group">
+                            <div class="absolute -inset-1 bg-emerald-500/10 rounded-xl blur-md group-focus-within:bg-emerald-500/20 transition-all"></div>
+                            <input type="text" name="username" required 
+                                   class="relative w-full py-4 px-5 bg-themed-pure rounded-xl border-2 border-themed-soft focus:border-emerald-500 outline-none transition-all text-sm font-bold text-themed-main placeholder:text-slate-400" 
+                                   placeholder="priyanshu_s">
+                        </div>
+                        <p class="mt-2 text-[11px] font-medium text-themed-body">Unique identifier for system access.</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-black text-emerald-500 dark:text-emerald-400 uppercase tracking-[0.2em] mb-2">Password</label>
+                        <div class="relative group">
+                            <div class="absolute -inset-1 bg-emerald-500/10 rounded-xl blur-md group-focus-within:bg-emerald-500/20 transition-all"></div>
+                            <input type="password" name="password" required 
+                                   class="relative w-full py-4 px-5 bg-themed-pure rounded-xl border-2 border-themed-soft focus:border-emerald-500 outline-none transition-all text-sm font-bold text-themed-main placeholder:text-slate-400" 
+                                   placeholder="••••••••">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-black text-emerald-500 dark:text-emerald-400 uppercase tracking-[0.2em] mb-2">Human Verification</label>
+                        <div class="relative group">
+                            <div class="absolute -inset-1 bg-emerald-500/10 rounded-xl blur-md group-focus-within:bg-emerald-500/20 transition-all"></div>
+                            <div class="flex items-center gap-3 relative">
+                                <div class="bg-themed-soft px-4 py-4 rounded-xl border-2 border-themed-soft text-sm font-black text-themed-main flex-shrink-0" th:text="${captchaQuestion}">5 + 3 = ?</div>
+                                <input type="text" name="captcha" required 
+                                       class="w-full py-4 px-5 bg-themed-pure rounded-xl border-2 border-themed-soft focus:border-emerald-500 outline-none transition-all text-sm font-bold text-themed-main placeholder:text-slate-400" 
+                                       placeholder="Answer">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit" class="w-full btn-premium py-4 rounded-xl text-lg flex justify-center items-center group shadow-glow-emerald">
+                            Initialize Account
+                            <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="mt-8 pt-8 border-t border-themed-soft text-center">
+                    <p class="text-sm font-medium text-themed-body">
+                        Already have access? <br>
+                        <a href="/login" class="mt-2 inline-block font-black text-emerald-600 hover:text-emerald-500 transition-colors uppercase tracking-wider text-xs">Authenticate Instead →</a>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="mt-8 text-center text-xs font-medium text-themed-body opacity-60">
+                By initializing, you accept the security protocols and privacy policy.
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>
