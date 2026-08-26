@@ -21,7 +21,7 @@ import java.io.ByteArrayOutputStream;
 @SuppressWarnings("null")
 public class OutreachController {
 
-    @GetMapping("/ai-tools/recruiter-outreach")
+    @GetMapping({"/ai-tools/recruiter-outreach", "/recruiter-outreach", "/outreach"})
     public String showOutreachForm(Model model) {
         model.addAttribute("recruiterName", "");
         model.addAttribute("companyName", "");

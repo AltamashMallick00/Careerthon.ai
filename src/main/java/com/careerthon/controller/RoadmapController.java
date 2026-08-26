@@ -22,7 +22,7 @@ public class RoadmapController {
         this.courseRepository = courseRepository;
     }
 
-    @GetMapping("/ai-tools/roadmap")
+    @GetMapping({"/ai-tools/roadmap", "/roadmap"})
     public String showRoadmapForm(Model model) {
         model.addAttribute("currentRole", "");
         model.addAttribute("currentSkills", "");

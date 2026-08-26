@@ -15,7 +15,7 @@ import java.util.List;
 @SuppressWarnings("null")
 public class ReferralController {
 
-    @GetMapping("/ai-tools/referral-finder")
+    @GetMapping({"/ai-tools/referral-finder", "/referral-finder", "/referrals", "/referral"})
     public String showReferralFinder(Model model) {
         model.addAttribute("targetCompany", "");
         model.addAttribute("targetRole", "");
@@ -24,7 +24,7 @@ public class ReferralController {
         return "ai/referral_finder";
     }
 
-    @PostMapping("/ai-tools/referral-finder/search")
+    @PostMapping({"/ai-tools/referral-finder/search", "/referral-finder/search", "/referrals/search", "/referral/search"})
     public String searchReferrals(
             @RequestParam("targetCompany") String targetCompany,
             @RequestParam("targetRole") String targetRole,
