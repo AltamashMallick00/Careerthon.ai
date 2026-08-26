@@ -105,15 +105,28 @@ public class DataInitializer implements CommandLineRunner {
                     .forEach(userStoryRepository::delete);
         }
 
-        // Ensure Admin user exists
-        userRepository.findByUsername("admin").ifPresentOrElse(
+        // Ensure Primary Admin Priyanshu123 exists
+        userRepository.findByUsername("Priyanshu123").ifPresentOrElse(
                 adminUser -> {
-                    adminUser.setRoles("ROLE_ADMIN");
-                    adminUser.setPassword(passwordEncoder.encode("admin"));
+                    adminUser.setRoles("ROLE_ADMIN,ROLE_STUDENT,ROLE_USER");
+                    adminUser.setPassword(passwordEncoder.encode("Hello1234"));
+                    adminUser.setFullName("Priyanshu Shekhar");
                     userRepository.save(adminUser);
                 },
                 () -> {
-                    User admin = new User("admin", passwordEncoder.encode("admin"), "ROLE_ADMIN", "Administrator");
+                    User admin = new User("Priyanshu123", passwordEncoder.encode("Hello1234"), "ROLE_ADMIN,ROLE_STUDENT,ROLE_USER", "Priyanshu Shekhar");
+                    userRepository.save(admin);
+                });
+
+        // Ensure secondary admin user also uses password Hello1234
+        userRepository.findByUsername("admin").ifPresentOrElse(
+                adminUser -> {
+                    adminUser.setRoles("ROLE_ADMIN,ROLE_STUDENT,ROLE_USER");
+                    adminUser.setPassword(passwordEncoder.encode("Hello1234"));
+                    userRepository.save(adminUser);
+                },
+                () -> {
+                    User admin = new User("admin", passwordEncoder.encode("Hello1234"), "ROLE_ADMIN,ROLE_STUDENT,ROLE_USER", "Administrator");
                     userRepository.save(admin);
                 });
 
