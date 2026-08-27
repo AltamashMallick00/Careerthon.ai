@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/header :: head('CareerThon ATS Keyword Analyzer')}"></head>
+<head th:replace="~{fragments/header :: head('CareerThon Job Match — ATS Intelligence Engine')}"></head>
 <body class="bg-themed-pure selection:bg-emerald-500 selection:text-white">
 
 <header th:replace="~{fragments/header :: header}"></header>
@@ -14,13 +14,13 @@
         <!-- Page Title Header -->
         <div class="text-center mb-10 max-w-3xl mx-auto">
             <div class="hero-tag !bg-emerald-600/5 !text-emerald-600 dark:!text-emerald-400 border-emerald-600/10 mb-4 inline-flex items-center gap-2">
-                <span>🎯</span> Truthful ATS Alignment Engine
+                <span>🎯</span> Role Intelligence & ATS Engine
             </div>
             <h1 class="text-3xl md:text-5xl font-black text-themed-main tracking-tight leading-tight">
-                CareerThon <span class="text-gradient">ATS Keyword Analyzer</span>
+                CareerThon <span class="text-gradient">ATS Intelligence Engine</span>
             </h1>
             <p class="text-themed-body mt-3 font-semibold text-base leading-relaxed">
-                Extract compound skill entities, analyze role requirements, and evaluate resume alignment truthfully without keyword stuffing or false claims.
+                Analyze job descriptions to uncover actual screening requirements, preserve compound technical entities, and compare candidate resumes truthfully without keyword stuffing.
             </p>
         </div>
 
@@ -38,17 +38,17 @@
                             <span class="text-[10px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">1-Click Fill</span>
                         </div>
                         <div class="flex flex-wrap gap-2">
+                            <button type="button" onclick="loadPreset('Business Analyst')" 
+                                    class="px-3 py-1.5 rounded-xl bg-themed-soft hover:bg-emerald-500/10 hover:text-emerald-500 border border-themed-soft text-xs font-bold text-themed-main transition-all flex items-center gap-1">
+                                <span>📊</span> Business Analyst
+                            </button>
                             <button type="button" onclick="loadPreset('Dynamics 365 Developer')" 
                                     class="px-3 py-1.5 rounded-xl bg-themed-soft hover:bg-emerald-500/10 hover:text-emerald-500 border border-themed-soft text-xs font-bold text-themed-main transition-all flex items-center gap-1">
-                                <span>⚙️</span> Dynamics 365 CRM
+                                <span>⚙️</span> Dynamics 365
                             </button>
                             <button type="button" onclick="loadPreset('Full-Stack Developer')" 
                                     class="px-3 py-1.5 rounded-xl bg-themed-soft hover:bg-emerald-500/10 hover:text-emerald-500 border border-themed-soft text-xs font-bold text-themed-main transition-all flex items-center gap-1">
                                 <span>💻</span> Full-Stack
-                            </button>
-                            <button type="button" onclick="loadPreset('AI / ML Engineer')" 
-                                    class="px-3 py-1.5 rounded-xl bg-themed-soft hover:bg-emerald-500/10 hover:text-emerald-500 border border-themed-soft text-xs font-bold text-themed-main transition-all flex items-center gap-1">
-                                <span>🤖</span> AI/ML Engineer
                             </button>
                         </div>
                     </div>
@@ -68,18 +68,18 @@
                         <!-- Resume Textarea -->
                         <div>
                             <label for="resumeText" class="block text-xs font-black text-themed-main uppercase tracking-widest mb-2 flex justify-between">
-                                <span>Candidate Resume / Profile (Optional)</span>
+                                <span>Resume / Candidate Profile (Optional)</span>
                                 <span class="text-slate-400 normal-case font-bold" id="resume-count">0 words</span>
                             </label>
                             <textarea id="resumeText" name="resumeText" rows="7" 
                                       class="w-full bg-themed-soft text-themed-main border border-themed-soft rounded-2xl p-4 text-xs font-semibold focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all placeholder-slate-400 resize-y" 
-                                      placeholder="Paste candidate resume text here for alignment analysis..."></textarea>
+                                      placeholder="Paste candidate resume text here for alignment comparison..."></textarea>
                         </div>
 
                         <!-- Submit Button -->
                         <button type="submit" id="submit-btn" 
                                 class="w-full btn-premium group shadow-glow-emerald py-3.5 flex items-center justify-center gap-2 font-black text-sm">
-                            Analyze ATS Keywords ⚡
+                            Analyze Job Match ⚡
                         </button>
                     </form>
                 </div>
@@ -93,9 +93,9 @@
                     <div class="w-20 h-20 rounded-full bg-themed-soft flex items-center justify-center text-3xl mb-4 shadow-inner border border-themed-soft animate-float">
                         🔍
                     </div>
-                    <h4 class="text-lg font-black text-themed-main mb-2">Awaiting ATS Analysis</h4>
+                    <h4 class="text-lg font-black text-themed-main mb-2">Awaiting Job Match Analysis</h4>
                     <p class="text-xs text-themed-body max-w-sm font-semibold leading-relaxed">
-                        Input a job description to extract compound skill entities, identify core role requirements, and compare resume alignment.
+                        Input a job description to understand the role, extract compound skill entities, rank top ATS terms, and evaluate resume alignment.
                     </p>
                 </div>
 
@@ -117,11 +117,11 @@
                                 </p>
                             </div>
                             
-                            <!-- Estimated JD Alignment -->
-                            <div id="alignment-score-box" class="flex items-center gap-3 bg-themed-soft px-4 py-2 rounded-2xl border border-themed-soft">
+                            <!-- Estimated Job Alignment -->
+                            <div class="flex items-center gap-3 bg-themed-soft px-4 py-2.5 rounded-2xl border border-themed-soft">
                                 <div class="text-right">
-                                    <div class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Estimated JD Alignment</div>
-                                    <div id="alignment-score-text" class="text-2xl font-black text-emerald-500 leading-none">0%</div>
+                                    <div class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Estimated Job Alignment</div>
+                                    <div id="alignment-score-text" class="text-base font-black text-emerald-500 leading-none">0%</div>
                                 </div>
                             </div>
                         </div>
@@ -148,14 +148,14 @@
                     <!-- CRITICAL / MUST-HAVE KEYWORDS Table -->
                     <div class="space-y-3 border-b border-themed-soft pb-6">
                         <h4 class="text-xs font-black text-themed-main uppercase tracking-widest text-rose-500 flex items-center gap-2">
-                            <span>🔴</span> CRITICAL / MUST-HAVE KEYWORDS
+                            <span>🔴</span> CRITICAL / MUST-HAVE
                         </h4>
                         <div class="overflow-x-auto">
                             <table class="w-full text-left text-xs">
                                 <thead>
                                     <tr class="border-b border-themed-soft text-slate-400 uppercase tracking-widest text-[10px]">
                                         <th class="py-2 px-3">Keyword</th>
-                                        <th class="py-2 px-3">Reason</th>
+                                        <th class="py-2 px-3">Why It Matters</th>
                                         <th class="py-2 px-3 text-right">Resume Status</th>
                                     </tr>
                                 </thead>
@@ -169,14 +169,14 @@
                     <!-- IMPORTANT KEYWORDS Table -->
                     <div class="space-y-3 border-b border-themed-soft pb-6">
                         <h4 class="text-xs font-black text-themed-main uppercase tracking-widest text-blue-500 flex items-center gap-2">
-                            <span>🔵</span> IMPORTANT KEYWORDS
+                            <span>🔵</span> IMPORTANT
                         </h4>
                         <div class="overflow-x-auto">
                             <table class="w-full text-left text-xs">
                                 <thead>
                                     <tr class="border-b border-themed-soft text-slate-400 uppercase tracking-widest text-[10px]">
                                         <th class="py-2 px-3">Keyword</th>
-                                        <th class="py-2 px-3">Reason</th>
+                                        <th class="py-2 px-3">Why It Matters</th>
                                         <th class="py-2 px-3 text-right">Resume Status</th>
                                     </tr>
                                 </thead>
@@ -190,14 +190,14 @@
                     <!-- NICE-TO-HAVE KEYWORDS Table -->
                     <div class="space-y-3 border-b border-themed-soft pb-6">
                         <h4 class="text-xs font-black text-themed-main uppercase tracking-widest text-purple-500 flex items-center gap-2">
-                            <span>🟣</span> NICE-TO-HAVE KEYWORDS
+                            <span>🟣</span> NICE-TO-HAVE
                         </h4>
                         <div class="overflow-x-auto">
                             <table class="w-full text-left text-xs">
                                 <thead>
                                     <tr class="border-b border-themed-soft text-slate-400 uppercase tracking-widest text-[10px]">
                                         <th class="py-2 px-3">Keyword</th>
-                                        <th class="py-2 px-3">Reason</th>
+                                        <th class="py-2 px-3">Why It Matters</th>
                                         <th class="py-2 px-3 text-right">Resume Status</th>
                                     </tr>
                                 </thead>
@@ -208,37 +208,37 @@
                         </div>
                     </div>
 
-                    <!-- MISSING HIGH-VALUE KEYWORDS -->
+                    <!-- MISSING HIGH-VALUE REQUIREMENTS -->
                     <div id="missing-section" class="space-y-3 border-b border-themed-soft pb-6">
                         <h4 class="text-xs font-black text-amber-500 uppercase tracking-widest flex items-center gap-2">
-                            <span>🚨</span> MISSING HIGH-VALUE KEYWORDS
+                            <span>🚨</span> MISSING HIGH-VALUE REQUIREMENTS
                         </h4>
                         <div id="missing-list-container" class="space-y-3">
                             <!-- Populated dynamically -->
                         </div>
                     </div>
 
-                    <!-- SAFE KEYWORDS TO INTEGRATE -->
+                    <!-- SAFE TO INTEGRATE -->
                     <div id="safe-section" class="space-y-3 border-b border-themed-soft pb-6">
                         <h4 class="text-xs font-black text-emerald-500 uppercase tracking-widest flex items-center gap-2">
-                            <span>✅</span> SAFE KEYWORDS TO INTEGRATE
+                            <span>✅</span> SAFE TO INTEGRATE (Supported by Resume)
                         </h4>
                         <div id="safe-list-container" class="space-y-3">
                             <!-- Populated dynamically -->
                         </div>
                     </div>
 
-                    <!-- KEYWORD SYNONYMS / ATS VARIATIONS -->
+                    <!-- ATS TERMINOLOGY VARIATIONS -->
                     <div id="synonyms-section" class="space-y-3 border-b border-themed-soft pb-6">
                         <h4 class="text-xs font-black text-themed-main uppercase tracking-widest flex items-center gap-2">
-                            <span>🔄</span> KEYWORD SYNONYMS / ATS VARIATIONS
+                            <span>🔄</span> ATS TERMINOLOGY VARIATIONS
                         </h4>
                         <div class="overflow-x-auto">
                             <table class="w-full text-left text-xs">
                                 <thead>
                                     <tr class="border-b border-themed-soft text-slate-400 uppercase tracking-widest text-[10px]">
-                                        <th class="py-2 px-3">JD Term</th>
-                                        <th class="py-2 px-3">Equivalent ATS Term</th>
+                                        <th class="py-2 px-3">JD Terminology</th>
+                                        <th class="py-2 px-3">ATS-Friendly Equivalent</th>
                                     </tr>
                                 </thead>
                                 <tbody id="synonyms-tbody" class="divide-y divide-themed-soft font-semibold text-themed-main">
@@ -248,7 +248,7 @@
                         </div>
                     </div>
 
-                    <!-- FINAL RECOMMENDATION & ATS WARNING -->
+                    <!-- FINAL RECOMMENDATION -->
                     <div class="space-y-4 pt-2">
                         <h4 class="text-xs font-black text-themed-main uppercase tracking-widest flex items-center gap-2">
                             <span>📌</span> FINAL RECOMMENDATION
@@ -272,11 +272,19 @@
                             </div>
                         </div>
 
+                        <!-- Candidate Strategy -->
+                        <div class="bg-themed-soft border border-themed-soft rounded-2xl p-4 space-y-1">
+                            <h5 class="text-xs font-black text-themed-main uppercase tracking-widest">Candidate Strategy</h5>
+                            <p class="text-xs text-themed-main font-semibold leading-relaxed" id="candidate-strategy-text">
+                                Focus strategy text...
+                            </p>
+                        </div>
+
                         <!-- Absolute Prohibition ATS Warning Box -->
                         <div class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 flex items-start gap-3">
                             <span class="text-xl">🛑</span>
                             <div class="space-y-1">
-                                <h5 class="text-xs font-black text-amber-500 uppercase tracking-widest">ATS Truthfulness & Prohibitions Warning</h5>
+                                <h5 class="text-xs font-black text-amber-500 uppercase tracking-widest">ATS Prohibitions & Truthfulness Warning</h5>
                                 <p class="text-xs font-bold text-themed-main leading-relaxed" id="final-ats-warning">
                                     ATS optimization improves relevance; it does not guarantee interview selection. Never add a skill you cannot substantiate.
                                 </p>
@@ -341,7 +349,7 @@
         e.preventDefault();
         
         submitBtn.disabled = true;
-        submitBtn.innerHTML = 'Analyzing ATS Keywords... ⚡';
+        submitBtn.innerHTML = 'Analyzing Job Match... ⚡';
 
         const formData = new FormData(form);
         
@@ -352,7 +360,7 @@
         .then(response => response.json())
         .then(data => {
             submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Analyze ATS Keywords ⚡';
+            submitBtn.innerHTML = 'Analyze Job Match ⚡';
 
             if (data.success) {
                 noResultsCard.classList.add('hidden');
@@ -360,17 +368,9 @@
 
                 // Header Info
                 document.getElementById('role-title-display').textContent = data.jobTitle || 'Target Role';
-                document.getElementById('company-name-display').textContent = data.companyName ? `Company: ${data.companyName}` : '';
+                document.getElementById('company-name-display').textContent = data.company ? `Company: ${data.company}` : '';
                 document.getElementById('role-focus-text').textContent = data.roleFocus || '';
-                
-                const scoreBox = document.getElementById('alignment-score-box');
-                if (data.hasResume) {
-                    scoreBox.classList.remove('hidden');
-                    document.getElementById('alignment-score-text').textContent = `${data.estimatedAlignmentScore}%`;
-                } else {
-                    scoreBox.classList.add('hidden');
-                }
-
+                document.getElementById('alignment-score-text').textContent = data.estimatedJobAlignment || 'Not Available';
                 document.getElementById('highlighted-text-box').innerHTML = data.highlightedJobDescription;
 
                 // Top Ranked Keywords
@@ -381,7 +381,7 @@
                 renderKeywordTable('important-keywords-tbody', data.importantKeywords);
                 renderKeywordTable('nice-keywords-tbody', data.niceToHaveKeywords);
 
-                // Render Missing & Safe Lists
+                // Render Missing & Safe Lists if Resume Provided
                 const missingSection = document.getElementById('missing-section');
                 const safeSection = document.getElementById('safe-section');
                 if (data.hasResume) {
@@ -401,16 +401,17 @@
                 const rec = data.finalRecommendation || {};
                 renderList('highest-priority-ul', rec.highestPriorityKeywords);
                 renderList('biggest-gaps-ul', rec.biggestGaps);
+                document.getElementById('candidate-strategy-text').textContent = rec.candidateStrategy || '';
                 document.getElementById('final-ats-warning').textContent = rec.atsWarning || '';
 
                 resultsCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             } else {
-                alert(data.message || 'An error occurred during keyword analysis.');
+                alert(data.message || 'An error occurred during job match analysis.');
             }
         })
         .catch(err => {
             submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Analyze ATS Keywords ⚡';
+            submitBtn.innerHTML = 'Analyze Job Match ⚡';
             alert('Unable to connect to analysis engine. Please try again.');
             console.error(err);
         });
@@ -435,7 +436,7 @@
         const tbody = document.getElementById(tbodyId);
         tbody.innerHTML = '';
         if (!items || items.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="3" class="py-3 px-3 text-slate-400 text-xs italic">No keywords classified in this category.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="3" class="py-3 px-3 text-slate-400 text-xs italic">No requirements classified in this category.</td></tr>';
             return;
         }
 
@@ -454,7 +455,7 @@
 
             tr.innerHTML = `
                 <td class="py-2.5 px-3 font-bold text-themed-main">${item.keyword}</td>
-                <td class="py-2.5 px-3 text-slate-400 text-xs">${item.reason}</td>
+                <td class="py-2.5 px-3 text-slate-400 text-xs">${item.whyItMatters}</td>
                 <td class="py-2.5 px-3 text-right">${statusBadge}</td>
             `;
             tbody.appendChild(tr);
@@ -475,12 +476,11 @@
             card.innerHTML = `
                 <div class="flex items-center justify-between">
                     <span class="font-black text-themed-main text-sm">Keyword: ${item.keyword}</span>
-                    <span class="text-[10px] font-black text-amber-500 bg-amber-500/10 px-2.5 py-1 rounded-lg">${item.status}</span>
+                    <span class="text-[10px] font-black text-amber-500 bg-amber-500/10 px-2.5 py-1 rounded-lg">${item.action}</span>
                 </div>
                 <div class="text-slate-400 space-y-0.5 text-[11px] font-semibold">
                     <div><strong class="text-themed-main">Importance:</strong> ${item.importance}</div>
                     <div><strong class="text-themed-main">Why it matters:</strong> ${item.whyItMatters}</div>
-                    <div class="text-amber-500 font-bold mt-1">Recommendation: ${item.recommendation}</div>
                 </div>
             `;
             container.appendChild(card);
@@ -501,11 +501,11 @@
             card.innerHTML = `
                 <div class="flex items-center justify-between">
                     <span class="font-black text-emerald-500 text-sm">Keyword: ${item.keyword}</span>
-                    <span class="text-[10px] font-black text-slate-400 bg-themed-pure px-2 py-0.5 rounded-md border border-themed-soft">Suggested Location: ${item.suggestedLocation}</span>
+                    <span class="text-[10px] font-black text-slate-400 bg-themed-pure px-2 py-0.5 rounded-md border border-themed-soft">Recommended Location: ${item.recommendedLocation}</span>
                 </div>
                 <div class="text-slate-400 space-y-0.5 text-[11px] font-semibold">
-                    <div><strong class="text-themed-main">Resume Evidence:</strong> ${item.resumeEvidence}</div>
-                    <div class="text-emerald-500 font-bold mt-1">Integration Suggestion: ${item.integration}</div>
+                    <div><strong class="text-themed-main">Resume Evidence:</strong> ${item.evidence}</div>
+                    <div class="text-emerald-500 font-bold mt-1">Suggested Integration: ${item.suggestedIntegration}</div>
                 </div>
             `;
             container.appendChild(card);
