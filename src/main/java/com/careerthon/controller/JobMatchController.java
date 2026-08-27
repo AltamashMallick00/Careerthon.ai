@@ -51,6 +51,12 @@ public class JobMatchController {
         "system design", "data structures", "algorithms", "ai", "ml", "tensorflow", "pytorch", "nlp", "llm"
     ));
 
+    private static final Set<String> CRITICAL_CORE_TERMS = new HashSet<>(Arrays.asList(
+        "java", "python", "javascript", "react", "aws", "sql", "spring boot", "docker", "kubernetes",
+        "business development", "edtech sales", "lead conversion", "direct outreach", "digital marketing",
+        "sales", "strategic partnerships", "client nurturing", "stakeholder negotiation"
+    ));
+
     // High-value multi-word skill phrases to recognize intact
     private static final List<String> SKILL_PHRASES = Arrays.asList(
         "business development", "digital marketing", "lead conversion", "direct outreach",
@@ -82,60 +88,89 @@ public class JobMatchController {
             return ResponseEntity.badRequest().body(response);
         }
 
-        // Clean and extract high-value career skills & phrases
+        // Extract Role Title
+        String roleTitle = extractRoleTitle(jobDescription);
+
+        // Generate ATS Focus Summary
+        String atsFocusSummary = generateAtsFocusSummary(jobDescription, roleTitle);
+
+        // Extract clean smart career keywords
         Set<String> targetKeywords = extractSmartCareerKeywords(jobDescription);
 
-        List<String> matched = new ArrayList<>();
-        List<String> missing = new ArrayList<>();
+        List<Map<String, String>> criticalKeywords = new ArrayList<>();
+        List<Map<String, String>> importantKeywords = new ArrayList<>();
+        List<Map<String, String>> niceToHaveKeywords = new ArrayList<>();
+        List<String> topAtsKeywords = new ArrayList<>();
 
-        List<String> matchedTech = new ArrayList<>();
-        List<String> missingTech = new ArrayList<>();
-        List<String> matchedSoft = new ArrayList<>();
-        List<String> missingSoft = new ArrayList<>();
+        List<Map<String, String>> missingList = new ArrayList<>();
+        List<Map<String, String>> safeList = new ArrayList<>();
 
-        for (String keyword : targetKeywords) {
-            boolean isTech = isTechnicalKeyword(keyword);
-            if (containsWordIgnoreCase(resumeText, keyword)) {
-                matched.add(keyword);
-                if (isTech) matchedTech.add(keyword);
-                else matchedSoft.add(keyword);
+        List<String> rawMatched = new ArrayList<>();
+        List<String> rawMissing = new ArrayList<>();
+
+        int matchedCount = 0;
+
+        for (String kw : targetKeywords) {
+            String status = determineStatus(resumeText, kw);
+            String whyItMatters = getWhyItMattersReason(kw, jobDescription);
+            
+            Map<String, String> item = new HashMap<>();
+            item.put("keyword", kw);
+            item.put("whyItMatters", whyItMatters);
+            item.put("status", status);
+
+            int priority = classifyPriority(kw, jobDescription);
+
+            if (priority == 1) { // CRITICAL
+                criticalKeywords.add(item);
+            } else if (priority == 2) { // IMPORTANT
+                importantKeywords.add(item);
+            } else { // NICE_TO_HAVE
+                niceToHaveKeywords.add(item);
+            }
+
+            // Top ATS Keywords (ranked)
+            if (topAtsKeywords.size() < 10) {
+                topAtsKeywords.add(kw);
+            }
+
+            if (status.equals("MATCHED") || status.equals("PARTIAL")) {
+                matchedCount++;
+                rawMatched.add(kw);
+                Map<String, String> safeItem = new HashMap<>();
+                safeItem.put("keyword", kw);
+                safeItem.put("suggestedLocation", getSuggestedLocation(kw));
+                safeItem.put("suggestion", getIntegrationSuggestion(kw));
+                safeList.add(safeItem);
             } else {
-                missing.add(keyword);
-                if (isTech) missingTech.add(keyword);
-                else missingSoft.add(keyword);
+                rawMissing.add(kw);
+                Map<String, String> missingItem = new HashMap<>();
+                missingItem.put("keyword", kw);
+                missingItem.put("status", "MISSING — VERIFY BEFORE ADDING");
+                missingItem.put("reason", whyItMatters);
+                missingList.add(missingItem);
             }
         }
 
         int totalCount = targetKeywords.size();
-        int matchPct = totalCount == 0 ? 100 : (int) Math.round(((double) matched.size() / totalCount) * 100);
+        int matchPct = totalCount == 0 ? 100 : (int) Math.round(((double) matchedCount / totalCount) * 100);
 
-        // Sub-metric calculations
-        int techTotal = matchedTech.size() + missingTech.size();
-        int techMatchPct = techTotal == 0 ? 100 : (int) Math.round(((double) matchedTech.size() / techTotal) * 100);
-
-        int expMatchPct = Math.min(100, Math.max(30, matchPct + 12));
-        int densityPct = Math.min(100, Math.max(25, (int) (matchPct * 0.9 + (matchedTech.size() * 3))));
-        int atsReadiness = Math.min(100, Math.max(40, (matchPct + techMatchPct) / 2));
-
-        Map<String, Integer> subMetrics = new HashMap<>();
-        subMetrics.put("technicalOverlap", techMatchPct);
-        subMetrics.put("experienceAlignment", expMatchPct);
-        subMetrics.put("keywordDensity", densityPct);
-        subMetrics.put("atsReadiness", atsReadiness);
-
-        // Highlight missing keywords in red within the original job description HTML-safe output
-        String highlightedHtml = highlightMissingKeywords(jobDescription, missing);
+        String highlightedHtml = highlightMissingKeywords(jobDescription, rawMissing);
 
         response.put("success", true);
+        response.put("roleTitle", roleTitle);
+        response.put("atsFocusSummary", atsFocusSummary);
         response.put("matchPercentage", matchPct);
-        response.put("matchedKeywords", matched);
-        response.put("missingKeywords", missing);
-        response.put("matchedTechSkills", matchedTech);
-        response.put("missingTechSkills", missingTech);
-        response.put("matchedSoftSkills", matchedSoft);
-        response.put("missingSoftSkills", missingSoft);
-        response.put("subMetrics", subMetrics);
+        response.put("criticalKeywords", criticalKeywords);
+        response.put("importantKeywords", importantKeywords);
+        response.put("niceToHaveKeywords", niceToHaveKeywords);
+        response.put("topAtsKeywords", topAtsKeywords);
+        response.put("missingKeywordsList", missingList);
+        response.put("safeToIntegrateList", safeList);
+        response.put("atsWarning", "Adding a keyword without having the underlying skill will not make the candidate genuinely qualified and should not be recommended.");
         response.put("highlightedJobDescription", highlightedHtml);
+        response.put("matchedKeywords", rawMatched);
+        response.put("missingKeywords", rawMissing);
 
         return ResponseEntity.ok(response);
     }
@@ -152,9 +187,9 @@ public class JobMatchController {
         if (missingKeywords.isEmpty()) {
             response.put("success", true);
             response.put("bullets", Arrays.asList(
-                "• Optimized core application modules resulting in a 35% boost in system performance.",
-                "• Spearheaded cross-functional team initiatives to deliver high-quality production features.",
-                "• Implemented automated CI/CD pipelines reducing deployment downtime by 50%."
+                "• Optimized core application workflows resulting in a 35% boost in system performance.",
+                "• Spearheaded cross-functional initiatives to deliver high-quality client solutions.",
+                "• Implemented strategic pipeline optimizations reducing client acquisition overhead."
             ));
             return ResponseEntity.ok(response);
         }
@@ -166,9 +201,9 @@ public class JobMatchController {
         String k4 = keywordsToUse.size() > 3 ? keywordsToUse.get(3) : "pipeline optimization";
 
         List<String> bulletPoints = Arrays.asList(
-            "• Spearheaded integration of " + capitalize(k1) + " and " + capitalize(k2) + " into key workflows, driving revenue growth.",
-            "• Optimized execution of " + capitalize(k3) + " to expand strategic client partnerships and account pipelines.",
-            "• Leveraged " + capitalize(k4) + " techniques to accelerate engagement performance and team efficiency."
+            "• Spearheaded execution of " + capitalize(k1) + " and " + capitalize(k2) + " to expand account engagement.",
+            "• Leveraged " + capitalize(k3) + " to establish high-value strategic partnerships.",
+            "• Optimized workflows using " + capitalize(k4) + " methodologies to achieve target key performance metrics."
         );
 
         response.put("success", true);
@@ -197,10 +232,105 @@ public class JobMatchController {
         return ResponseEntity.ok(presets);
     }
 
+    private String extractRoleTitle(String jdText) {
+        if (jdText == null) return "Professional Role";
+        String lower = jdText.toLowerCase();
+        
+        Pattern titlePattern = Pattern.compile("(?i)(?:job profile|role|title|opening overview|position)\\s*[:\\-]?\\s*([^\\n,.]+)", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = titlePattern.matcher(jdText);
+        if (matcher.find()) {
+            String title = matcher.group(1).trim();
+            if (title.length() > 3 && title.length() < 60) return title;
+        }
+
+        if (lower.contains("full-stack") || lower.contains("fullstack")) return "Full-Stack Developer";
+        if (lower.contains("business development") || lower.contains("sales")) return "Business Development / EdTech Sales";
+        if (lower.contains("data engineer") || lower.contains("data analyst")) return "Data Specialist";
+        if (lower.contains("machine learning") || lower.contains("ai engineer")) return "AI / ML Engineer";
+        if (lower.contains("product manager")) return "Product Manager";
+
+        return "Target Professional Role";
+    }
+
+    private String generateAtsFocusSummary(String jdText, String roleTitle) {
+        String lower = jdText.toLowerCase();
+        if (lower.contains("sales") || lower.contains("business development") || lower.contains("outreach")) {
+            return "The job description primarily evaluates candidates on lead conversion, direct client outreach, strategic partnership building, and stakeholder negotiation abilities.";
+        } else if (lower.contains("java") || lower.contains("python") || lower.contains("developer") || lower.contains("engineer")) {
+            return "The job description primarily evaluates core technical stack competency, software design architecture, API development, and automated deployment capabilities.";
+        }
+        return "The job description emphasizes key technical competencies, domain experience, and core functional responsibilities central to " + roleTitle + ".";
+    }
+
+    private String determineStatus(String resumeText, String keyword) {
+        if (resumeText == null || keyword == null) return "MISSING — VERIFY BEFORE ADDING";
+        String resLower = resumeText.toLowerCase();
+        String kwLower = keyword.toLowerCase();
+
+        Pattern exactPattern = Pattern.compile("\\b" + Pattern.quote(kwLower) + "\\b");
+        if (exactPattern.matcher(resLower).find()) {
+            return "MATCHED";
+        }
+
+        // Stem / Partial match
+        String[] words = kwLower.split("\\s+");
+        for (String w : words) {
+            if (w.length() >= 4 && resLower.contains(w)) {
+                return "PARTIAL";
+            }
+        }
+
+        return "MISSING — VERIFY BEFORE ADDING";
+    }
+
+    private int classifyPriority(String kw, String jdText) {
+        String lowerKw = kw.toLowerCase();
+        if (CRITICAL_CORE_TERMS.contains(lowerKw) || countOccurrences(jdText, kw) >= 2) {
+            return 1; // CRITICAL
+        }
+        if (SKILL_PHRASES.contains(lowerKw) || TECH_KEYWORDS.contains(lowerKw)) {
+            return 2; // IMPORTANT
+        }
+        return 3; // NICE_TO_HAVE
+    }
+
+    private String getWhyItMattersReason(String kw, String jdText) {
+        String lowerKw = kw.toLowerCase();
+        if (CRITICAL_CORE_TERMS.contains(lowerKw)) {
+            return "Explicit core requirement central to primary role execution.";
+        }
+        if (TECH_KEYWORDS.contains(lowerKw)) {
+            return "Key technical tool used for daily operational workflows.";
+        }
+        if (SKILL_PHRASES.contains(lowerKw)) {
+            return "Supports key responsibility area and team engagement strategy.";
+        }
+        return "Enhances overall candidate alignment and domain depth.";
+    }
+
+    private String getSuggestedLocation(String kw) {
+        String lower = kw.toLowerCase();
+        if (TECH_KEYWORDS.contains(lower)) return "Skills / Core Competencies";
+        if (lower.contains("management") || lower.contains("leadership") || lower.contains("outreach")) return "Work Experience";
+        if (lower.contains("development") || lower.contains("marketing") || lower.contains("conversion")) return "Professional Summary";
+        return "Skills";
+    }
+
+    private String getIntegrationSuggestion(String kw) {
+        return "Add under " + getSuggestedLocation(kw) + " or mention naturally within your recent achievement bullet points.";
+    }
+
+    private int countOccurrences(String text, String word) {
+        if (text == null || word == null) return 0;
+        Matcher m = Pattern.compile("(?i)\\b" + Pattern.quote(word) + "\\b").matcher(text);
+        int count = 0;
+        while (m.find()) count++;
+        return count;
+    }
+
     private Set<String> extractSmartCareerKeywords(String rawText) {
         if (rawText == null || rawText.trim().isEmpty()) return Collections.emptySet();
 
-        // 1. Strip URLs, links, email addresses, and garbage fragments
         String cleanedText = rawText
                 .replaceAll("(?i)https?://\\S+", " ")
                 .replaceAll("(?i)www\\.\\S+", " ")
@@ -210,26 +340,22 @@ public class JobMatchController {
         Set<String> extractedSkills = new LinkedHashSet<>();
         String lowerText = cleanedText.toLowerCase();
 
-        // 2. Extract multi-word skill phrases first
         for (String phrase : SKILL_PHRASES) {
             if (lowerText.contains(phrase)) {
                 extractedSkills.add(capitalizePhrase(phrase));
             }
         }
 
-        // 3. Extract single high-value skill terms
         Pattern pattern = Pattern.compile("[a-zA-Z+#-]+");
         Matcher matcher = pattern.matcher(cleanedText);
 
         while (matcher.find()) {
             String word = matcher.group().toLowerCase();
             
-            // Skip short words unless recognized as known tech (e.g. sql, aws, git, api, ai, ml)
             boolean isKnownShortTech = (word.length() <= 3) && TECH_KEYWORDS.contains(word);
             boolean isValidLength = word.length() >= 4 || isKnownShortTech;
 
             if (isValidLength && !STOP_WORDS.contains(word) && !isNumeric(word)) {
-                // If it's already part of an extracted multi-word phrase, avoid duplicating raw single word
                 boolean alreadyCoveredInPhrase = false;
                 for (String phrase : SKILL_PHRASES) {
                     if (extractedSkills.contains(capitalizePhrase(phrase)) && phrase.contains(word)) {
@@ -244,15 +370,6 @@ public class JobMatchController {
         }
 
         return extractedSkills;
-    }
-
-    private boolean isTechnicalKeyword(String keyword) {
-        String lower = keyword.toLowerCase();
-        if (TECH_KEYWORDS.contains(lower)) return true;
-        for (String tech : TECH_KEYWORDS) {
-            if (lower.contains(tech)) return true;
-        }
-        return false;
     }
 
     private String capitalizePhrase(String phrase) {
@@ -271,16 +388,8 @@ public class JobMatchController {
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
-    private boolean containsWordIgnoreCase(String source, String word) {
-        if (source == null || word == null) return false;
-        String sourceLower = source.toLowerCase();
-        String wordLower = word.toLowerCase();
-
-        Pattern wordPattern = Pattern.compile("\\b" + Pattern.quote(wordLower) + "\\b");
-        return wordPattern.matcher(sourceLower).find() || sourceLower.contains(wordLower);
-    }
-
     private boolean isNumeric(String str) {
+        if (str == null) return false;
         return str.matches("-?\\d+(\\.\\d+)?");
     }
 
@@ -319,5 +428,6 @@ public class JobMatchController {
         return result;
     }
 }
+
 
 
