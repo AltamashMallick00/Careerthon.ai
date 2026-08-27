@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 @Controller
 public class JobMatchController {
 
+    // Comprehensive list of job posting metadata, URLs, fillers, and administrative stop words
     private static final Set<String> STOP_WORDS = new HashSet<>(Arrays.asList(
         "the", "a", "an", "and", "or", "but", "is", "are", "was", "were", "be", "been", "being",
         "to", "of", "in", "on", "at", "by", "for", "with", "about", "against", "between", "into",
@@ -22,7 +23,23 @@ public class JobMatchController {
         "s", "t", "can", "will", "just", "don", "should", "now", "d", "ll", "m", "o", "re", "ve", "y",
         "we", "you", "he", "she", "it", "they", "them", "their", "our", "us", "your", "i", "me", "my",
         "have", "has", "had", "do", "does", "did", "would", "could", "should", "this", "that", "these", "those",
-        "responsibilities", "requirements", "qualifications", "experience", "years", "work", "job", "role"
+        
+        // Administrative & Job Posting Noise Words
+        "responsibilities", "requirements", "qualifications", "experience", "years", "work", "job", "role", "roles",
+        "hiring", "apply", "register", "link", "form", "forms", "batch", "lpa", "ctc", "salary", "stipend", "per",
+        "month", "months", "annum", "year", "years", "date", "company", "location", "bangalore-based", "mumbai", "delhi",
+        "remote", "hybrid", "workplace", "candidate", "applicant", "opportunity", "openings", "opening", "eligibility",
+        "criteria", "btech", "mtech", "degree", "diploma", "bachelor", "bachelors", "master", "masters", "discipline",
+        "preferred", "required", "overview", "category", "full-time", "part-time", "internship", "period", "probation",
+        "pursuing", "final", "pre-final", "please", "refrain", "selected", "already", "following", "given", "must",
+        "able", "using", "used", "based", "etc", "plus", "high", "good", "strong", "well", "key", "main", "overview",
+        "description", "about", "services", "products", "team", "teams", "organization", "committed", "fostering",
+        "delivering", "working", "ensure", "stay", "create", "work", "day", "days", "time", "schedule", "details",
+        "info", "information", "notice", "joining", "immediate", "batch", "2024", "2025", "2026", "2027", "llp",
+        "inc", "pvt", "ltd", "google", "whatsapp", "telegram", "phone", "email", "contact", "http", "https", "www",
+        "com", "gle", "forms.gle", "url", "persevex", "edtech", "functions", "function", "mass", "recruiters", "recruiter",
+        "opening", "overview", "stipend", "incentives", "incentive", "compensation", "learning", "exposure", "curriculum",
+        "educators", "institutions", "solutions", "vision", "mission", "academic", "real-world"
     ));
 
     private static final Set<String> TECH_KEYWORDS = new HashSet<>(Arrays.asList(
@@ -33,6 +50,17 @@ public class JobMatchController {
         "testing", "junit", "mockito", "selenium", "cypress", "jest", "devops", "linux", "bash", "architecture",
         "system design", "data structures", "algorithms", "ai", "ml", "tensorflow", "pytorch", "nlp", "llm"
     ));
+
+    // High-value multi-word skill phrases to recognize intact
+    private static final List<String> SKILL_PHRASES = Arrays.asList(
+        "business development", "digital marketing", "lead conversion", "direct outreach",
+        "strategic partnerships", "stakeholder negotiation", "client nurturing", "corporate clients",
+        "critical thinking", "problem solving", "presentation skills", "interpersonal skills",
+        "negotiation skills", "cross-functional leadership", "market research", "customer success",
+        "project management", "data analytics", "cloud architecture", "system design",
+        "restful apis", "ci/cd pipeline", "microservices architecture", "edtech sales",
+        "content operations", "lead generation", "conversion strategies", "relationship management"
+    );
 
     @GetMapping("/job-match")
     public String showJobMatchPage() {
@@ -54,8 +82,8 @@ public class JobMatchController {
             return ResponseEntity.badRequest().body(response);
         }
 
-        // Clean and tokenize job description to extract target keywords
-        Set<String> targetKeywords = extractKeywords(jobDescription);
+        // Clean and extract high-value career skills & phrases
+        Set<String> targetKeywords = extractSmartCareerKeywords(jobDescription);
 
         List<String> matched = new ArrayList<>();
         List<String> missing = new ArrayList<>();
@@ -132,15 +160,15 @@ public class JobMatchController {
         }
 
         List<String> keywordsToUse = missingKeywords.stream().limit(6).collect(Collectors.toList());
-        String k1 = keywordsToUse.size() > 0 ? keywordsToUse.get(0) : "microservices";
-        String k2 = keywordsToUse.size() > 1 ? keywordsToUse.get(1) : "cloud architecture";
-        String k3 = keywordsToUse.size() > 2 ? keywordsToUse.get(2) : "performance optimization";
-        String k4 = keywordsToUse.size() > 3 ? keywordsToUse.get(3) : "agile workflows";
+        String k1 = keywordsToUse.size() > 0 ? keywordsToUse.get(0) : "strategic outreach";
+        String k2 = keywordsToUse.size() > 1 ? keywordsToUse.get(1) : "client conversion";
+        String k3 = keywordsToUse.size() > 2 ? keywordsToUse.get(2) : "stakeholder negotiation";
+        String k4 = keywordsToUse.size() > 3 ? keywordsToUse.get(3) : "pipeline optimization";
 
         List<String> bulletPoints = Arrays.asList(
-            "• Spearheaded integration of " + capitalize(k1) + " and " + capitalize(k2) + " into core product workflows, improving system throughput by 40%.",
-            "• Architected scalable solution utilizing " + capitalize(k3) + " to eliminate bottleneck issues across high-concurrency user flows.",
-            "• Collaborated with cross-functional teams using " + capitalize(k4) + " to accelerate feature delivery cycles by 25%."
+            "• Spearheaded integration of " + capitalize(k1) + " and " + capitalize(k2) + " into key workflows, driving revenue growth.",
+            "• Optimized execution of " + capitalize(k3) + " to expand strategic client partnerships and account pipelines.",
+            "• Leveraged " + capitalize(k4) + " techniques to accelerate engagement performance and team efficiency."
         );
 
         response.put("success", true);
@@ -169,31 +197,78 @@ public class JobMatchController {
         return ResponseEntity.ok(presets);
     }
 
+    private Set<String> extractSmartCareerKeywords(String rawText) {
+        if (rawText == null || rawText.trim().isEmpty()) return Collections.emptySet();
+
+        // 1. Strip URLs, links, email addresses, and garbage fragments
+        String cleanedText = rawText
+                .replaceAll("(?i)https?://\\S+", " ")
+                .replaceAll("(?i)www\\.\\S+", " ")
+                .replaceAll("(?i)forms\\.gle\\S+", " ")
+                .replaceAll("(?i)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}", " ");
+
+        Set<String> extractedSkills = new LinkedHashSet<>();
+        String lowerText = cleanedText.toLowerCase();
+
+        // 2. Extract multi-word skill phrases first
+        for (String phrase : SKILL_PHRASES) {
+            if (lowerText.contains(phrase)) {
+                extractedSkills.add(capitalizePhrase(phrase));
+            }
+        }
+
+        // 3. Extract single high-value skill terms
+        Pattern pattern = Pattern.compile("[a-zA-Z+#-]+");
+        Matcher matcher = pattern.matcher(cleanedText);
+
+        while (matcher.find()) {
+            String word = matcher.group().toLowerCase();
+            
+            // Skip short words unless recognized as known tech (e.g. sql, aws, git, api, ai, ml)
+            boolean isKnownShortTech = (word.length() <= 3) && TECH_KEYWORDS.contains(word);
+            boolean isValidLength = word.length() >= 4 || isKnownShortTech;
+
+            if (isValidLength && !STOP_WORDS.contains(word) && !isNumeric(word)) {
+                // If it's already part of an extracted multi-word phrase, avoid duplicating raw single word
+                boolean alreadyCoveredInPhrase = false;
+                for (String phrase : SKILL_PHRASES) {
+                    if (extractedSkills.contains(capitalizePhrase(phrase)) && phrase.contains(word)) {
+                        alreadyCoveredInPhrase = true;
+                        break;
+                    }
+                }
+                if (!alreadyCoveredInPhrase) {
+                    extractedSkills.add(capitalizePhrase(word));
+                }
+            }
+        }
+
+        return extractedSkills;
+    }
+
     private boolean isTechnicalKeyword(String keyword) {
-        if (TECH_KEYWORDS.contains(keyword.toLowerCase())) return true;
+        String lower = keyword.toLowerCase();
+        if (TECH_KEYWORDS.contains(lower)) return true;
         for (String tech : TECH_KEYWORDS) {
-            if (keyword.toLowerCase().contains(tech)) return true;
+            if (lower.contains(tech)) return true;
         }
         return false;
+    }
+
+    private String capitalizePhrase(String phrase) {
+        if (phrase == null || phrase.isEmpty()) return phrase;
+        String[] words = phrase.split("\\s+");
+        StringBuilder sb = new StringBuilder();
+        for (String w : words) {
+            if (sb.length() > 0) sb.append(" ");
+            sb.append(capitalize(w));
+        }
+        return sb.toString();
     }
 
     private String capitalize(String str) {
         if (str == null || str.isEmpty()) return str;
         return str.substring(0, 1).toUpperCase() + str.substring(1);
-    }
-
-    private Set<String> extractKeywords(String text) {
-        Set<String> keywords = new LinkedHashSet<>();
-        Pattern pattern = Pattern.compile("[a-zA-Z+#-]+");
-        Matcher matcher = pattern.matcher(text);
-
-        while (matcher.find()) {
-            String word = matcher.group().toLowerCase();
-            if (word.length() > 2 && !STOP_WORDS.contains(word) && !isNumeric(word)) {
-                keywords.add(word);
-            }
-        }
-        return keywords;
     }
 
     private boolean containsWordIgnoreCase(String source, String word) {
@@ -244,4 +319,5 @@ public class JobMatchController {
         return result;
     }
 }
+
 
