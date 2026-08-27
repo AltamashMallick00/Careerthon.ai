@@ -20,7 +20,7 @@
                 CareerThon <span class="text-gradient">ATS Keyword Analyzer</span>
             </h1>
             <p class="text-themed-body mt-3 font-semibold text-base leading-relaxed">
-                Analyze Job Descriptions for critical ATS keywords, evaluate resume coverage, and discover truthful integration suggestions without keyword stuffing.
+                Extract compound skill entities, analyze role requirements, and evaluate resume alignment truthfully without keyword stuffing or false claims.
             </p>
         </div>
 
@@ -38,6 +38,10 @@
                             <span class="text-[10px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">1-Click Fill</span>
                         </div>
                         <div class="flex flex-wrap gap-2">
+                            <button type="button" onclick="loadPreset('Dynamics 365 Developer')" 
+                                    class="px-3 py-1.5 rounded-xl bg-themed-soft hover:bg-emerald-500/10 hover:text-emerald-500 border border-themed-soft text-xs font-bold text-themed-main transition-all flex items-center gap-1">
+                                <span>⚙️</span> Dynamics 365 CRM
+                            </button>
                             <button type="button" onclick="loadPreset('Full-Stack Developer')" 
                                     class="px-3 py-1.5 rounded-xl bg-themed-soft hover:bg-emerald-500/10 hover:text-emerald-500 border border-themed-soft text-xs font-bold text-themed-main transition-all flex items-center gap-1">
                                 <span>💻</span> Full-Stack
@@ -46,10 +50,6 @@
                                     class="px-3 py-1.5 rounded-xl bg-themed-soft hover:bg-emerald-500/10 hover:text-emerald-500 border border-themed-soft text-xs font-bold text-themed-main transition-all flex items-center gap-1">
                                 <span>🤖</span> AI/ML Engineer
                             </button>
-                            <button type="button" onclick="loadPreset('Product Manager')" 
-                                    class="px-3 py-1.5 rounded-xl bg-themed-soft hover:bg-emerald-500/10 hover:text-emerald-500 border border-themed-soft text-xs font-bold text-themed-main transition-all flex items-center gap-1">
-                                <span>📊</span> Product Manager
-                            </button>
                         </div>
                     </div>
 
@@ -57,23 +57,23 @@
                         <!-- Job Description Textarea -->
                         <div>
                             <label for="jobDescription" class="block text-xs font-black text-themed-main uppercase tracking-widest mb-2 flex justify-between">
-                                <span>Target Job Description (JD) *</span>
+                                <span>Job Description (JD) *</span>
                                 <span class="text-slate-400 normal-case font-bold" id="jd-count">0 words</span>
                             </label>
-                            <textarea id="jobDescription" name="jobDescription" rows="8" 
+                            <textarea id="jobDescription" name="jobDescription" rows="9" 
                                       class="w-full bg-themed-soft text-themed-main border border-themed-soft rounded-2xl p-4 text-xs font-semibold focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all placeholder-slate-400 resize-y" 
-                                      placeholder="Paste full job description text here..." required></textarea>
+                                      placeholder="Paste complete Job Description text here..." required></textarea>
                         </div>
 
                         <!-- Resume Textarea -->
                         <div>
                             <label for="resumeText" class="block text-xs font-black text-themed-main uppercase tracking-widest mb-2 flex justify-between">
-                                <span>Candidate Resume / Profile Text *</span>
+                                <span>Candidate Resume / Profile (Optional)</span>
                                 <span class="text-slate-400 normal-case font-bold" id="resume-count">0 words</span>
                             </label>
-                            <textarea id="resumeText" name="resumeText" rows="8" 
+                            <textarea id="resumeText" name="resumeText" rows="7" 
                                       class="w-full bg-themed-soft text-themed-main border border-themed-soft rounded-2xl p-4 text-xs font-semibold focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all placeholder-slate-400 resize-y" 
-                                      placeholder="Paste your candidate resume text or experience summary here..." required></textarea>
+                                      placeholder="Paste candidate resume text here for alignment analysis..."></textarea>
                         </div>
 
                         <!-- Submit Button -->
@@ -85,7 +85,7 @@
                 </div>
             </div>
 
-            <!-- Right Pane: Comprehensive Analysis Output -->
+            <!-- Right Pane: Comprehensive Specification Output -->
             <div class="lg:col-span-7 space-y-6">
                 
                 <!-- Initial State Placeholder -->
@@ -93,57 +93,49 @@
                     <div class="w-20 h-20 rounded-full bg-themed-soft flex items-center justify-center text-3xl mb-4 shadow-inner border border-themed-soft animate-float">
                         🔍
                     </div>
-                    <h4 class="text-lg font-black text-themed-main mb-2">Awaiting ATS Keyword Analysis</h4>
+                    <h4 class="text-lg font-black text-themed-main mb-2">Awaiting ATS Analysis</h4>
                     <p class="text-xs text-themed-body max-w-sm font-semibold leading-relaxed">
-                        Input a target job description and your resume text to compute prioritized ATS keyword lists, truthful integration suggestions, and match coverage.
+                        Input a job description to extract compound skill entities, identify core role requirements, and compare resume alignment.
                     </p>
                 </div>
 
                 <!-- Analysis Results Dashboard -->
                 <div id="results-card" class="hidden glass border-themed-soft rounded-3xl p-6 md:p-8 shadow-2xl space-y-8 animate-fade-in">
                     
-                    <!-- Header Block: Role & Focus Summary -->
+                    <!-- # ATS ANALYSIS Header -->
                     <div class="border-b border-themed-soft pb-6 space-y-4">
                         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                             <div>
                                 <span class="text-[10px] font-black uppercase tracking-widest text-emerald-500 bg-emerald-500/10 px-3 py-1 rounded-xl border border-emerald-500/20">
-                                    ATS KEYWORD ANALYSIS
+                                    # ATS ANALYSIS
                                 </span>
-                                <h3 class="text-2xl font-black text-themed-main mt-2 flex items-center gap-2" id="role-title-display">
-                                    Target Role Title
+                                <h3 class="text-2xl font-black text-themed-main mt-2" id="role-title-display">
+                                    Job Title
                                 </h3>
+                                <p class="text-xs font-bold text-slate-400 mt-0.5" id="company-name-display">
+                                    Company
+                                </p>
                             </div>
                             
-                            <!-- Gauge Index -->
-                            <div class="flex items-center gap-3 bg-themed-soft px-4 py-2 rounded-2xl border border-themed-soft">
+                            <!-- Estimated JD Alignment -->
+                            <div id="alignment-score-box" class="flex items-center gap-3 bg-themed-soft px-4 py-2 rounded-2xl border border-themed-soft">
                                 <div class="text-right">
-                                    <div class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Match Index</div>
-                                    <div id="match-pct-text" class="text-2xl font-black text-emerald-500 leading-none">0%</div>
+                                    <div class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Estimated JD Alignment</div>
+                                    <div id="alignment-score-text" class="text-2xl font-black text-emerald-500 leading-none">0%</div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Overall Focus Summary Box -->
+                        <!-- Role Focus -->
                         <div class="bg-themed-soft border border-themed-soft rounded-2xl p-4 space-y-1">
-                            <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">Overall ATS Keyword Focus</span>
-                            <p class="text-xs text-themed-main font-semibold leading-relaxed" id="ats-focus-summary">
+                            <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">Role Focus</span>
+                            <p class="text-xs text-themed-main font-semibold leading-relaxed" id="role-focus-text">
                                 Focus summary text...
                             </p>
                         </div>
                     </div>
 
-                    <!-- ATS WARNING Callout Box -->
-                    <div class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 flex items-start gap-3">
-                        <span class="text-lg">⚠️</span>
-                        <div class="space-y-1">
-                            <h5 class="text-xs font-black text-amber-500 uppercase tracking-widest">ATS Truthfulness Warning</h5>
-                            <p class="text-xs font-bold text-themed-main leading-relaxed" id="ats-warning-text">
-                                Adding a keyword without having the underlying skill will not make the candidate genuinely qualified and should not be recommended.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- TOP ATS KEYWORDS (Ranked List) -->
+                    <!-- TOP ATS KEYWORDS (10-20 Ranked) -->
                     <div class="space-y-3 border-b border-themed-soft pb-6">
                         <h4 class="text-xs font-black text-themed-main uppercase tracking-widest flex items-center gap-2">
                             <span>🏆</span> TOP ATS KEYWORDS (Ranked by Importance)
@@ -153,17 +145,17 @@
                         </div>
                     </div>
 
-                    <!-- CRITICAL KEYWORDS Table -->
+                    <!-- CRITICAL / MUST-HAVE KEYWORDS Table -->
                     <div class="space-y-3 border-b border-themed-soft pb-6">
                         <h4 class="text-xs font-black text-themed-main uppercase tracking-widest text-rose-500 flex items-center gap-2">
-                            <span>🔴</span> CRITICAL KEYWORDS
+                            <span>🔴</span> CRITICAL / MUST-HAVE KEYWORDS
                         </h4>
                         <div class="overflow-x-auto">
                             <table class="w-full text-left text-xs">
                                 <thead>
                                     <tr class="border-b border-themed-soft text-slate-400 uppercase tracking-widest text-[10px]">
                                         <th class="py-2 px-3">Keyword</th>
-                                        <th class="py-2 px-3">Why It Matters</th>
+                                        <th class="py-2 px-3">Reason</th>
                                         <th class="py-2 px-3 text-right">Resume Status</th>
                                     </tr>
                                 </thead>
@@ -184,7 +176,7 @@
                                 <thead>
                                     <tr class="border-b border-themed-soft text-slate-400 uppercase tracking-widest text-[10px]">
                                         <th class="py-2 px-3">Keyword</th>
-                                        <th class="py-2 px-3">Why It Matters</th>
+                                        <th class="py-2 px-3">Reason</th>
                                         <th class="py-2 px-3 text-right">Resume Status</th>
                                     </tr>
                                 </thead>
@@ -205,7 +197,7 @@
                                 <thead>
                                     <tr class="border-b border-themed-soft text-slate-400 uppercase tracking-widest text-[10px]">
                                         <th class="py-2 px-3">Keyword</th>
-                                        <th class="py-2 px-3">Why It Matters</th>
+                                        <th class="py-2 px-3">Reason</th>
                                         <th class="py-2 px-3 text-right">Resume Status</th>
                                     </tr>
                                 </thead>
@@ -216,52 +208,84 @@
                         </div>
                     </div>
 
-                    <!-- MISSING BUT POTENTIALLY IMPORTANT -->
-                    <div class="space-y-3 border-b border-themed-soft pb-6">
+                    <!-- MISSING HIGH-VALUE KEYWORDS -->
+                    <div id="missing-section" class="space-y-3 border-b border-themed-soft pb-6">
                         <h4 class="text-xs font-black text-amber-500 uppercase tracking-widest flex items-center gap-2">
-                            <span>🚨</span> MISSING BUT POTENTIALLY IMPORTANT
+                            <span>🚨</span> MISSING HIGH-VALUE KEYWORDS
                         </h4>
-                        <div id="missing-list-container" class="space-y-2">
+                        <div id="missing-list-container" class="space-y-3">
                             <!-- Populated dynamically -->
                         </div>
                     </div>
 
-                    <!-- SAFE TO INTEGRATE -->
-                    <div class="space-y-3 border-b border-themed-soft pb-6">
+                    <!-- SAFE KEYWORDS TO INTEGRATE -->
+                    <div id="safe-section" class="space-y-3 border-b border-themed-soft pb-6">
                         <h4 class="text-xs font-black text-emerald-500 uppercase tracking-widest flex items-center gap-2">
-                            <span>✅</span> SAFE TO INTEGRATE (Supported by Resume)
+                            <span>✅</span> SAFE KEYWORDS TO INTEGRATE
                         </h4>
-                        <div id="safe-list-container" class="space-y-2">
+                        <div id="safe-list-container" class="space-y-3">
                             <!-- Populated dynamically -->
                         </div>
                     </div>
 
-                    <!-- AI Resume Bullets Generator Drawer -->
+                    <!-- KEYWORD SYNONYMS / ATS VARIATIONS -->
+                    <div id="synonyms-section" class="space-y-3 border-b border-themed-soft pb-6">
+                        <h4 class="text-xs font-black text-themed-main uppercase tracking-widest flex items-center gap-2">
+                            <span>🔄</span> KEYWORD SYNONYMS / ATS VARIATIONS
+                        </h4>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs">
+                                <thead>
+                                    <tr class="border-b border-themed-soft text-slate-400 uppercase tracking-widest text-[10px]">
+                                        <th class="py-2 px-3">JD Term</th>
+                                        <th class="py-2 px-3">Equivalent ATS Term</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="synonyms-tbody" class="divide-y divide-themed-soft font-semibold text-themed-main">
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- FINAL RECOMMENDATION & ATS WARNING -->
                     <div class="space-y-4 pt-2">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <h4 class="text-xs font-black text-themed-main uppercase tracking-widest">AI Bullet Point Generator</h4>
-                                <p class="text-xs text-themed-body font-semibold">Generate high-impact bullet points incorporating target keywords naturally.</p>
+                        <h4 class="text-xs font-black text-themed-main uppercase tracking-widest flex items-center gap-2">
+                            <span>📌</span> FINAL RECOMMENDATION
+                        </h4>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Highest Priority Keywords -->
+                            <div class="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-4 space-y-2">
+                                <h5 class="text-xs font-black text-emerald-500 uppercase tracking-wider">Highest-Priority Keywords to Ensure</h5>
+                                <ul id="highest-priority-ul" class="text-xs font-semibold text-themed-main space-y-1 list-disc list-inside">
+                                    <!-- Populated dynamically -->
+                                </ul>
                             </div>
-                            <button type="button" id="gen-bullets-btn" onclick="generateAiBullets()" 
-                                    class="px-4 py-2.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-indigo-600 text-white text-xs font-black hover:opacity-90 transition-all shadow-md shrink-0 flex items-center gap-1.5">
-                                <span>🪄</span> Generate AI Bullets
-                            </button>
+
+                            <!-- Biggest Gaps -->
+                            <div class="bg-rose-500/10 border border-rose-500/20 rounded-2xl p-4 space-y-2">
+                                <h5 class="text-xs font-black text-rose-500 uppercase tracking-wider">Biggest Requirements Gaps</h5>
+                                <ul id="biggest-gaps-ul" class="text-xs font-semibold text-themed-main space-y-1 list-disc list-inside">
+                                    <!-- Populated dynamically -->
+                                </ul>
+                            </div>
                         </div>
 
-                        <div id="ai-bullets-box" class="hidden bg-themed-soft border border-emerald-500/20 rounded-2xl p-5 space-y-3">
-                            <div class="flex items-center justify-between text-xs font-black text-emerald-500 uppercase tracking-wider mb-2">
-                                <span>Suggested Resume Bullet Points</span>
-                                <span class="text-[10px] text-slate-400 font-semibold">ATS Optimized</span>
-                            </div>
-                            <div id="ai-bullets-list" class="space-y-2">
-                                <!-- Populated dynamically -->
+                        <!-- Absolute Prohibition ATS Warning Box -->
+                        <div class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 flex items-start gap-3">
+                            <span class="text-xl">🛑</span>
+                            <div class="space-y-1">
+                                <h5 class="text-xs font-black text-amber-500 uppercase tracking-widest">ATS Truthfulness & Prohibitions Warning</h5>
+                                <p class="text-xs font-bold text-themed-main leading-relaxed" id="final-ats-warning">
+                                    ATS optimization improves relevance; it does not guarantee interview selection. Never add a skill you cannot substantiate.
+                                </p>
                             </div>
                         </div>
                     </div>
 
                     <!-- Highlighted Job Description Container -->
-                    <div class="space-y-3 pt-2">
+                    <div class="space-y-3 pt-4 border-t border-themed-soft">
                         <h4 class="text-xs font-black text-themed-main uppercase tracking-widest">Highlighted Job Description</h4>
                         <p class="text-xs text-themed-body font-bold">
                             Missing keywords are highlighted in <span class="text-rose-500 font-bold underline">red</span>.
@@ -281,14 +305,11 @@
 
 <footer th:replace="~{fragments/footer :: footer}"></footer>
 
-<!-- Custom styling and dynamic match javascript logic -->
 <script>
     const resumeTextarea = document.getElementById('resumeText');
     const jdTextarea = document.getElementById('jobDescription');
     const resumeCount = document.getElementById('resume-count');
     const jdCount = document.getElementById('jd-count');
-
-    let currentMissingKeywords = [];
 
     function updateWordCount(textarea, counter) {
         const text = textarea.value.trim();
@@ -306,10 +327,6 @@
                 if (data[role]) {
                     jdTextarea.value = data[role];
                     updateWordCount(jdTextarea, jdCount);
-                    if (!resumeTextarea.value.trim()) {
-                        resumeTextarea.value = "Experienced professional with background in application development, customer outreach, REST APIs, Git, and database optimization. Skilled in strategic planning and cross-functional team collaboration.";
-                        updateWordCount(resumeTextarea, resumeCount);
-                    }
                 }
             })
             .catch(err => console.error("Error loading preset:", err));
@@ -341,13 +358,19 @@
                 noResultsCard.classList.add('hidden');
                 resultsCard.classList.remove('hidden');
 
-                currentMissingKeywords = data.missingKeywords || [];
-
                 // Header Info
-                document.getElementById('role-title-display').textContent = data.roleTitle || 'Target Role';
-                document.getElementById('ats-focus-summary').textContent = data.atsFocusSummary || '';
-                document.getElementById('match-pct-text').textContent = `${data.matchPercentage}%`;
-                document.getElementById('ats-warning-text').textContent = data.atsWarning || '';
+                document.getElementById('role-title-display').textContent = data.jobTitle || 'Target Role';
+                document.getElementById('company-name-display').textContent = data.companyName ? `Company: ${data.companyName}` : '';
+                document.getElementById('role-focus-text').textContent = data.roleFocus || '';
+                
+                const scoreBox = document.getElementById('alignment-score-box');
+                if (data.hasResume) {
+                    scoreBox.classList.remove('hidden');
+                    document.getElementById('alignment-score-text').textContent = `${data.estimatedAlignmentScore}%`;
+                } else {
+                    scoreBox.classList.add('hidden');
+                }
+
                 document.getElementById('highlighted-text-box').innerHTML = data.highlightedJobDescription;
 
                 // Top Ranked Keywords
@@ -358,12 +381,27 @@
                 renderKeywordTable('important-keywords-tbody', data.importantKeywords);
                 renderKeywordTable('nice-keywords-tbody', data.niceToHaveKeywords);
 
-                // Render Missing & Safe Cards
-                renderMissingList(data.missingKeywordsList);
-                renderSafeList(data.safeToIntegrateList);
+                // Render Missing & Safe Lists
+                const missingSection = document.getElementById('missing-section');
+                const safeSection = document.getElementById('safe-section');
+                if (data.hasResume) {
+                    missingSection.classList.remove('hidden');
+                    safeSection.classList.remove('hidden');
+                    renderMissingList(data.missingKeywordsList);
+                    renderSafeList(data.safeToIntegrateList);
+                } else {
+                    missingSection.classList.add('hidden');
+                    safeSection.classList.add('hidden');
+                }
 
-                // Reset AI Bullets Box
-                document.getElementById('ai-bullets-box').classList.add('hidden');
+                // Render Synonyms Table
+                renderSynonymsTable(data.synonymsList);
+
+                // Render Final Recommendation
+                const rec = data.finalRecommendation || {};
+                renderList('highest-priority-ul', rec.highestPriorityKeywords);
+                renderList('biggest-gaps-ul', rec.biggestGaps);
+                document.getElementById('final-ats-warning').textContent = rec.atsWarning || '';
 
                 resultsCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             } else {
@@ -397,7 +435,7 @@
         const tbody = document.getElementById(tbodyId);
         tbody.innerHTML = '';
         if (!items || items.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="3" class="py-3 px-3 text-slate-400 text-xs italic">No keywords classified in this tier.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="3" class="py-3 px-3 text-slate-400 text-xs italic">No keywords classified in this category.</td></tr>';
             return;
         }
 
@@ -405,16 +443,18 @@
             const tr = document.createElement('tr');
             tr.className = 'hover:bg-themed-soft/50 transition-colors';
 
-            let statusBadge = '<span class="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">MATCHED</span>';
-            if (item.status === 'PARTIAL') {
-                statusBadge = '<span class="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-blue-500/10 text-blue-500 border border-blue-500/20">PARTIAL</span>';
-            } else if (item.status.includes('MISSING')) {
-                statusBadge = '<span class="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-amber-500/10 text-amber-500 border border-amber-500/20">MISSING — VERIFY BEFORE ADDING</span>';
+            let statusBadge = '<span class="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-slate-500/10 text-slate-400 border border-slate-500/20">NOT ANALYZED</span>';
+            if (item.status === 'MATCHED') {
+                statusBadge = '<span class="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">MATCHED</span>';
+            } else if (item.status === 'PARTIALLY MATCHED') {
+                statusBadge = '<span class="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-blue-500/10 text-blue-500 border border-blue-500/20">PARTIALLY MATCHED</span>';
+            } else if (item.status === 'MISSING') {
+                statusBadge = '<span class="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-rose-500/10 text-rose-500 border border-rose-500/20">MISSING</span>';
             }
 
             tr.innerHTML = `
                 <td class="py-2.5 px-3 font-bold text-themed-main">${item.keyword}</td>
-                <td class="py-2.5 px-3 text-slate-400 text-xs">${item.whyItMatters}</td>
+                <td class="py-2.5 px-3 text-slate-400 text-xs">${item.reason}</td>
                 <td class="py-2.5 px-3 text-right">${statusBadge}</td>
             `;
             tbody.appendChild(tr);
@@ -425,19 +465,23 @@
         const container = document.getElementById('missing-list-container');
         container.innerHTML = '';
         if (!items || items.length === 0) {
-            container.innerHTML = '<span class="text-xs text-emerald-500 font-bold">Great job! All important keywords are already supported by your profile.</span>';
+            container.innerHTML = '<span class="text-xs text-emerald-500 font-bold">Great job! No major missing requirements detected.</span>';
             return;
         }
 
         items.forEach(item => {
             const card = document.createElement('div');
-            card.className = 'p-3 bg-themed-soft rounded-2xl border border-amber-500/20 space-y-1 text-xs';
+            card.className = 'p-4 bg-themed-soft rounded-2xl border border-amber-500/20 space-y-2 text-xs';
             card.innerHTML = `
                 <div class="flex items-center justify-between">
-                    <span class="font-extrabold text-themed-main">${item.keyword}</span>
-                    <span class="text-[10px] font-black text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded-md">${item.status}</span>
+                    <span class="font-black text-themed-main text-sm">Keyword: ${item.keyword}</span>
+                    <span class="text-[10px] font-black text-amber-500 bg-amber-500/10 px-2.5 py-1 rounded-lg">${item.status}</span>
                 </div>
-                <p class="text-slate-400 text-[11px] font-semibold"><strong class="text-themed-main">Reason:</strong> ${item.reason}</p>
+                <div class="text-slate-400 space-y-0.5 text-[11px] font-semibold">
+                    <div><strong class="text-themed-main">Importance:</strong> ${item.importance}</div>
+                    <div><strong class="text-themed-main">Why it matters:</strong> ${item.whyItMatters}</div>
+                    <div class="text-amber-500 font-bold mt-1">Recommendation: ${item.recommendation}</div>
+                </div>
             `;
             container.appendChild(card);
         });
@@ -453,70 +497,50 @@
 
         items.forEach(item => {
             const card = document.createElement('div');
-            card.className = 'p-3 bg-themed-soft rounded-2xl border border-emerald-500/20 space-y-1 text-xs';
+            card.className = 'p-4 bg-themed-soft rounded-2xl border border-emerald-500/20 space-y-2 text-xs';
             card.innerHTML = `
                 <div class="flex items-center justify-between">
-                    <span class="font-extrabold text-emerald-500">${item.keyword}</span>
-                    <span class="text-[10px] font-black text-slate-400 bg-themed-pure px-2 py-0.5 rounded-md border border-themed-soft">Location: ${item.suggestedLocation}</span>
+                    <span class="font-black text-emerald-500 text-sm">Keyword: ${item.keyword}</span>
+                    <span class="text-[10px] font-black text-slate-400 bg-themed-pure px-2 py-0.5 rounded-md border border-themed-soft">Suggested Location: ${item.suggestedLocation}</span>
                 </div>
-                <p class="text-themed-main text-[11px] font-semibold"><strong class="text-emerald-500">Suggestion:</strong> ${item.suggestion}</p>
+                <div class="text-slate-400 space-y-0.5 text-[11px] font-semibold">
+                    <div><strong class="text-themed-main">Resume Evidence:</strong> ${item.resumeEvidence}</div>
+                    <div class="text-emerald-500 font-bold mt-1">Integration Suggestion: ${item.integration}</div>
+                </div>
             `;
             container.appendChild(card);
         });
     }
 
-    function generateAiBullets() {
-        const genBtn = document.getElementById('gen-bullets-btn');
-        genBtn.disabled = true;
-        genBtn.innerHTML = '<span>⏳</span> Generating...';
+    function renderSynonymsTable(synonyms) {
+        const tbody = document.getElementById('synonyms-tbody');
+        tbody.innerHTML = '';
+        if (!synonyms || synonyms.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="2" class="py-3 px-3 text-slate-400 text-xs italic">No specific keyword variations required for this JD.</td></tr>';
+            return;
+        }
 
-        fetch('/api/job-match/generate-bullets', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ missingKeywords: currentMissingKeywords, role: 'Target Role' })
-        })
-        .then(res => res.json())
-        .then(data => {
-            genBtn.disabled = false;
-            genBtn.innerHTML = '<span>🪄</span> Generate AI Bullets';
-
-            if (data.success && data.bullets) {
-                const box = document.getElementById('ai-bullets-box');
-                const list = document.getElementById('ai-bullets-list');
-                list.innerHTML = '';
-
-                data.bullets.forEach(bullet => {
-                    const item = document.createElement('div');
-                    item.className = 'flex items-start justify-between gap-3 p-3 bg-themed-pure rounded-xl border border-themed-soft text-xs text-themed-main font-semibold leading-relaxed';
-                    item.innerHTML = `
-                        <span class="grow">${bullet}</span>
-                        <button type="button" onclick="copyText(this, '${bullet.replace(/'/g, "\\'")}')" class="text-[10px] font-bold text-emerald-500 hover:text-emerald-600 shrink-0 bg-emerald-500/10 px-2 py-1 rounded-lg">
-                            Copy
-                        </button>
-                    `;
-                    list.appendChild(item);
-                });
-
-                box.classList.remove('hidden');
-            }
-        })
-        .catch(err => {
-            genBtn.disabled = false;
-            genBtn.innerHTML = '<span>🪄</span> Generate AI Bullets';
-            console.error(err);
-            alert('Failed to generate bullets.');
+        synonyms.forEach(syn => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td class="py-2 px-3 font-bold text-themed-main">${syn.jdTerm}</td>
+                <td class="py-2 px-3 text-emerald-500 font-bold">${syn.equivalentTerm}</td>
+            `;
+            tbody.appendChild(tr);
         });
     }
 
-    function copyText(btn, text) {
-        navigator.clipboard.writeText(text).then(() => {
-            const originalText = btn.textContent;
-            btn.textContent = 'Copied!';
-            btn.classList.add('bg-emerald-500', 'text-white');
-            setTimeout(() => {
-                btn.textContent = originalText;
-                btn.classList.remove('bg-emerald-500', 'text-white');
-            }, 2000);
+    function renderList(ulId, items) {
+        const ul = document.getElementById(ulId);
+        ul.innerHTML = '';
+        if (!items || items.length === 0) {
+            ul.innerHTML = '<li class="text-slate-400 italic">None</li>';
+            return;
+        }
+        items.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = item;
+            ul.appendChild(li);
         });
     }
 </script>
