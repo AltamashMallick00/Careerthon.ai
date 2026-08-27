@@ -24,4 +24,7 @@ FOR /F "usebackq tokens=1,* delims==" %%a IN (%MAVEN_WRAPPER_PROPERTIES%) DO (
   IF "%%a"=="distributionUrl" SET DISTRIBUTION_URL=%%b
 )
 
-%JAVA_EXECUTABLE% "-Dmaven.multiModuleProjectDirectory=%MAVEN_PROJECTBASEDIR%" -classpath %MAVEN_WRAPPER_JAR% org.apache.maven.wrapper.MavenWrapperMain %*
+SET "EXEC_DIR=%~dp0"
+IF "%EXEC_DIR:~-1%"=="\" SET "EXEC_DIR=%EXEC_DIR:~0,-1%"
+
+%JAVA_EXECUTABLE% "-Dmaven.multiModuleProjectDirectory=%EXEC_DIR%" -classpath "%EXEC_DIR%\.mvn\wrapper\maven-wrapper.jar" org.apache.maven.wrapper.MavenWrapperMain %*

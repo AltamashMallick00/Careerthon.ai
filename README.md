@@ -6,8 +6,10 @@
 ## Features
 - 🎯 Profile Scoring (0-100)
 - 🔬 Detailed 15-point Analysis  
-- 🤖 ATS Optimization
-- 🔑 Keyword Enhancement
+- 🤖 ATS Optimization & Skill Gap Analyzer
+- 🔑 Keyword Enhancement & Categorization
+- 🪄 AI Resume Bullet Generator
+- ⚡ 1-Click Fast Test Presets
 - ✍️ Headline Optimization
 - 📝 About Section Improvement
 - ⚙️ Skills Optimization

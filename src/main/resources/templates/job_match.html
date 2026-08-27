@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/header :: head('Job Match Engine - Careerthon.AI')}"></head>
+<head th:replace="~{fragments/header :: head('AI Job Fit Analyzer & Skill Gap Engine - Careerthon.AI')}"></head>
 <body class="bg-themed-pure selection:bg-emerald-500 selection:text-white">
 
 <header th:replace="~{fragments/header :: header}"></header>
@@ -12,15 +12,15 @@
 
     <div class="max-w-7xl mx-auto px-4 relative z-10">
         <!-- Page Header -->
-        <div class="text-center mb-16 max-w-3xl mx-auto">
-            <div class="hero-tag !bg-emerald-600/5 !text-emerald-600 dark:!text-emerald-400 border-emerald-600/10 mb-4 inline-flex">
-                ATS Compatibility Checker
+        <div class="text-center mb-12 max-w-3xl mx-auto">
+            <div class="hero-tag !bg-emerald-600/5 !text-emerald-600 dark:!text-emerald-400 border-emerald-600/10 mb-4 inline-flex items-center gap-2">
+                <span>🎯</span> AI Skill Gap & ATS Compatibility Engine
             </div>
             <h1 class="text-4xl md:text-5xl font-black text-themed-main tracking-tight leading-tight">
                 Job Fit <span class="text-gradient">Analyzer</span>
             </h1>
             <p class="text-themed-body mt-4 font-semibold text-lg">
-                Compare your resume or profile keywords directly against a target job description to discover gaps and boost search visibility.
+                Compare your resume or LinkedIn profile keywords against any target job description. Uncover skill gaps and generate instant AI bullet points to bridge them.
             </p>
         </div>
 
@@ -30,37 +30,60 @@
             <!-- Input Form Pane (Left) -->
             <div class="lg:col-span-6 space-y-6">
                 <div class="glass border-themed-soft rounded-3xl p-8 shadow-2xl relative overflow-hidden">
-                    <h3 class="text-2xl font-black text-themed-main mb-6 flex items-center gap-3">
-                        <span>📝</span> Paste Workspace
+                    
+                    <!-- Presets Header -->
+                    <div class="mb-6 pb-6 border-b border-themed-soft">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-black uppercase tracking-widest text-slate-400">⚡ Fast Test Presets</span>
+                            <span class="text-[10px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">1-Click Fill</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2" id="preset-buttons-container">
+                            <button type="button" onclick="loadPreset('Full-Stack Developer')" 
+                                    class="px-3.5 py-2 rounded-xl bg-themed-soft hover:bg-emerald-500/10 hover:text-emerald-500 border border-themed-soft text-xs font-bold text-themed-main transition-all flex items-center gap-1.5">
+                                <span>💻</span> Full-Stack Developer
+                            </button>
+                            <button type="button" onclick="loadPreset('AI / ML Engineer')" 
+                                    class="px-3.5 py-2 rounded-xl bg-themed-soft hover:bg-emerald-500/10 hover:text-emerald-500 border border-themed-soft text-xs font-bold text-themed-main transition-all flex items-center gap-1.5">
+                                <span>🤖</span> AI/ML Engineer
+                            </button>
+                            <button type="button" onclick="loadPreset('Product Manager')" 
+                                    class="px-3.5 py-2 rounded-xl bg-themed-soft hover:bg-emerald-500/10 hover:text-emerald-500 border border-themed-soft text-xs font-bold text-themed-main transition-all flex items-center gap-1.5">
+                                <span>📊</span> Product Manager
+                            </button>
+                        </div>
+                    </div>
+
+                    <h3 class="text-xl font-black text-themed-main mb-6 flex items-center gap-2">
+                        <span>📝</span> Input Workspace
                     </h3>
                     
                     <form id="job-match-form" class="space-y-6">
                         <!-- Resume Textarea -->
                         <div>
-                            <label for="resumeText" class="block text-sm font-black text-themed-main uppercase tracking-widest mb-2 flex justify-between">
-                                <span>Your Resume / Profile Text</span>
+                            <label for="resumeText" class="block text-xs font-black text-themed-main uppercase tracking-widest mb-2 flex justify-between">
+                                <span>Your Resume / LinkedIn Profile Text</span>
                                 <span class="text-slate-400 normal-case font-bold" id="resume-count">0 words</span>
                             </label>
-                            <textarea id="resumeText" name="resumeText" rows="8" 
+                            <textarea id="resumeText" name="resumeText" rows="7" 
                                       class="w-full bg-themed-soft text-themed-main border border-themed-soft rounded-2xl p-4 text-sm font-semibold focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all placeholder-slate-400 resize-y" 
-                                      placeholder="Paste your executive summary, core competencies, skills list, or parsed profile text here..." required></textarea>
+                                      placeholder="Paste your resume work experience, skills summary, or profile details here..." required></textarea>
                         </div>
 
                         <!-- Job Description Textarea -->
                         <div>
-                            <label for="jobDescription" class="block text-sm font-black text-themed-main uppercase tracking-widest mb-2 flex justify-between">
-                                <span>Target Job Description</span>
+                            <label for="jobDescription" class="block text-xs font-black text-themed-main uppercase tracking-widest mb-2 flex justify-between">
+                                <span>Target Job Description (JD)</span>
                                 <span class="text-slate-400 normal-case font-bold" id="jd-count">0 words</span>
                             </label>
-                            <textarea id="jobDescription" name="jobDescription" rows="8" 
+                            <textarea id="jobDescription" name="jobDescription" rows="7" 
                                       class="w-full bg-themed-soft text-themed-main border border-themed-soft rounded-2xl p-4 text-sm font-semibold focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all placeholder-slate-400 resize-y" 
-                                      placeholder="Paste the full job description details, qualifications, and role responsibilities here..." required></textarea>
+                                      placeholder="Paste the target job description requirements, responsibilities, and qualifications here..." required></textarea>
                         </div>
 
                         <!-- Submit Button -->
                         <button type="submit" id="submit-btn" 
-                                class="w-full btn-premium group shadow-glow-emerald py-4 flex items-center justify-center gap-3 justify-center">
-                            Run Match Diagnostics ⚡
+                                class="w-full btn-premium group shadow-glow-emerald py-4 flex items-center justify-center gap-3">
+                            Run AI Match Diagnostics ⚡
                         </button>
                     </form>
                 </div>
@@ -75,7 +98,7 @@
                     </div>
                     <h4 class="text-xl font-black text-themed-main mb-2">Awaiting Diagnosis</h4>
                     <p class="text-sm text-themed-body max-w-sm font-semibold leading-relaxed">
-                        Input your profile summary and the target job description to compute a compatibility score and missing keyword roadmap.
+                        Select a test preset or input your profile details and target job description to compute detailed fit metrics and AI recommendations.
                     </p>
                 </div>
 
@@ -85,54 +108,144 @@
                     <!-- Header with Gauge and Overview -->
                     <div class="flex flex-col sm:flex-row items-center gap-8 border-b border-themed-soft pb-6">
                         <!-- Gauge Circle -->
-                        <div class="relative w-40 h-40">
+                        <div class="relative w-36 h-36 shrink-0">
                             <svg class="w-full h-full transform -rotate-90">
-                                <circle cx="80" cy="80" r="70" fill="none" stroke="var(--border-soft)" stroke-width="8"></circle>
-                                <circle id="match-circle-progress" cx="80" cy="80" r="70" fill="none" 
+                                <circle cx="72" cy="72" r="62" fill="none" stroke="var(--border-soft)" stroke-width="8"></circle>
+                                <circle id="match-circle-progress" cx="72" cy="72" r="62" fill="none" 
                                         stroke="#10b981" stroke-width="8" stroke-linecap="round"
-                                        stroke-dasharray="440" stroke-dashoffset="440" 
+                                        stroke-dasharray="390" stroke-dashoffset="390" 
                                         class="transition-all duration-1000 ease-out"></circle>
                             </svg>
                             <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
-                                <span id="match-pct-text" class="text-4xl font-black text-themed-main tracking-tight">0%</span>
-                                <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Match Index</span>
+                                <span id="match-pct-text" class="text-3xl font-black text-themed-main tracking-tight">0%</span>
+                                <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Fit Index</span>
                             </div>
                         </div>
 
                         <!-- Diagnostics Details -->
                         <div class="text-center sm:text-left space-y-2 grow">
                             <div class="px-3 py-1 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-black text-xs uppercase tracking-widest inline-block" id="fit-label">
-                                Elite Compatibility
+                                Analyzing...
                             </div>
                             <h4 class="text-2xl font-black text-themed-main">ATS Compatibility Results</h4>
-                            <p class="text-sm text-themed-body font-semibold">
-                                The score represents estimated algorithmic keyword overlap based on modern Applicant Tracking Systems.
+                            <p class="text-xs text-themed-body font-semibold leading-relaxed">
+                                Computed using algorithmic keyword coverage, technical stack overlap, and ATS scanner heuristics.
                             </p>
                         </div>
                     </div>
 
-                    <!-- Keywords Highlight Summary -->
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-emerald-500/5 rounded-2xl border border-emerald-500/10 p-4 text-center">
-                            <span class="text-2xl font-black text-emerald-500 block mb-1" id="matched-count">0</span>
-                            <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Matched Keywords</span>
+                    <!-- Sub-Metrics Breakdown Bars -->
+                    <div class="space-y-3 border-b border-themed-soft pb-6">
+                        <h4 class="text-xs font-black text-themed-main uppercase tracking-widest mb-3">Diagnostic Pillars</h4>
+                        
+                        <!-- Metric 1: Technical Stack Overlap -->
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs font-bold text-themed-main">
+                                <span>Technical Stack Overlap</span>
+                                <span id="sub-tech-val">0%</span>
+                            </div>
+                            <div class="w-full h-2 rounded-full bg-themed-soft overflow-hidden">
+                                <div id="sub-tech-bar" class="h-full bg-emerald-500 transition-all duration-700 w-0"></div>
+                            </div>
                         </div>
-                        <div class="bg-rose-500/5 rounded-2xl border border-rose-500/10 p-4 text-center">
-                            <span class="text-2xl font-black text-rose-500 block mb-1" id="missing-count">0</span>
-                            <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Missing Keywords</span>
+
+                        <!-- Metric 2: Experience Alignment -->
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs font-bold text-themed-main">
+                                <span>Role Responsibilities Alignment</span>
+                                <span id="sub-exp-val">0%</span>
+                            </div>
+                            <div class="w-full h-2 rounded-full bg-themed-soft overflow-hidden">
+                                <div id="sub-exp-bar" class="h-full bg-blue-500 transition-all duration-700 w-0"></div>
+                            </div>
+                        </div>
+
+                        <!-- Metric 3: Industry Keyword Density -->
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs font-bold text-themed-main">
+                                <span>Industry Keyword Richness</span>
+                                <span id="sub-density-val">0%</span>
+                            </div>
+                            <div class="w-full h-2 rounded-full bg-themed-soft overflow-hidden">
+                                <div id="sub-density-bar" class="h-full bg-purple-500 transition-all duration-700 w-0"></div>
+                            </div>
+                        </div>
+
+                        <!-- Metric 4: ATS Readiness -->
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs font-bold text-themed-main">
+                                <span>ATS Parse Readiness</span>
+                                <span id="sub-ats-val">0%</span>
+                            </div>
+                            <div class="w-full h-2 rounded-full bg-themed-soft overflow-hidden">
+                                <div id="sub-ats-bar" class="h-full bg-amber-500 transition-all duration-700 w-0"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Skills Categorization Badges -->
+                    <div class="space-y-4 border-b border-themed-soft pb-6">
+                        <div class="flex items-center justify-between">
+                            <h4 class="text-xs font-black text-themed-main uppercase tracking-widest">Categorized Skill Gap</h4>
+                            <button type="button" onclick="copyMissingKeywords()" 
+                                    class="text-xs font-bold text-emerald-500 hover:text-emerald-600 bg-emerald-500/10 px-3 py-1 rounded-xl transition-all border border-emerald-500/20 flex items-center gap-1">
+                                <span>📋</span> Copy Missing Keywords
+                            </button>
+                        </div>
+
+                        <!-- Tech Stack Skill Badges -->
+                        <div class="space-y-2">
+                            <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Tech Stack & Frameworks</div>
+                            <div id="tech-skills-box" class="flex flex-wrap gap-2">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+
+                        <!-- Soft Skills Badges -->
+                        <div class="space-y-2">
+                            <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Domain & Core Competencies</div>
+                            <div id="soft-skills-box" class="flex flex-wrap gap-2">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Resume Bullets Action Bar -->
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="text-xs font-black text-themed-main uppercase tracking-widest">AI Skill Gap Bridge</h4>
+                                <p class="text-xs text-themed-body font-semibold">Generate customized resume bullet points incorporating missing keywords.</p>
+                            </div>
+                            <button type="button" id="gen-bullets-btn" onclick="generateAiBullets()" 
+                                    class="px-4 py-2.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-indigo-600 text-white text-xs font-black hover:opacity-90 transition-all shadow-md shrink-0 flex items-center gap-1.5">
+                                <span>🪄</span> Generate AI Bullets
+                            </button>
+                        </div>
+
+                        <!-- Generated Bullets Box -->
+                        <div id="ai-bullets-box" class="hidden bg-themed-soft border border-emerald-500/20 rounded-2xl p-5 space-y-3">
+                            <div class="flex items-center justify-between text-xs font-black text-emerald-500 uppercase tracking-wider mb-2">
+                                <span>Suggested Resume Bullet Points</span>
+                                <span class="text-[10px] text-slate-400 font-semibold">ATS Optimized</span>
+                            </div>
+                            <div id="ai-bullets-list" class="space-y-2.5">
+                                <!-- Populated dynamically -->
+                            </div>
                         </div>
                     </div>
 
                     <!-- Highlighted JD Box -->
-                    <div class="space-y-3">
-                        <h4 class="text-xs font-black text-themed-main uppercase tracking-[0.2em]">Highlighted Job Description</h4>
-                        <p class="text-xs text-themed-body font-bold mb-2">
-                            Missing keywords from your resume are highlighted in <span class="text-rose-500 underline">red</span>.
+                    <div class="space-y-3 pt-2">
+                        <h4 class="text-xs font-black text-themed-main uppercase tracking-widest">Highlighted Job Description</h4>
+                        <p class="text-xs text-themed-body font-bold">
+                            Missing keywords are highlighted in <span class="text-rose-500 font-bold underline">red</span>.
                         </p>
-                        <div id="highlighted-text-box" class="w-full bg-themed-soft rounded-2xl p-6 text-sm font-semibold text-themed-main border border-themed-soft max-h-[300px] overflow-y-auto leading-relaxed whitespace-pre-wrap">
+                        <div id="highlighted-text-box" class="w-full bg-themed-soft rounded-2xl p-5 text-xs font-semibold text-themed-main border border-themed-soft max-h-[250px] overflow-y-auto leading-relaxed whitespace-pre-wrap">
                             <!-- Populated dynamically -->
                         </div>
                     </div>
+
                 </div>
 
             </div>
@@ -145,11 +258,12 @@
 
 <!-- Custom styling and dynamic match javascript logic -->
 <script>
-    // Word counts
     const resumeTextarea = document.getElementById('resumeText');
     const jdTextarea = document.getElementById('jobDescription');
     const resumeCount = document.getElementById('resume-count');
     const jdCount = document.getElementById('jd-count');
+
+    let currentMissingKeywords = [];
 
     function updateWordCount(textarea, counter) {
         const text = textarea.value.trim();
@@ -159,6 +273,23 @@
 
     resumeTextarea.addEventListener('input', () => updateWordCount(resumeTextarea, resumeCount));
     jdTextarea.addEventListener('input', () => updateWordCount(jdTextarea, jdCount));
+
+    // Preset job descriptions fast load
+    function loadPreset(role) {
+        fetch('/api/job-match/presets')
+            .then(res => res.json())
+            .then(data => {
+                if (data[role]) {
+                    jdTextarea.value = data[role];
+                    updateWordCount(jdTextarea, jdCount);
+                    if (!resumeTextarea.value.trim()) {
+                        resumeTextarea.value = "Experienced Software Developer proficient in Java, REST APIs, Git, and SQL databases. Strong background in application development, problem solving, and backend design.";
+                        updateWordCount(resumeTextarea, resumeCount);
+                    }
+                }
+            })
+            .catch(err => console.error("Error loading preset:", err));
+    }
 
     // Form submission
     const form = document.getElementById('job-match-form');
@@ -181,37 +312,44 @@
         .then(response => response.json())
         .then(data => {
             submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Run Match Diagnostics ⚡';
+            submitBtn.innerHTML = 'Run AI Match Diagnostics ⚡';
 
             if (data.success) {
                 noResultsCard.classList.add('hidden');
                 resultsCard.classList.remove('hidden');
 
-                // Render metrics
+                currentMissingKeywords = data.missingKeywords || [];
+
+                // Render match percentage gauge
                 const pct = data.matchPercentage;
                 document.getElementById('match-pct-text').textContent = `${pct}%`;
-                document.getElementById('matched-count').textContent = data.matchedKeywords.length;
-                document.getElementById('missing-count').textContent = data.missingKeywords.length;
                 document.getElementById('highlighted-text-box').innerHTML = data.highlightedJobDescription;
 
-                // Animate progress circle (radius 70 => circumference = 2 * PI * r = ~440)
+                // Sub-metrics
+                const sub = data.subMetrics || {};
+                renderSubBar('sub-tech', sub.technicalOverlap || pct);
+                renderSubBar('sub-exp', sub.experienceAlignment || 75);
+                renderSubBar('sub-density', sub.keywordDensity || 70);
+                renderSubBar('sub-ats', sub.atsReadiness || 80);
+
+                // Gauge circle animation (circumference ~390)
                 const circle = document.getElementById('match-circle-progress');
-                const circumference = 440;
+                const circumference = 390;
                 const offset = circumference - (pct / 100) * circumference;
                 circle.style.strokeDashoffset = offset;
 
-                // Color coding circle and fit label based on percentage
-                let color = '#ef4444'; // Red
-                let label = 'Needs Improvement';
+                // Color coding fit label based on percentage
+                let color = '#ef4444';
+                let label = 'Needs Optimization';
                 if (pct >= 80) {
-                    color = '#10b981'; // Green
+                    color = '#10b981';
                     label = 'Excellent Compatibility';
                 } else if (pct >= 60) {
-                    color = '#2563eb'; // Blue
+                    color = '#2563eb';
                     label = 'Good Alignment';
                 } else if (pct >= 40) {
-                    color = '#f59e0b'; // Amber
-                    label = 'Average Overlap';
+                    color = '#f59e0b';
+                    label = 'Moderate Overlap';
                 }
 
                 circle.style.stroke = color;
@@ -220,8 +358,14 @@
                 labelBadge.style.backgroundColor = `${color}15`;
                 labelBadge.style.color = color;
                 labelBadge.style.borderColor = `${color}30`;
+
+                // Render Categorized Skill Badges
+                renderSkillsBadges('tech-skills-box', data.matchedTechSkills, data.missingTechSkills);
+                renderSkillsBadges('soft-skills-box', data.matchedSoftSkills, data.missingSoftSkills);
+
+                // Reset AI Bullets Box
+                document.getElementById('ai-bullets-box').classList.add('hidden');
                 
-                // Smooth scroll to results on mobile devices
                 resultsCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             } else {
                 alert(data.message || 'An error occurred during keyword matching.');
@@ -229,11 +373,106 @@
         })
         .catch(err => {
             submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Run Match Diagnostics ⚡';
+            submitBtn.innerHTML = 'Run AI Match Diagnostics ⚡';
             alert('Unable to connect to match engine. Please try again.');
             console.error(err);
         });
     });
+
+    function renderSubBar(idPrefix, val) {
+        document.getElementById(`${idPrefix}-val`).textContent = `${val}%`;
+        document.getElementById(`${idPrefix}-bar`).style.width = `${val}%`;
+    }
+
+    function renderSkillsBadges(containerId, matched, missing) {
+        const box = document.getElementById(containerId);
+        box.innerHTML = '';
+
+        if ((!matched || matched.length === 0) && (!missing || missing.length === 0)) {
+            box.innerHTML = '<span class="text-xs text-slate-400 font-medium">No specific skills detected in this category.</span>';
+            return;
+        }
+
+        (matched || []).forEach(skill => {
+            const badge = document.createElement('span');
+            badge.className = 'text-xs font-bold px-2.5 py-1 rounded-xl bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 flex items-center gap-1';
+            badge.innerHTML = `✓ ${skill}`;
+            box.appendChild(badge);
+        });
+
+        (missing || []).forEach(skill => {
+            const badge = document.createElement('span');
+            badge.className = 'text-xs font-bold px-2.5 py-1 rounded-xl bg-rose-500/10 text-rose-500 border border-rose-500/20 flex items-center gap-1';
+            badge.innerHTML = `+ ${skill}`;
+            box.appendChild(badge);
+        });
+    }
+
+    function copyMissingKeywords() {
+        if (!currentMissingKeywords || currentMissingKeywords.length === 0) {
+            alert('No missing keywords to copy!');
+            return;
+        }
+        const textToCopy = currentMissingKeywords.join(', ');
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            alert(`Copied ${currentMissingKeywords.length} missing keywords to clipboard!`);
+        });
+    }
+
+    function generateAiBullets() {
+        const genBtn = document.getElementById('gen-bullets-btn');
+        genBtn.disabled = true;
+        genBtn.innerHTML = '<span>⏳</span> Generating...';
+
+        fetch('/api/job-match/generate-bullets', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ missingKeywords: currentMissingKeywords, role: 'Target Role' })
+        })
+        .then(res => res.json())
+        .then(data => {
+            genBtn.disabled = false;
+            genBtn.innerHTML = '<span>🪄</span> Generate AI Bullets';
+
+            if (data.success && data.bullets) {
+                const box = document.getElementById('ai-bullets-box');
+                const list = document.getElementById('ai-bullets-list');
+                list.innerHTML = '';
+
+                data.bullets.forEach(bullet => {
+                    const item = document.createElement('div');
+                    item.className = 'flex items-start justify-between gap-3 p-3 bg-themed-pure rounded-xl border border-themed-soft text-xs text-themed-main font-semibold leading-relaxed';
+                    item.innerHTML = `
+                        <span class="grow">${bullet}</span>
+                        <button type="button" onclick="copyText(this, '${bullet.replace(/'/g, "\\'")}')" class="text-[10px] font-bold text-emerald-500 hover:text-emerald-600 shrink-0 bg-emerald-500/10 px-2 py-1 rounded-lg">
+                            Copy
+                        </button>
+                    `;
+                    list.appendChild(item);
+                });
+
+                box.classList.remove('hidden');
+            }
+        })
+        .catch(err => {
+            genBtn.disabled = false;
+            genBtn.innerHTML = '<span>🪄</span> Generate AI Bullets';
+            console.error(err);
+            alert('Failed to generate bullets.');
+        });
+    }
+
+    function copyText(btn, text) {
+        navigator.clipboard.writeText(text).then(() => {
+            const originalText = btn.textContent;
+            btn.textContent = 'Copied!';
+            btn.classList.add('bg-emerald-500', 'text-white');
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.classList.remove('bg-emerald-500', 'text-white');
+            }, 2000);
+        });
+    }
 </script>
 
 </body>
