@@ -7,67 +7,91 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="mb-10 flex flex-col md:flex-row md:items-center md:justify-between border-b border-slate-200 pb-8">
             <div>
-                <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Manage Users</h1>
-                <p class="mt-2 text-lg text-slate-600">View, block, or delete user accounts.</p>
+                <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Manage Users & Access Roles</h1>
+                <p class="mt-2 text-lg text-slate-600">Inspect registered users, assign student/admin permissions, and export rosters.</p>
             </div>
-            <div class="mt-4 md:mt-0 flex gap-4">
-                <a href="/admin/dashboard" class="inline-flex items-center px-4 py-2 border border-slate-300 rounded-lg text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 shadow-sm">
-                    Back to Admin Dashboard
+            <div class="mt-4 md:mt-0 flex flex-wrap gap-3">
+                <a th:href="@{/admin/export/users/csv}" class="inline-flex items-center px-4 py-2 rounded-xl text-xs font-bold text-white bg-purple-600 hover:bg-purple-700 shadow-sm transition-all">
+                    <span>📥</span>&nbsp;Export Users CSV
+                </a>
+                <a th:href="@{/admin/dashboard}" class="inline-flex items-center px-4 py-2 border border-slate-300 rounded-xl text-xs font-bold text-slate-700 bg-white hover:bg-slate-50 shadow-sm transition-all">
+                    ← Back to Dashboard
                 </a>
             </div>
         </div>
 
-        <div th:if="${message}" class="mb-8 bg-emerald-50 border border-emerald-200 rounded-xl p-4 flex items-center text-emerald-700">
-            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        <div th:if="${message}" class="mb-8 bg-emerald-50 border border-emerald-200 rounded-xl p-4 flex items-center text-emerald-700 text-sm font-bold">
+            <svg class="w-5 h-5 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
             <span th:text="${message}"></span>
         </div>
 
-        <div th:if="${error}" class="mb-8 bg-rose-50 border border-rose-200 rounded-xl p-4 flex items-center text-rose-700">
-            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        <div th:if="${error}" class="mb-8 bg-rose-50 border border-rose-200 rounded-xl p-4 flex items-center text-rose-700 text-sm font-bold">
+            <svg class="w-5 h-5 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             <span th:text="${error}"></span>
         </div>
 
-        <div class="bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden">
+        <div class="bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="bg-slate-50 border-b border-slate-200 text-sm font-bold text-slate-600 uppercase tracking-wider">
+                        <tr class="bg-slate-50 border-b border-slate-200 text-xs font-black text-slate-600 uppercase tracking-wider">
                             <th class="p-4 pl-6">ID</th>
                             <th class="p-4">Full Name</th>
                             <th class="p-4">Username</th>
-                            <th class="p-4">Roles</th>
+                            <th class="p-4">Current Role</th>
+                            <th class="p-4">Change Role</th>
                             <th class="p-4">Status</th>
                             <th class="p-4 pr-6 text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 text-sm">
-                        <tr th:each="user : ${users}" class="hover:bg-slate-50 transition-colors">
-                            <td class="p-4 pl-6 font-medium text-slate-900" th:text="${user.id}">1</td>
-                            <td class="p-4 text-slate-700 font-medium" th:text="${user.fullName}">Name</td>
-                            <td class="p-4 text-slate-600" th:text="${user.username}">Username</td>
-                            <td class="p-4 text-slate-600">
-                                <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700" th:text="${user.roles}">ROLE_USER</span>
+                        <tr th:each="user : ${users}" class="hover:bg-slate-50/80 transition-colors">
+                            <td class="p-4 pl-6 font-bold text-slate-900" th:text="${user.id}">1</td>
+                            <td class="p-4 text-slate-800 font-bold" th:text="${user.fullName ?: 'N/A'}">Name</td>
+                            <td class="p-4 text-slate-600 font-mono text-xs" th:text="${user.username}">Username</td>
+                            <td class="p-4">
+                                <span class="px-2.5 py-1 rounded-full text-[11px] font-black uppercase tracking-wider"
+                                      th:classappend="${#strings.contains(user.roles, 'ROLE_ADMIN')} ? 'bg-rose-100 text-rose-700' : (${#strings.contains(user.roles, 'ROLE_STUDENT')} ? 'bg-emerald-100 text-emerald-700' : 'bg-indigo-100 text-indigo-700')"
+                                      th:text="${user.roles}">ROLE_USER</span>
+                            </td>
+                            <td class="p-4">
+                                <form th:if="${!#strings.equals(user.username, 'admin') and !#strings.equals(user.username, 'Priyanshu123')}"
+                                      th:action="@{/admin/users/{id}/role(id=${user.id})}" method="post" class="flex items-center gap-2">
+                                    <select name="role" class="text-xs py-1 px-2 rounded-lg border border-slate-200 bg-slate-50 font-bold text-slate-700">
+                                        <option value="ROLE_USER" th:selected="${user.roles == 'ROLE_USER'}">User Only</option>
+                                        <option value="ROLE_STUDENT,ROLE_USER" th:selected="${user.roles == 'ROLE_STUDENT,ROLE_USER'}">Student + User</option>
+                                        <option value="ROLE_ADMIN,ROLE_STUDENT,ROLE_USER" th:selected="${#strings.contains(user.roles, 'ROLE_ADMIN')}">Administrator</option>
+                                    </select>
+                                    <button type="submit" class="px-2 py-1 rounded-lg bg-slate-800 text-white text-[11px] font-bold hover:bg-slate-900 transition-colors">
+                                        Save
+                                    </button>
+                                </form>
+                                <span th:if="${#strings.equals(user.username, 'admin') or #strings.equals(user.username, 'Priyanshu123')}" class="text-xs text-slate-400 font-semibold italic">
+                                    Master Admin
+                                </span>
                             </td>
                             <td class="p-4">
                                 <span th:if="${user.enabled}" class="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700">Active</span>
                                 <span th:unless="${user.enabled}" class="px-2.5 py-1 rounded-full text-xs font-bold bg-rose-50 text-rose-700">Blocked</span>
                             </td>
-                            <td class="p-4 pr-6 text-right flex items-center justify-end gap-3">
-                                <form th:if="${!#strings.contains(user.roles, 'ROLE_ADMIN')}" th:action="@{/admin/users/{id}/toggle-block(id=${user.id})}" method="post" class="inline">
-                                    <button type="submit" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-colors"
-                                            th:classappend="${user.enabled} ? 'bg-amber-100 text-amber-700 hover:bg-amber-200' : 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200'"
-                                            th:text="${user.enabled ? 'Block' : 'Unblock'}">
-                                    </button>
-                                </form>
-                                <form th:if="${!#strings.contains(user.roles, 'ROLE_ADMIN')}" th:action="@{/admin/users/{id}/delete(id=${user.id})}" method="post" class="inline" onsubmit="return confirm('Are you sure you want to delete this user? This cannot be undone.');">
-                                    <button type="submit" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-rose-100 text-rose-700 hover:bg-rose-200 transition-colors">
-                                        Delete
-                                    </button>
-                                </form>
+                            <td class="p-4 pr-6 text-right">
+                                <div class="flex items-center justify-end gap-2">
+                                    <form th:if="${!#strings.contains(user.roles, 'ROLE_ADMIN')}" th:action="@{/admin/users/{id}/toggle-block(id=${user.id})}" method="post" class="inline">
+                                        <button type="submit" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-colors"
+                                                th:classappend="${user.enabled} ? 'bg-amber-100 text-amber-700 hover:bg-amber-200' : 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200'"
+                                                th:text="${user.enabled ? 'Block' : 'Unblock'}">
+                                        </button>
+                                    </form>
+                                    <form th:if="${!#strings.contains(user.roles, 'ROLE_ADMIN')}" th:action="@{/admin/users/{id}/delete(id=${user.id})}" method="post" class="inline" onsubmit="return confirm('Are you sure you want to delete this user? This cannot be undone.');">
+                                        <button type="submit" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-rose-100 text-rose-700 hover:bg-rose-200 transition-colors">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                         <tr th:if="${#lists.isEmpty(users)}">
-                            <td colspan="6" class="p-8 text-center text-slate-500">No users found.</td>
+                            <td colspan="7" class="p-8 text-center text-slate-500">No users found.</td>
                         </tr>
                     </tbody>
                 </table>

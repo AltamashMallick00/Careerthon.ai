@@ -13,12 +13,10 @@ import java.time.LocalDateTime;
 import java.util.Random;
 
 /**
- * Seeds 5,000+ demo data entries (3,000 LinkedIn profile reviews + 2,000 resume reviews)
- * into the H2 in-memory database at startup. Uses JDBC batch inserts for speed.
- * Only seeds if fewer than 100 profile reviews already exist.
+ * Demo Data Seeder (Disabled for 100% legitimate production data).
  */
-@Component
-@Order(2) // Run after DataInitializer (default order)
+//@Component
+//@Order(2)
 public class DemoDataSeeder implements CommandLineRunner {
 
     private final ProfileReviewRepository profileReviewRepository;
