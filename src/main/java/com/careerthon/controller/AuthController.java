@@ -44,21 +44,35 @@ public class AuthController {
             HttpSession session,
             RedirectAttributes redirectAttributes) {
 
-        Integer expectedCaptcha = (Integer) session.getAttribute("captchaResult");
-        if (expectedCaptcha == null || !captcha.equals(String.valueOf(expectedCaptcha))) {
-            redirectAttributes.addFlashAttribute("error", "Invalid CAPTCHA answer.");
+        String trimmedName = fullName != null ? fullName.trim() : "";
+        String trimmedUsername = username != null ? username.trim() : "";
+        String cleanPassword = password != null ? password.trim() : "";
+
+        if (trimmedName.isEmpty() || trimmedUsername.isEmpty() || cleanPassword.isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "All fields are required.");
             return "redirect:/signup";
         }
 
-        if (userRepository.findByUsername(username).isPresent()) {
-            redirectAttributes.addFlashAttribute("error", "Username already exists.");
+        if (cleanPassword.length() < 4) {
+            redirectAttributes.addFlashAttribute("error", "Password must be at least 4 characters long.");
+            return "redirect:/signup";
+        }
+
+        Integer expectedCaptcha = (Integer) session.getAttribute("captchaResult");
+        if (expectedCaptcha == null || !captcha.trim().equals(String.valueOf(expectedCaptcha))) {
+            redirectAttributes.addFlashAttribute("error", "Invalid CAPTCHA answer. Please try again.");
+            return "redirect:/signup";
+        }
+
+        if (userRepository.findByUsername(trimmedUsername).isPresent()) {
+            redirectAttributes.addFlashAttribute("error", "Username '" + trimmedUsername + "' is already taken. Please choose another.");
             return "redirect:/signup";
         }
 
         User newUser = new User();
-        newUser.setFullName(fullName);
-        newUser.setUsername(username);
-        newUser.setPassword(passwordEncoder.encode(password));
+        newUser.setFullName(trimmedName);
+        newUser.setUsername(trimmedUsername);
+        newUser.setPassword(passwordEncoder.encode(cleanPassword));
         newUser.setRoles("ROLE_STUDENT,ROLE_USER");
         newUser.setEnabled(true);
         userRepository.save(newUser);

@@ -18,11 +18,32 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/index.html", "/about", "/careers", "/login", "/signup", "/error", "/css/**", "/js/**", "/images/**", "/favicon.ico", "/job-match", "/api/job-match", "/blog/**", "/sitemap.xml", "/features", "/review/**", "/resume/**", "/report/**", "/ai-tools/**", "/ai-tools/recruiter-outreach/**", "/ai-tools/roadmap/**", "/ai-tools/referral-finder/**", "/referral-finder/**", "/referrals/**", "/referral/**", "/recruiter-outreach/**", "/outreach/**", "/roadmap/**").permitAll()
-                .requestMatchers("/api/auth/**", "/h2-console/**", "/health", "/actuator/health").permitAll()
+                // Public Marketing, Static Assets & Authentication Endpoints
+                .requestMatchers(
+                    "/", "/index.html", "/about", "/careers", "/features", "/blog/**", "/sitemap.xml", "/error",
+                    "/login", "/signup", "/api/auth/**",
+                    "/css/**", "/js/**", "/images/**", "/favicon.ico",
+                    "/health", "/actuator/health", "/h2-console/**"
+                ).permitAll()
+
+                // Admin Only Features
                 .requestMatchers("/admin/**").hasRole("ADMIN")
-                .requestMatchers("/student/**").hasAnyRole("STUDENT", "USER", "ADMIN")
-                .requestMatchers("/lms/**").hasAnyRole("STUDENT", "USER", "ADMIN")
+
+                // LMS & Student Portal
+                .requestMatchers("/student/**", "/lms/**").hasAnyRole("STUDENT", "USER", "ADMIN")
+
+                // Protected Core SaaS & AI Features (Require Authentication)
+                .requestMatchers(
+                    "/review/**",
+                    "/report/**",
+                    "/resume/**",
+                    "/job-match", "/api/job-match/**",
+                    "/ai-tools/**", "/recruiter-outreach/**", "/outreach/**", "/roadmap/**", "/referral-finder/**", "/referrals/**", "/referral/**",
+                    "/api/ai/**",
+                    "/user/**"
+                ).hasAnyRole("STUDENT", "USER", "ADMIN")
+
+                // All other requests must be authenticated
                 .anyRequest().authenticated()
             )
             .formLogin(login -> login

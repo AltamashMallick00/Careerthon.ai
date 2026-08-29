@@ -19,21 +19,18 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
+        SavedRequest savedRequest = requestCache.getRequest(request, response);
+
+        if (savedRequest != null) {
+            String targetUrl = savedRequest.getRedirectUrl();
+            if (targetUrl != null && !targetUrl.contains("/login") && !targetUrl.contains("/signup") && !targetUrl.endsWith("/favicon.ico")) {
+                response.sendRedirect(targetUrl);
+                return;
+            }
+        }
 
         if (roles.contains("ROLE_ADMIN")) {
             response.sendRedirect("/admin/dashboard");
-            return;
-        }
-
-        if (roles.contains("ROLE_STUDENT")) {
-            response.sendRedirect("/student/dashboard");
-            return;
-        }
-
-        SavedRequest savedRequest = requestCache.getRequest(request, response);
-        if (savedRequest != null) {
-            String targetUrl = savedRequest.getRedirectUrl();
-            response.sendRedirect(targetUrl);
         } else {
             response.sendRedirect("/student/dashboard");
         }

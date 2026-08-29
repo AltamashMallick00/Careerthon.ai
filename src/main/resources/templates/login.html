@@ -18,19 +18,30 @@
 
             <div class="premium-card !p-10 glass border-white/20 shadow-[0_40px_100px_-20px_rgba(15,23,42,0.3)]">
                 
-                <div th:if="${param.signupSuccess}" class="bg-emerald-500/10 border border-emerald-500/50 p-4 rounded-xl mb-6 flex items-center gap-3">
-                    <div class="text-emerald-500">✓</div>
-                    <p class="text-sm font-bold text-emerald-600 dark:text-emerald-400">Account created successfully! Please sign in.</p>
+                <div th:if="${param.signupSuccess != null}" class="bg-emerald-500/10 border border-emerald-500/50 p-4 rounded-xl mb-6 flex items-center gap-3">
+                    <div class="text-emerald-500 text-lg font-black">✓</div>
+                    <div>
+                        <p class="text-sm font-bold text-emerald-600 dark:text-emerald-400">Account created successfully!</p>
+                        <p class="text-xs text-emerald-600/80 dark:text-emerald-400/80">Please sign in below to unlock all AI tools & platform features.</p>
+                    </div>
+                </div>
+
+                <div th:if="${param.required != null}" class="bg-indigo-500/10 border border-indigo-500/50 p-4 rounded-xl mb-6 flex items-center gap-3">
+                    <div class="text-indigo-500 text-lg font-black">🔒</div>
+                    <div>
+                        <p class="text-sm font-bold text-indigo-600 dark:text-indigo-400">Authentication Required</p>
+                        <p class="text-xs text-indigo-600/80 dark:text-indigo-400/80">Please sign in or register to use Careerthon.AI intelligence features.</p>
+                    </div>
                 </div>
 
                 <div th:if="${param.error}" class="bg-rose-500/10 border border-rose-500/50 p-4 rounded-xl mb-6 flex items-center gap-3">
-                    <div class="text-rose-500">⚠</div>
+                    <div class="text-rose-500 text-lg font-black">⚠</div>
                     <p class="text-sm font-bold text-rose-600 dark:text-rose-400">Invalid username or password.</p>
                 </div>
                 
                 <div th:if="${param.logout}" class="bg-blue-500/10 border border-blue-500/50 p-4 rounded-xl mb-6 flex items-center gap-3">
-                    <div class="text-blue-500">ℹ</div>
-                    <p class="text-sm font-bold text-blue-600 dark:text-blue-400">You have been logged out.</p>
+                    <div class="text-blue-500 text-lg font-black">ℹ</div>
+                    <p class="text-sm font-bold text-blue-600 dark:text-blue-400">You have been logged out securely.</p>
                 </div>
 
                 <form class="space-y-6" th:action="@{/login}" method="POST">

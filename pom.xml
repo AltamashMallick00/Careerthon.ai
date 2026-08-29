@@ -61,6 +61,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<!-- Tika removed to save memory — used lightweight custom extractor instead -->
 		<dependency>
 			<groupId>com.itextpdf</groupId>
