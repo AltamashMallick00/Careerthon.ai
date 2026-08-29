@@ -28,17 +28,77 @@
                     Transform your digital presence from invisible to irresistible. Our AI engine scans 50+ data points to give you the exact roadmap to a 6-figure career.
                 </p>
                 
-                <!-- Instant URL Scan Form -->
-                <form th:action="@{/review/submit}" method="POST" class="flex flex-col sm:flex-row items-center gap-3 w-full max-w-2xl mt-4 mb-8">
-                    <div class="relative w-full">
-                        <input type="url" name="linkedinUrl" required placeholder="Paste your LinkedIn URL (e.g. linkedin.com/in/username)"
-                               class="w-full py-4 pl-12 pr-4 bg-themed-pure rounded-2xl border-2 border-emerald-500/30 focus:border-emerald-500 outline-none font-bold text-sm text-themed-main shadow-2xl transition-all">
-                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-xl">🔗</span>
+                <!-- Hero Dual-Mode Scanner (PDF Upload & URL Scan) -->
+                <div class="w-full max-w-2xl mt-4 mb-8">
+                    <!-- Mode Selector Tabs -->
+                    <div class="flex p-1.5 bg-slate-900/10 dark:bg-slate-800/60 backdrop-blur-md rounded-2xl border border-emerald-500/20 mb-3 max-w-md">
+                        <button type="button" id="hero-tab-pdf" onclick="switchHeroTab('pdf')"
+                                class="flex-1 py-2.5 px-4 rounded-xl font-black text-xs uppercase tracking-wider transition-all bg-emerald-600 text-white shadow-md flex items-center justify-center gap-2">
+                            <span>📄 Upload LinkedIn PDF</span>
+                            <span class="px-2 py-0.5 rounded-full bg-white/20 text-[9px] font-bold">100% Real</span>
+                        </button>
+                        <button type="button" id="hero-tab-url" onclick="switchHeroTab('url')"
+                                class="flex-1 py-2.5 px-4 rounded-xl font-black text-xs uppercase tracking-wider transition-all text-themed-body hover:text-themed-main flex items-center justify-center gap-2">
+                            <span>🔗 Profile URL</span>
+                        </button>
                     </div>
-                    <button type="submit" class="w-full sm:w-auto py-4 px-8 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-sm uppercase tracking-wider shadow-xl transition-all whitespace-nowrap shrink-0 hover:scale-105 active:scale-95">
-                        🚀 Scan Profile Free
-                    </button>
-                </form>
+
+                    <form th:action="@{/review/submit}" method="POST" enctype="multipart/form-data" id="hero-scan-form" class="w-full">
+                        
+                        <!-- Mode 1: PDF Upload (Default & Most Accurate) -->
+                        <div id="hero-mode-pdf" class="space-y-3">
+                            <div id="hero-drop-zone"
+                                 onclick="document.getElementById('heroProfilePdfInput').click()"
+                                 class="relative border-2 border-dashed border-emerald-500/40 hover:border-emerald-500 rounded-2xl p-5 text-center cursor-pointer bg-themed-pure hover:bg-emerald-500/5 transition-all group shadow-lg">
+                                <input type="file" id="heroProfilePdfInput" name="profilePdf" accept=".pdf" class="hidden" onchange="handleHeroFileSelected(this)">
+                                
+                                <div id="hero-upload-prompt" class="flex flex-col sm:flex-row items-center justify-between gap-3">
+                                    <div class="flex items-center gap-3 text-left">
+                                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform shrink-0">
+                                            📄
+                                        </div>
+                                        <div>
+                                            <div class="font-black text-themed-main text-sm sm:text-base">Upload LinkedIn Profile PDF</div>
+                                            <div class="text-xs text-themed-body">Drag & drop or click to browse (100% accurate score)</div>
+                                        </div>
+                                    </div>
+                                    <button type="button" onclick="event.stopPropagation(); document.getElementById('heroProfilePdfInput').click()" 
+                                            class="py-2.5 px-5 rounded-xl bg-emerald-600/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 font-black text-xs uppercase tracking-wider hover:bg-emerald-600 hover:text-white transition-all whitespace-nowrap">
+                                        Browse PDF
+                                    </button>
+                                </div>
+
+                                <div id="hero-file-info" class="hidden font-bold text-emerald-500 text-sm flex items-center justify-center gap-2 py-2">
+                                    <span>✅</span> <span id="hero-file-name">profile.pdf</span>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+                                <div class="text-[11px] text-themed-body flex items-center gap-1.5">
+                                    <span class="text-emerald-500 font-bold">💡 How to export:</span>
+                                    <span>LinkedIn Profile ➔ <strong>More</strong> ➔ <strong>Save to PDF</strong></span>
+                                </div>
+                                <button type="submit" class="w-full sm:w-auto py-3.5 px-8 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-sm uppercase tracking-wider shadow-xl transition-all whitespace-nowrap shrink-0 hover:scale-105 active:scale-95">
+                                    🚀 Scan Profile PDF
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Mode 2: URL Scan -->
+                        <div id="hero-mode-url" class="hidden">
+                            <div class="flex flex-col sm:flex-row items-center gap-3">
+                                <div class="relative w-full">
+                                    <input type="url" id="heroUrlInput" name="linkedinUrl" placeholder="Paste your LinkedIn URL (e.g. linkedin.com/in/username)"
+                                           class="w-full py-4 pl-12 pr-4 bg-themed-pure rounded-2xl border-2 border-emerald-500/30 focus:border-emerald-500 outline-none font-bold text-sm text-themed-main shadow-2xl transition-all">
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-xl">🔗</span>
+                                </div>
+                                <button type="submit" class="w-full sm:w-auto py-4 px-8 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-sm uppercase tracking-wider shadow-xl transition-all whitespace-nowrap shrink-0 hover:scale-105 active:scale-95">
+                                    🚀 Scan Profile URL
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
 
                 <div class="flex flex-col sm:flex-row items-center gap-6 flex-wrap">
                     <a href="/ai-tools/referral-finder" class="px-6 py-3 rounded-2xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 text-xs font-black uppercase tracking-wider hover:bg-indigo-500/20 transition-all">
@@ -1366,6 +1426,75 @@
         }, 4500);
     }
 })();
+</script>
+
+<script>
+function switchHeroTab(mode) {
+    const tabPdf = document.getElementById('hero-tab-pdf');
+    const tabUrl = document.getElementById('hero-tab-url');
+    const modePdf = document.getElementById('hero-mode-pdf');
+    const modeUrl = document.getElementById('hero-mode-url');
+    const urlInput = document.getElementById('heroUrlInput');
+
+    if (mode === 'pdf') {
+        tabPdf.className = 'flex-1 py-2.5 px-4 rounded-xl font-black text-xs uppercase tracking-wider transition-all bg-emerald-600 text-white shadow-md flex items-center justify-center gap-2';
+        tabUrl.className = 'flex-1 py-2.5 px-4 rounded-xl font-black text-xs uppercase tracking-wider transition-all text-themed-body hover:text-themed-main flex items-center justify-center gap-2';
+        modePdf.classList.remove('hidden');
+        modeUrl.classList.add('hidden');
+        if (urlInput) urlInput.removeAttribute('required');
+    } else {
+        tabUrl.className = 'flex-1 py-2.5 px-4 rounded-xl font-black text-xs uppercase tracking-wider transition-all bg-emerald-600 text-white shadow-md flex items-center justify-center gap-2';
+        tabPdf.className = 'flex-1 py-2.5 px-4 rounded-xl font-black text-xs uppercase tracking-wider transition-all text-themed-body hover:text-themed-main flex items-center justify-center gap-2';
+        modeUrl.classList.remove('hidden');
+        modePdf.classList.add('hidden');
+        if (urlInput) urlInput.setAttribute('required', 'true');
+    }
+}
+
+function handleHeroFileSelected(input) {
+    const file = input.files && input.files[0];
+    const prompt = document.getElementById('hero-upload-prompt');
+    const fileInfo = document.getElementById('hero-file-info');
+    const fileName = document.getElementById('hero-file-name');
+    if (file) {
+        if (prompt) prompt.classList.add('hidden');
+        if (fileInfo) fileInfo.classList.remove('hidden');
+        if (fileName) fileName.textContent = file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const heroDropZone = document.getElementById('hero-drop-zone');
+    if (heroDropZone) {
+        ['dragenter', 'dragover'].forEach(eventName => {
+            heroDropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                heroDropZone.classList.add('border-emerald-600', 'bg-emerald-500/10');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            heroDropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                heroDropZone.classList.remove('border-emerald-600', 'bg-emerald-500/10');
+            }, false);
+        });
+
+        heroDropZone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files && files.length > 0) {
+                const input = document.getElementById('heroProfilePdfInput');
+                if (input) {
+                    input.files = files;
+                    handleHeroFileSelected(input);
+                }
+            }
+        }, false);
+    }
+});
 </script>
 
 <footer th:replace="~{fragments/footer :: footer}"></footer>
