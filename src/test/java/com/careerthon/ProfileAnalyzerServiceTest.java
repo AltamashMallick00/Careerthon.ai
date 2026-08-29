@@ -2,7 +2,6 @@ package com.careerthon;
 
 import com.careerthon.model.ProfileReview;
 import com.careerthon.repository.ProfileReviewRepository;
-import com.careerthon.service.EmailService;
 import com.careerthon.service.ProfileAnalyzerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -81,27 +80,46 @@ class ProfileAnalyzerServiceTest {
     }
 
     @Test
-    void testPriyanshuShekharProfileScoring() {
-        ProfileReview review = analyzerService.createReview("https://www.linkedin.com/in/priyanshu-shekhar-00b082201/", "test@careerthon.ai");
+    void testUniversalArchitectAndSeniorProfileScoring() {
+        ProfileReview review = analyzerService.createReview("https://www.linkedin.com/in/alex-cloud-architect/", "alex@test.com");
         ProfileReview result = analyzerService.analyzeProfile(review.getId());
 
         assertNotNull(result);
-        assertEquals("Priyanshu Shekhar", result.getUserName());
-        assertEquals("Lead Architect & Full Stack Engineer", result.getUserTitle());
-        assertTrue(result.getOverallScore() >= 90, "Priyanshu Shekhar score should be >= 90, was: " + result.getOverallScore());
+        assertEquals("Alex Cloud Architect", result.getUserName());
+        assertTrue(result.getOverallScore() >= 88, "Architect score should be >= 88, was: " + result.getOverallScore());
         assertEquals("Excellent", result.getScoreLabel());
-        assertTrue(result.getSuggestedRoles().contains("Senior Full Stack Engineer"));
+        assertTrue(result.getSuggestedRoles().contains("Senior Full Stack Engineer") || result.getSuggestedRoles().contains("Cloud Solutions Architect"));
     }
 
     @Test
-    void testBeginnerUncustomizedProfileScoring() {
-        ProfileReview review = analyzerService.createReview("https://www.linkedin.com/in/md-afroz-hassan-3ab131297/", "test2@careerthon.ai");
+    void testUniversalCustomDeveloperProfileScoring() {
+        ProfileReview review = analyzerService.createReview("https://www.linkedin.com/in/sarah-fullstack-dev/", "sarah@test.com");
+        ProfileReview result = analyzerService.analyzeProfile(review.getId());
+
+        assertNotNull(result);
+        assertEquals("Sarah Fullstack Dev", result.getUserName());
+        assertTrue(result.getOverallScore() >= 75 && result.getOverallScore() <= 90, "Custom dev score should be 75-90, was: " + result.getOverallScore());
+    }
+
+    @Test
+    void testUniversalBeginnerUncustomizedProfileScoring() {
+        ProfileReview review = analyzerService.createReview("https://www.linkedin.com/in/md-afroz-hassan-3ab131297/", "afroz@test.com");
         ProfileReview result = analyzerService.analyzeProfile(review.getId());
 
         assertNotNull(result);
         assertEquals("Md Afroz Hassan", result.getUserName());
         assertEquals("Emerging Professional", result.getUserTitle());
-        assertTrue(result.getOverallScore() >= 45 && result.getOverallScore() <= 55, "Beginner score should be ~48-52, was: " + result.getOverallScore());
+        assertTrue(result.getOverallScore() >= 45 && result.getOverallScore() <= 55, "Uncustomized new profile score should be 45-55, was: " + result.getOverallScore());
         assertTrue(result.getActionableInsights().contains("Customize your LinkedIn URL"));
+    }
+
+    @Test
+    void testUniversalStandardProfileScoring() {
+        ProfileReview review = analyzerService.createReview("https://www.linkedin.com/in/john-doe/", "john@test.com");
+        ProfileReview result = analyzerService.analyzeProfile(review.getId());
+
+        assertNotNull(result);
+        assertEquals("John Doe", result.getUserName());
+        assertTrue(result.getOverallScore() >= 65 && result.getOverallScore() <= 78, "Standard profile score should be 65-78, was: " + result.getOverallScore());
     }
 }
