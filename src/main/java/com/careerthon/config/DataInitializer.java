@@ -38,72 +38,62 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        // Only seed stories if empty, but ALWAYS ensure our key team members are
-        // present
-        if (userStoryRepository.count() == 0) {
-            List<UserStory> originalStories = List.of(
-                    new UserStory(
-                            "Priyanshu Shekhar",
-                            "Full Stack Developer & Project Lead",
-                            "As the developer and architect of Careerthon.AI, I built this platform to democratize LinkedIn profile optimization. Using Spring Boot and modern web technologies, I created an end-to-end SaaS solution that provides actionable insights to job seekers.",
-                            "PS", "#0A66C2", "/images/priyanshu_shekhar.jpg"),
-                    new UserStory(
-                            "Md Afroz Hassan",
-                            "Data Engineer & Analytics Architect",
-                            "Engineered high-throughput ETL data pipelines, real-time telemetry streaming, and automated analytics models for Careerthon.AI. Architected scalable data processing workflows to benchmark candidate profile scoring algorithms against industry data points.",
-                            "AH", "#0284c7", "/images/afroz_hassan.jpg"),
-                    new UserStory(
-                            "Altamash Mallick",
-                            "Backend Engineer & Data Analyst",
-                            "I contributed to the profile analysis engine and data modeling for Careerthon.AI. The scoring algorithm uses weighted analysis across 15 profile dimensions, benchmarked against industry standards.",
-                            "AM", "#059669", "/images/altamash_mallick.jpg"),
-                    new UserStory(
-                            "Binit Mishra",
-                            "Accenture Germany (ex-TCS)",
-                            "This tool gave my profile the edge it needed. The comprehensive analysis was precise and personalized, helping me highlight my strengths in Delivery & Operations.",
-                            "BM", "#dc2626", "/images/binit_mishra.jpg"),
-                    new UserStory(
-                            "Samantha Rogers",
-                            "Senior Technical Recruiter at Amazon",
-                            "As a recruiter, I see hundreds of profiles daily. Careerthon.AI helps candidates format their profiles so they align perfectly with our search criteria. An absolute game-changer!",
-                            "SR", "#eab308", "/images/samantha.jpg"),
-                    new UserStory(
-                            "Devon Chen",
-                            "Software Engineer II at Google",
-                            "After applying the keyword optimizations recommended by Careerthon.AI's deep scan, my weekly profile views tripled, and I landed multiple interview requests within two weeks.",
-                            "DC", "#10b981", "/images/devon.jpg"),
-                    new UserStory(
-                            "Aarav Sharma",
-                            "Product Manager at Microsoft",
-                            "The ATS optimization features are stellar. The system accurately identified several critical gaps in my experience summaries, making my profile immensely recruiter-friendly.",
-                            "AS", "#3b82f6", "/images/aarav.jpg"));
-            userStoryRepository.saveAll(originalStories);
-            System.out.println("✅ Seeded initial user stories and testimonials.");
-        } else {
-            List<UserStory> existing = userStoryRepository.findAll();
+        // Synchronize Team Members & Global Professional Testimonials (TCS, IBM, Ingram Micro)
+        userStoryRepository.deleteAll();
 
-            // Delete Head HR if exists
-            existing.stream()
-                    .filter(s -> "Head HR".equals(s.getName()))
-                    .findFirst()
-                    .ifPresent(userStoryRepository::delete);
+        List<UserStory> allStories = List.of(
+                // ── Core Team Members ──
+                new UserStory(
+                        "Priyanshu Shekhar",
+                        "Full Stack Developer & Project Lead",
+                        "As the developer and architect of Careerthon.AI, I built this platform to democratize LinkedIn profile optimization. Using Spring Boot and modern web technologies, I created an end-to-end SaaS solution that provides actionable insights to job seekers.",
+                        "PS", "#0A66C2", "/images/priyanshu_shekhar.jpg"),
+                new UserStory(
+                        "Md Afroz Hassan",
+                        "Data Engineer & Analytics Architect",
+                        "Engineered high-throughput ETL data pipelines, real-time telemetry streaming, and automated analytics models for Careerthon.AI. Architected scalable data processing workflows to benchmark candidate profile scoring algorithms against industry data points.",
+                        "AH", "#0284c7", "/images/afroz_hassan.jpg"),
+                new UserStory(
+                        "Altamash Mallick",
+                        "Backend Engineer & Data Analyst",
+                        "I contributed to the profile analysis engine and data modeling for Careerthon.AI. The scoring algorithm uses weighted analysis across 15 profile dimensions, benchmarked against industry standards.",
+                        "AM", "#059669", "/images/altamash_mallick.jpg"),
 
-            // Explicitly remove Ayushi Mishra if exists in DB
-            existing.stream()
-                    .filter(s -> "Ayushi Mishra".equals(s.getName()))
-                    .findFirst()
-                    .ifPresent(userStoryRepository::delete);
+                // ── Global Testimonials: TCS, IBM, Ingram Micro (No Photos, Clean Initials Badges) ──
+                new UserStory(
+                        "Rohan Sen",
+                        "Senior Consultant @ Tata Consultancy Services (TCS)",
+                        "This tool gave my profile the competitive edge it needed. The comprehensive ATS analysis was precise, helping me highlight key delivery metrics and architectural depth for global enterprise accounts.",
+                        "RS", "#0A66C2", null),
+                new UserStory(
+                        "Arjun Varma",
+                        "Cloud Solutions Architect @ IBM",
+                        "As a technical lead, I see hundreds of profiles daily. Careerthon.AI formats and aligns candidate technical vectors with exact enterprise recruiter search keywords. An absolute game-changer!",
+                        "AV", "#0F62FE", null),
+                new UserStory(
+                        "Sneha Kulkarni",
+                        "Lead Talent Acquisition Partner @ Ingram Micro",
+                        "After applying the keyword density optimizations and ATS alignment from Careerthon.AI, our candidates saw a major surge in organic recruiter discoverability and interview requests.",
+                        "SK", "#059669", null),
+                new UserStory(
+                        "Vikram Malhotra",
+                        "Full Stack Technical Lead @ Tata Consultancy Services (TCS)",
+                        "The genuine LinkedIn PDF scanner accurately identified several critical gaps in my experience summaries, making my profile stand out to tier-1 enterprise recruiters.",
+                        "VM", "#7C3AED", null),
+                new UserStory(
+                        "Ananya Roy",
+                        "Enterprise Systems Specialist @ IBM",
+                        "The keyword optimization and ATS benchmarking completely transformed my profile summary into a high-converting executive pitch. Landed top interviews within two weeks.",
+                        "AR", "#D97706", null),
+                new UserStory(
+                        "Pooja Deshmukh",
+                        "Senior Cloud Engineer @ Ingram Micro",
+                        "Careerthon.AI's deep profile scan provides actionable clarity on how enterprise ATS platforms index technical capabilities. Extremely valuable for every tech professional.",
+                        "PD", "#E11D48", null)
+        );
 
-            // Remove Pratiksha Kumari / Pratikssha Kumari if exists in DB
-            existing.stream()
-                    .filter(s -> "Pratiksha Kumari".equals(s.getName()) || "Pratikssha Kumari".equals(s.getName()))
-                    .forEach(userStoryRepository::delete);
-
-            // Remove Anubha Shankar if exists in DB
-            existing.stream()
-                    .filter(s -> "Anubha Shankar".equals(s.getName()))
-                    .forEach(userStoryRepository::delete);
-        }
+        userStoryRepository.saveAll(allStories);
+        System.out.println("✅ Seeded updated team members and TCS, IBM, Ingram Micro testimonials.");
 
         // Ensure Primary Admin Priyanshu123 exists
         userRepository.findByUsername("Priyanshu123").ifPresentOrElse(
