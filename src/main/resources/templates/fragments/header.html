@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css(v='3.1')}">
     <script>
         // Check theme immediately to prevent FOUC
         if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -57,17 +57,17 @@
         }
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script th:src="@{/js/app.js}" defer></script>
+    <script th:src="@{/js/app.js(v='3.1')}" defer></script>
 </head>
 <body>
 
 <!-- Header Fragment -->
-<header th:fragment="header" class="site-header sticky top-0 z-50 w-full transition-all duration-300 bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl border-b border-slate-200/80 dark:border-white/10 shadow-sm dark:shadow-[0_4px_30px_-4px_rgba(0,0,0,0.5)]" id="site-header">
+<header th:fragment="header" class="site-header sticky top-0 z-50 w-full transition-all duration-300 bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl border-b border-slate-200/80 dark:border-white/10 shadow-sm dark:shadow-[0_4px_30px_-4px_rgba(0,0,0,0.5)]" id="site-header" style="pointer-events: auto !important;">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-18 py-3">
             
             <!-- Brand Logo -->
-            <a href="/" class="flex items-center gap-3 group shrink-0">
+            <a th:href="@{/}" class="flex items-center gap-3 group shrink-0" style="pointer-events: auto !important; cursor: pointer !important;">
                 <svg class="w-9 h-9 group-hover:scale-105 transition-transform duration-300 shadow-glow" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <defs>
                         <linearGradient id="logoGradHeader" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -88,71 +88,71 @@
             </a>
             
             <!-- Desktop Navigation Links (Clean & Professional, No Multi-line Emoji Wrap) -->
-            <nav class="hidden lg:flex items-center gap-1 xl:gap-1.5 px-3 py-1.5 rounded-full bg-slate-100/80 dark:bg-slate-900/70 border border-slate-200/80 dark:border-white/10 backdrop-blur-md">
-                <a th:href="@{/}" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-all whitespace-nowrap">Home</a>
-                <a th:href="@{/review}" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-all whitespace-nowrap">Review</a>
-                <a th:href="@{/job-match}" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-all whitespace-nowrap">Job Fit</a>
-                <a th:href="@{/ai-tools/recruiter-outreach}" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-all whitespace-nowrap">Outreach</a>
-                <a th:href="@{/ai-tools/roadmap}" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-all whitespace-nowrap">Roadmap</a>
-                <a th:href="@{/ai-tools/referral-finder}" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-all whitespace-nowrap">Referrals</a>
-                <a th:href="@{/lms}" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-violet-600 dark:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-950/40 transition-all whitespace-nowrap flex items-center gap-1.5">
+            <nav class="hidden lg:flex items-center gap-1 xl:gap-1.5 px-3 py-1.5 rounded-full bg-slate-100/80 dark:bg-slate-900/70 border border-slate-200/80 dark:border-white/10 backdrop-blur-md" style="pointer-events: auto !important;">
+                <a th:href="@{/}" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-all whitespace-nowrap" style="pointer-events: auto !important; cursor: pointer !important;">Home</a>
+                <a th:href="@{/review}" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-all whitespace-nowrap" style="pointer-events: auto !important; cursor: pointer !important;">Review</a>
+                <a th:href="@{/job-match}" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-all whitespace-nowrap" style="pointer-events: auto !important; cursor: pointer !important;">Job Fit</a>
+                <a th:href="@{/ai-tools/recruiter-outreach}" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-all whitespace-nowrap" style="pointer-events: auto !important; cursor: pointer !important;">Outreach</a>
+                <a th:href="@{/ai-tools/roadmap}" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-all whitespace-nowrap" style="pointer-events: auto !important; cursor: pointer !important;">Roadmap</a>
+                <a th:href="@{/ai-tools/referral-finder}" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-all whitespace-nowrap" style="pointer-events: auto !important; cursor: pointer !important;">Referrals</a>
+                <a th:href="@{/lms}" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-violet-600 dark:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-950/40 transition-all whitespace-nowrap flex items-center gap-1.5" style="pointer-events: auto !important; cursor: pointer !important;">
                     <span>Academy</span>
                     <span class="text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-md bg-violet-600 text-white leading-none">Pro</span>
                 </a>
-                <a th:href="@{/blog}" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-all whitespace-nowrap">Blog</a>
-                <a th:href="@{/about}" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-all whitespace-nowrap">About</a>
-                <a th:href="@{/careers}" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-all whitespace-nowrap">Careers</a>
+                <a th:href="@{/blog}" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-all whitespace-nowrap" style="pointer-events: auto !important; cursor: pointer !important;">Blog</a>
+                <a th:href="@{/about}" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-all whitespace-nowrap" style="pointer-events: auto !important; cursor: pointer !important;">About</a>
+                <a th:href="@{/careers}" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-all whitespace-nowrap" style="pointer-events: auto !important; cursor: pointer !important;">Careers</a>
             </nav>
             
             <!-- Right Action Buttons (Theme Toggle & Auth) -->
-            <div class="flex items-center gap-3 shrink-0">
+            <div class="flex items-center gap-3 shrink-0" style="pointer-events: auto !important;">
                 <!-- Theme Toggle -->
-                <button id="theme-toggle" aria-label="Toggle dark mode"
+                <button id="theme-toggle" aria-label="Toggle dark mode" style="pointer-events: auto !important; cursor: pointer !important;"
                         class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-all border border-slate-200 dark:border-slate-700">
                     <svg id="theme-toggle-dark-icon" class="hidden w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
                     <svg id="theme-toggle-light-icon" class="hidden w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
                 </button>
 
                 <!-- Unauthenticated (Anonymous) Links -->
-                <div sec:authorize="isAnonymous()" class="flex items-center gap-2">
-                    <a th:href="@{/login}" class="px-3.5 py-2 text-xs xl:text-sm font-bold text-slate-700 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors whitespace-nowrap">
+                <div sec:authorize="isAnonymous()" class="flex items-center gap-2" style="pointer-events: auto !important;">
+                    <a th:href="@{/login}" class="px-3.5 py-2 text-xs xl:text-sm font-bold text-slate-700 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors whitespace-nowrap" style="pointer-events: auto !important; cursor: pointer !important;">
                         Login
                     </a>
-                    <a th:href="@{/signup}" class="px-4 py-2 rounded-xl text-xs xl:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md shadow-emerald-500/20 hover:scale-105 active:scale-95 transition-all whitespace-nowrap">
+                    <a th:href="@{/signup}" class="px-4 py-2 rounded-xl text-xs xl:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md shadow-emerald-500/20 hover:scale-105 active:scale-95 transition-all whitespace-nowrap" style="pointer-events: auto !important; cursor: pointer !important;">
                         Sign Up
                     </a>
                 </div>
 
                 <!-- Authenticated (Logged In) Links -->
-                <div sec:authorize="isAuthenticated()" class="flex items-center gap-3">
-                    <a th:href="@{/student/dashboard}" sec:authorize="hasRole('STUDENT')" 
+                <div sec:authorize="isAuthenticated()" class="flex items-center gap-3" style="pointer-events: auto !important;">
+                    <a th:href="@{/student/dashboard}" sec:authorize="hasRole('STUDENT')" style="pointer-events: auto !important; cursor: pointer !important;"
                        class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 transition-all whitespace-nowrap">
                         <span>🎓</span> LMS Portal
                     </a>
-                    <a th:href="@{/user/profile}" sec:authorize="!hasRole('STUDENT')" 
+                    <a th:href="@{/user/profile}" sec:authorize="!hasRole('STUDENT')" style="pointer-events: auto !important; cursor: pointer !important;"
                        class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 transition-all whitespace-nowrap">
                         <span>👤</span> Dashboard
                     </a>
                     <div class="hidden sm:block text-right">
                         <div sec:authentication="name" class="text-xs font-black text-slate-900 dark:text-white leading-tight">User</div>
                     </div>
-                    <form th:action="@{/logout}" method="post" class="m-0">
-                        <button type="submit" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold hover:text-rose-500 hover:bg-rose-500/10 transition-all border border-slate-200 dark:border-slate-700 whitespace-nowrap">
+                    <form th:action="@{/logout}" method="post" class="m-0" style="pointer-events: auto !important;">
+                        <button type="submit" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold hover:text-rose-500 hover:bg-rose-500/10 transition-all border border-slate-200 dark:border-slate-700 whitespace-nowrap" style="pointer-events: auto !important; cursor: pointer !important;">
                             Logout
                         </button>
                     </form>
                 </div>
 
                 <!-- Mobile Menu Button -->
-                <button class="mobile-menu-btn lg:hidden p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all" onclick="toggleMobileMenu()" aria-label="Open Navigation Menu">
+                <button class="mobile-menu-btn lg:hidden p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all" onclick="toggleMobileMenu()" aria-label="Open Navigation Menu" style="pointer-events: auto !important; cursor: pointer !important;">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Mobile Menu Drawer -->
-    <div id="mobile-menu" class="mobile-menu-drawer">
+    <!-- Mobile Menu Drawer (Hidden by default) -->
+    <div id="mobile-menu" class="mobile-menu-drawer hidden" style="display: none !important;">
         <div class="mobile-menu-overlay" onclick="toggleMobileMenu()"></div>
         <div class="mobile-menu-panel">
             <div class="mobile-menu-header">

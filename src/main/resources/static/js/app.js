@@ -9,8 +9,12 @@ function toggleMobileMenu() {
   const isOpen = menu.classList.contains('open');
   if (isOpen) {
     menu.classList.remove('open');
+    menu.classList.add('hidden');
+    menu.style.display = 'none';
     document.body.style.overflow = '';
   } else {
+    menu.classList.remove('hidden');
+    menu.style.display = 'block';
     menu.classList.add('open');
     document.body.style.overflow = 'hidden';
   }

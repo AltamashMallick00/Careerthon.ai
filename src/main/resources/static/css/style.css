@@ -1484,19 +1484,43 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ============================================
+   HEADER & NAVIGATION BAR STYLES
+   ============================================ */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 9000;
+  pointer-events: auto !important;
+}
+
+.site-header * {
+  pointer-events: auto;
+}
+
+.site-header nav,
+.site-header a,
+.site-header button,
+.site-header .nav-link {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  position: relative;
+  z-index: 9001;
+}
+
+/* ============================================
    MOBILE MENU DRAWER
    ============================================ */
 .mobile-menu-drawer {
-  display: none;
+  display: none !important;
   position: fixed;
   inset: 0;
   z-index: 9999;
-  pointer-events: none;
+  pointer-events: none !important;
 }
 
 .mobile-menu-drawer.open {
-  display: block;
-  pointer-events: auto;
+  display: block !important;
+  pointer-events: auto !important;
 }
 
 .mobile-menu-overlay {
@@ -1506,13 +1530,13 @@ h1, h2, h3, h4, h5, h6 {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   opacity: 0;
-  pointer-events: none;
+  pointer-events: none !important;
   transition: opacity 0.3s ease;
 }
 
 .mobile-menu-drawer.open .mobile-menu-overlay {
   opacity: 1;
-  pointer-events: auto;
+  pointer-events: auto !important;
 }
 
 .mobile-menu-panel {
@@ -1532,6 +1556,12 @@ h1, h2, h3, h4, h5, h6 {
   overflow-y: auto;
   z-index: 10000;
   padding: 24px;
+  pointer-events: none !important;
+}
+
+.mobile-menu-drawer.open .mobile-menu-panel {
+  transform: translateX(0);
+  pointer-events: auto !important;
 }
 
 [data-theme="dark"] .mobile-menu-panel {
