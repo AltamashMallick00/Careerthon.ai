@@ -26,21 +26,32 @@ public class SecurityConfig {
                     "/health", "/actuator/health", "/h2-console/**"
                 ).permitAll()
 
+                // Feature Showcase & Page View Endpoints (Allow users to open & navigate between all options)
+                .requestMatchers(
+                    "/review", "/review/",
+                    "/job-match", "/job-match/",
+                    "/ai-tools/**", "/recruiter-outreach/**", "/outreach/**", "/roadmap/**", "/referral-finder/**", "/referrals/**", "/referral/**",
+                    "/resume", "/resume/",
+                    "/lms", "/lms/", "/lms/course/**"
+                ).permitAll()
+
                 // Admin Only Features
                 .requestMatchers("/admin/**").hasRole("ADMIN")
 
-                // LMS & Student Portal
-                .requestMatchers("/student/**", "/lms/**").hasAnyRole("STUDENT", "USER", "ADMIN")
+                // Student Portal & User Dashboard (Strictly Requires Login)
+                .requestMatchers("/student/**", "/user/**").hasAnyRole("STUDENT", "USER", "ADMIN")
 
-                // Protected Core SaaS & AI Features (Require Authentication)
+                // Protected Core AI Execution & Generation Actions (Requires Login)
                 .requestMatchers(
-                    "/review/**",
+                    "/review/submit",
+                    "/review/analyzing/**",
+                    "/review/analyze/**",
                     "/report/**",
-                    "/resume/**",
-                    "/job-match", "/api/job-match/**",
-                    "/ai-tools/**", "/recruiter-outreach/**", "/outreach/**", "/roadmap/**", "/referral-finder/**", "/referrals/**", "/referral/**",
-                    "/api/ai/**",
-                    "/user/**"
+                    "/resume/scan",
+                    "/resume/bulk/**",
+                    "/resume/results/**",
+                    "/api/job-match/**",
+                    "/api/ai/**"
                 ).hasAnyRole("STUDENT", "USER", "ADMIN")
 
                 // All other requests must be authenticated

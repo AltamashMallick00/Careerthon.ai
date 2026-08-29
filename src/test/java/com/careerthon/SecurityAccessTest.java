@@ -8,6 +8,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -17,10 +18,10 @@ public class SecurityAccessTest {
     @Autowired
     private MockMvc mockMvc;
 
-    // ── 1. Public Endpoints (Accessible without Login) ──────────────────────
+    // ── 1. Public Pages (Accessible for browsing & navigation without Login) ───
 
     @Test
-    public void testPublicEndpoints_AllowedForAnonymous() throws Exception {
+    public void testPublicPages_AllowedForAnonymous() throws Exception {
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk());
 
@@ -41,44 +42,45 @@ public class SecurityAccessTest {
 
         mockMvc.perform(get("/signup"))
                 .andExpect(status().isOk());
-    }
 
-    // ── 2. Protected Features (Anonymous Users Redirected to /login) ─────────
-
-    @Test
-    public void testProtectedFeatures_RedirectToLogin_WhenAnonymous() throws Exception {
+        // Users can browse and open all feature showcase pages
         mockMvc.perform(get("/review"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrlPattern("**/login"));
+                .andExpect(status().isOk());
 
         mockMvc.perform(get("/job-match"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrlPattern("**/login"));
+                .andExpect(status().isOk());
 
         mockMvc.perform(get("/resume"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrlPattern("**/login"));
+                .andExpect(status().isOk());
 
         mockMvc.perform(get("/ai-tools/recruiter-outreach"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrlPattern("**/login"));
+                .andExpect(status().isOk());
 
         mockMvc.perform(get("/ai-tools/roadmap"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrlPattern("**/login"));
+                .andExpect(status().isOk());
 
         mockMvc.perform(get("/ai-tools/referral-finder"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrlPattern("**/login"));
+                .andExpect(status().isOk());
 
         mockMvc.perform(get("/lms"))
+                .andExpect(status().isOk());
+    }
+
+    // ── 2. Protected Dashboards & Actions (Anonymous Users Redirected to /login) ───
+
+    @Test
+    public void testProtectedActions_RedirectToLogin_WhenAnonymous() throws Exception {
+        // AI Review submission requires authentication
+        mockMvc.perform(post("/review/submit"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrlPattern("**/login"));
 
+        // Student Dashboard requires authentication
         mockMvc.perform(get("/student/dashboard"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrlPattern("**/login"));
 
+        // Admin Dashboard requires authentication
         mockMvc.perform(get("/admin/dashboard"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrlPattern("**/login"));
@@ -87,27 +89,9 @@ public class SecurityAccessTest {
     // ── 3. Authenticated Student/User Access ────────────────────────────────
 
     @Test
-    @WithMockUser(username = "teststudent", roles = {"STUDENT", "USER"})
-    public void testProtectedFeatures_AllowedForAuthenticatedUser() throws Exception {
-        mockMvc.perform(get("/review"))
-                .andExpect(status().isOk());
-
-        mockMvc.perform(get("/job-match"))
-                .andExpect(status().isOk());
-
-        mockMvc.perform(get("/resume"))
-                .andExpect(status().isOk());
-
-        mockMvc.perform(get("/ai-tools/recruiter-outreach"))
-                .andExpect(status().isOk());
-
-        mockMvc.perform(get("/ai-tools/roadmap"))
-                .andExpect(status().isOk());
-
-        mockMvc.perform(get("/ai-tools/referral-finder"))
-                .andExpect(status().isOk());
-
-        mockMvc.perform(get("/lms"))
+    @WithMockUser(username = "Priyanshu123", roles = {"STUDENT", "USER"})
+    public void testProtectedDashboards_AllowedForAuthenticatedUser() throws Exception {
+        mockMvc.perform(get("/student/dashboard"))
                 .andExpect(status().isOk());
     }
 
