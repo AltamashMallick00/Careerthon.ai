@@ -1487,16 +1487,15 @@ h1, h2, h3, h4, h5, h6 {
    MOBILE MENU DRAWER
    ============================================ */
 .mobile-menu-drawer {
+  display: none;
   position: fixed;
   inset: 0;
   z-index: 9999;
-  visibility: hidden;
   pointer-events: none;
-  transition: visibility 0.3s ease;
 }
 
 .mobile-menu-drawer.open {
-  visibility: visible;
+  display: block;
   pointer-events: auto;
 }
 
@@ -1507,11 +1506,13 @@ h1, h2, h3, h4, h5, h6 {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   opacity: 0;
+  pointer-events: none;
   transition: opacity 0.3s ease;
 }
 
 .mobile-menu-drawer.open .mobile-menu-overlay {
   opacity: 1;
+  pointer-events: auto;
 }
 
 .mobile-menu-panel {
