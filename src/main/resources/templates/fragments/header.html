@@ -62,72 +62,94 @@
 <body>
 
 <!-- Header Fragment -->
-<header th:fragment="header" class="site-header" id="site-header">
-    <nav class="nav-container py-4 flex items-center justify-between">
-        <a href="/" class="flex items-center gap-3.5 group">
-            <svg class="w-10 h-10 group-hover:scale-110 transition-transform duration-300 shadow-glow" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="logoGradHeader" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#2563EB"/>
-                        <stop offset="50%" stop-color="#3B82F6"/>
-                        <stop offset="100%" stop-color="#8B5CF6"/>
-                    </linearGradient>
-                </defs>
-                <!-- Background soft glass pill -->
-                <rect width="100" height="100" rx="28" fill="url(#logoGradHeader)" fill-opacity="0.15" stroke="url(#logoGradHeader)" stroke-width="1.5"/>
-                <!-- Outer Arc / Stylized "C" -->
-                <path d="M 70 32 A 22 22 0 1 0 70 68" stroke="url(#logoGradHeader)" stroke-width="9" stroke-linecap="round" />
-                <!-- Inner Chevrons / Accelerators -->
-                <path d="M 46 36 L 58 48 L 46 60" stroke="url(#logoGradHeader)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M 32 41 L 41 48 L 32 55" stroke="url(#logoGradHeader)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
-            </svg>
-            <span class="text-2xl font-black text-themed-main tracking-tighter group-hover:text-emerald-500 transition-colors">Careerthon.AI</span>
-        </a>
-        
-        <div class="nav-links hidden lg:flex items-center bg-slate-100/50 backdrop-blur-md p-1.5 rounded-2xl border border-slate-200/50">
-            <a href="/" class="nav-link py-2 px-4 rounded-xl text-sm font-bold text-slate-600 hover:text-emerald-600 hover:bg-white transition-all">Home</a>
+<header th:fragment="header" class="site-header sticky top-0 z-50 w-full transition-all duration-300 bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl border-b border-slate-200/80 dark:border-white/10 shadow-sm dark:shadow-[0_4px_30px_-4px_rgba(0,0,0,0.5)]" id="site-header">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-18 py-3">
+            
+            <!-- Brand Logo -->
+            <a href="/" class="flex items-center gap-3 group shrink-0">
+                <svg class="w-9 h-9 group-hover:scale-105 transition-transform duration-300 shadow-glow" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logoGradHeader" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#2563EB"/>
+                            <stop offset="50%" stop-color="#3B82F6"/>
+                            <stop offset="100%" stop-color="#8B5CF6"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- Background soft glass pill -->
+                    <rect width="100" height="100" rx="28" fill="url(#logoGradHeader)" fill-opacity="0.15" stroke="url(#logoGradHeader)" stroke-width="1.5"/>
+                    <!-- Outer Arc / Stylized "C" -->
+                    <path d="M 70 32 A 22 22 0 1 0 70 68" stroke="url(#logoGradHeader)" stroke-width="9" stroke-linecap="round" />
+                    <!-- Inner Chevrons / Accelerators -->
+                    <path d="M 46 36 L 58 48 L 46 60" stroke="url(#logoGradHeader)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M 32 41 L 41 48 L 32 55" stroke="url(#logoGradHeader)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+                </svg>
+                <span class="text-xl font-black text-slate-900 dark:text-white tracking-tight group-hover:text-emerald-500 transition-colors">Careerthon<span class="text-emerald-500">.AI</span></span>
+            </a>
+            
+            <!-- Desktop Navigation Links (Clean & Professional, No Multi-line Emoji Wrap) -->
+            <nav class="hidden lg:flex items-center gap-1 xl:gap-1.5 px-3 py-1.5 rounded-full bg-slate-100/80 dark:bg-slate-900/70 border border-slate-200/80 dark:border-white/10 backdrop-blur-md">
+                <a href="/" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-all whitespace-nowrap">Home</a>
+                <a href="/review" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-all whitespace-nowrap">Review</a>
+                <a href="/job-match" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-all whitespace-nowrap">Job Fit</a>
+                <a href="/ai-tools/recruiter-outreach" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-all whitespace-nowrap">Outreach</a>
+                <a href="/ai-tools/roadmap" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-all whitespace-nowrap">Roadmap</a>
+                <a href="/ai-tools/referral-finder" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-all whitespace-nowrap">Referrals</a>
+                <a href="/lms" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-violet-600 dark:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-950/40 transition-all whitespace-nowrap flex items-center gap-1.5">
+                    <span>Academy</span>
+                    <span class="text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-md bg-violet-600 text-white leading-none">Pro</span>
+                </a>
+                <a href="/blog" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-all whitespace-nowrap">Blog</a>
+                <a href="/about" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-all whitespace-nowrap">About</a>
+                <a href="/careers" class="nav-link px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-all whitespace-nowrap">Careers</a>
+            </nav>
+            
+            <!-- Right Action Buttons (Theme Toggle & Auth) -->
+            <div class="flex items-center gap-3 shrink-0">
+                <!-- Theme Toggle -->
+                <button id="theme-toggle" aria-label="Toggle dark mode"
+                        class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-all border border-slate-200 dark:border-slate-700">
+                    <svg id="theme-toggle-dark-icon" class="hidden w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                    <svg id="theme-toggle-light-icon" class="hidden w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+                </button>
 
-            <a href="/job-match" class="nav-link py-2 px-4 rounded-xl text-sm font-bold text-slate-600 hover:text-emerald-600 hover:bg-white transition-all">Job Fit 🎯</a>
-            <a href="/ai-tools/recruiter-outreach" class="nav-link py-2 px-4 rounded-xl text-sm font-bold text-slate-600 hover:text-emerald-600 hover:bg-white transition-all">Outreach ✉️</a>
-            <a href="/ai-tools/roadmap" class="nav-link py-2 px-4 rounded-xl text-sm font-bold text-slate-600 hover:text-emerald-600 hover:bg-white transition-all">Roadmap 🗺️</a>
-            <a href="/ai-tools/referral-finder" class="nav-link py-2 px-4 rounded-xl text-sm font-bold text-slate-600 hover:text-emerald-600 hover:bg-white transition-all">Referrals 🤝</a>
-            <a href="/blog" class="nav-link py-2 px-4 rounded-xl text-sm font-bold text-slate-600 hover:text-emerald-600 hover:bg-white transition-all">Blog 📝</a>
-            <a href="/about" class="nav-link py-2 px-4 rounded-xl text-sm font-bold text-slate-600 hover:text-emerald-600 hover:bg-white transition-all">About</a>
-            <a href="/careers" class="nav-link py-2 px-4 rounded-xl text-sm font-bold text-slate-600 hover:text-emerald-600 hover:bg-white transition-all">Careers 💼</a>
-            <a href="/lms" class="nav-link py-2 px-4 rounded-xl text-sm font-bold text-violet-600 hover:text-violet-700 hover:bg-violet-50 transition-all">Academy 🎓</a>
-            <a href="/student/dashboard" sec:authorize="hasRole('STUDENT')" class="nav-link py-2 px-4 rounded-xl text-sm font-bold text-emerald-600 bg-white shadow-sm transition-all">LMS Dashboard</a>
-            <a href="/user/profile" sec:authorize="isAuthenticated() and !hasRole('STUDENT')" class="nav-link py-2 px-4 rounded-xl text-sm font-bold text-emerald-600 bg-white shadow-sm transition-all">Dashboard</a>
-        </div>
-        
-        <div class="auth-links flex items-center gap-4">
-            <!-- Theme Toggle -->
-            <button id="theme-toggle" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all border border-slate-200 dark:border-slate-700">
-                <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
-                <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
-            </button>
-
-            <div sec:authorize="isAnonymous()" class="flex items-center gap-2">
-                <a href="/login" class="text-sm font-black text-slate-500 dark:text-slate-400 hover:text-emerald-600 px-4">Login</a>
-                <a href="/signup" class="text-sm font-black text-white bg-emerald-600 hover:bg-emerald-700 px-5 py-2.5 rounded-xl shadow-sm transition-all">Sign Up</a>
-            </div>
-
-            <div sec:authorize="isAuthenticated()" class="flex items-center gap-4">
-                <div class="text-right hidden sm:block">
-                    <div class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Authenticated</div>
-                    <div sec:authentication="name" class="text-sm font-black text-slate-900 dark:text-white leading-none">User</div>
+                <!-- Unauthenticated (Anonymous) Links -->
+                <div sec:authorize="isAnonymous()" class="flex items-center gap-2">
+                    <a href="/login" class="px-3.5 py-2 text-xs xl:text-sm font-bold text-slate-700 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors whitespace-nowrap">
+                        Login
+                    </a>
+                    <a href="/signup" class="px-4 py-2 rounded-xl text-xs xl:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md shadow-emerald-500/20 hover:scale-105 active:scale-95 transition-all whitespace-nowrap">
+                        Sign Up
+                    </a>
                 </div>
-                <form th:action="@{/logout}" method="post" class="m-0">
-                    <button type="submit" class="p-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-[10px] font-black uppercase tracking-widest hover:bg-slate-200 dark:hover:bg-slate-700 transition-all border border-slate-200 dark:border-slate-700">
-                        Logout
-                    </button>
-                </form>
-            </div>
 
-            <button class="mobile-menu-btn lg:hidden p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300" onclick="toggleMobileMenu()">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
-            </button>
+                <!-- Authenticated (Logged In) Links -->
+                <div sec:authorize="isAuthenticated()" class="flex items-center gap-3">
+                    <a href="/student/dashboard" sec:authorize="hasRole('STUDENT')" 
+                       class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 transition-all whitespace-nowrap">
+                        <span>🎓</span> LMS Portal
+                    </a>
+                    <a href="/user/profile" sec:authorize="!hasRole('STUDENT')" 
+                       class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 transition-all whitespace-nowrap">
+                        <span>👤</span> Dashboard
+                    </a>
+                    <div class="hidden sm:block text-right">
+                        <div sec:authentication="name" class="text-xs font-black text-slate-900 dark:text-white leading-tight">User</div>
+                    </div>
+                    <form th:action="@{/logout}" method="post" class="m-0">
+                        <button type="submit" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold hover:text-rose-500 hover:bg-rose-500/10 transition-all border border-slate-200 dark:border-slate-700 whitespace-nowrap">
+                            Logout
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-btn lg:hidden p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all" onclick="toggleMobileMenu()" aria-label="Open Navigation Menu">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+                </button>
+            </div>
         </div>
-    </nav>
+    </div>
 
     <!-- Mobile Menu Drawer -->
     <div id="mobile-menu" class="mobile-menu-drawer">
@@ -159,10 +181,24 @@
                 <a href="/" class="mobile-menu-link" onclick="toggleMobileMenu()">
                     <span class="mobile-menu-link-icon">🏠</span> Home
                 </a>
+                <a href="/review" class="mobile-menu-link" onclick="toggleMobileMenu()">
+                    <span class="mobile-menu-link-icon">⚡</span> AI Profile Review
+                </a>
                 <a href="/job-match" class="mobile-menu-link" onclick="toggleMobileMenu()">
                     <span class="mobile-menu-link-icon">🎯</span> Job Fit
                 </a>
-
+                <a href="/ai-tools/recruiter-outreach" class="mobile-menu-link" onclick="toggleMobileMenu()">
+                    <span class="mobile-menu-link-icon">✉️</span> Outreach Studio
+                </a>
+                <a href="/ai-tools/roadmap" class="mobile-menu-link" onclick="toggleMobileMenu()">
+                    <span class="mobile-menu-link-icon">🗺️</span> Skill Roadmap
+                </a>
+                <a href="/ai-tools/referral-finder" class="mobile-menu-link" onclick="toggleMobileMenu()">
+                    <span class="mobile-menu-link-icon">🤝</span> Referral Finder
+                </a>
+                <a href="/lms" class="mobile-menu-link !text-violet-600 dark:!text-violet-400 font-bold" onclick="toggleMobileMenu()">
+                    <span class="mobile-menu-link-icon">🎓</span> Academy Pro
+                </a>
                 <a href="/blog" class="mobile-menu-link" onclick="toggleMobileMenu()">
                     <span class="mobile-menu-link-icon">📝</span> Blog
                 </a>
@@ -171,9 +207,6 @@
                 </a>
                 <a href="/careers" class="mobile-menu-link" onclick="toggleMobileMenu()">
                     <span class="mobile-menu-link-icon">💼</span> Careers
-                </a>
-                <a href="/lms" class="mobile-menu-link !text-violet-600" onclick="toggleMobileMenu()">
-                    <span class="mobile-menu-link-icon">🎓</span> Academy
                 </a>
                 <a href="/student/dashboard" sec:authorize="hasRole('STUDENT')" class="mobile-menu-link mobile-menu-link--active" onclick="toggleMobileMenu()">
                     <span class="mobile-menu-link-icon">📊</span> LMS Dashboard
