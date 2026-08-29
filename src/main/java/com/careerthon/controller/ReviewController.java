@@ -5,6 +5,7 @@ import com.careerthon.service.ProfileAnalyzerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/review")
@@ -22,9 +23,10 @@ public class ReviewController {
     }
 
     @PostMapping("/submit")
-    public String submitReview(@RequestParam String linkedinUrl,
+    public String submitReview(@RequestParam(required = false) String linkedinUrl,
+                                @RequestParam(required = false) MultipartFile profilePdf,
                                 @RequestParam(required = false) String email) {
-        ProfileReview review = analyzerService.createReview(linkedinUrl, email);
+        ProfileReview review = analyzerService.createReview(linkedinUrl, profilePdf, email);
         return "redirect:/review/analyzing/" + review.getId();
     }
 

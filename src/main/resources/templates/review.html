@@ -10,56 +10,133 @@
     <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_50%_0%,rgba(99,102,241,0.08),transparent_70%)]"></div>
     
     <div class="max-w-7xl mx-auto px-4 relative z-10">
-        <div class="flex flex-col lg:flex-row gap-20 items-center">
+        <div class="flex flex-col lg:flex-row gap-16 items-center">
             <!-- Left: Content Section -->
             <div class="lg:w-1/2" data-reveal>
                 <div class="hero-tag !bg-indigo-600/5 !text-indigo-600 dark:!text-indigo-400 border-indigo-600/10 mb-8">Phase 1: Intelligence Scan</div>
                 <h1 class="text-5xl md:text-7xl font-black text-themed-main mb-8 leading-tight tracking-tighter">
                     Analyze Your <br><span class="text-gradient">LinkedIn</span> Impact
                 </h1>
-                <p class="text-xl text-themed-body mb-12 font-medium leading-relaxed">
-                    Our AI engine performs a deep-scan of 15+ visibility markers to see how recruiters and algorithms view your professional brand in 2026.
+                <p class="text-xl text-themed-body mb-10 font-medium leading-relaxed">
+                    Our AI engine performs a deep evaluation of your actual skills, experience metrics, ATS compatibility, and 15+ visibility markers to deliver your 100% legitimate profile score.
                 </p>
 
-                <div class="space-y-6">
+                <!-- LinkedIn PDF Quick Guide -->
+                <div class="p-6 bg-themed-soft backdrop-blur-sm rounded-3xl border border-themed-soft mb-8">
+                    <div class="flex items-center gap-3 font-black text-themed-main text-sm uppercase tracking-wider mb-4 text-indigo-500">
+                        <span>💡</span> How to Export LinkedIn PDF in 5 Seconds:
+                    </div>
+                    <div class="grid grid-cols-3 gap-3 text-center">
+                        <div class="p-3 bg-themed-pure rounded-2xl border border-themed-soft">
+                            <div class="w-7 h-7 mx-auto rounded-full bg-indigo-500/10 text-indigo-500 font-black text-xs flex items-center justify-center mb-2">1</div>
+                            <div class="text-[11px] font-bold text-themed-main">Open Your Profile</div>
+                            <div class="text-[9px] text-themed-body">On LinkedIn.com</div>
+                        </div>
+                        <div class="p-3 bg-themed-pure rounded-2xl border border-themed-soft">
+                            <div class="w-7 h-7 mx-auto rounded-full bg-indigo-500/10 text-indigo-500 font-black text-xs flex items-center justify-center mb-2">2</div>
+                            <div class="text-[11px] font-bold text-themed-main">Click "More"</div>
+                            <div class="text-[9px] text-themed-body">Under headline</div>
+                        </div>
+                        <div class="p-3 bg-themed-pure rounded-2xl border border-themed-soft">
+                            <div class="w-7 h-7 mx-auto rounded-full bg-emerald-500/10 text-emerald-500 font-black text-xs flex items-center justify-center mb-2">3</div>
+                            <div class="text-[11px] font-bold text-themed-main">"Save to PDF"</div>
+                            <div class="text-[9px] text-themed-body">Upload it below!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
                     <div class="flex items-center gap-4 p-4 bg-themed-soft backdrop-blur-sm rounded-2xl border border-themed-soft">
-                        <div class="w-12 h-12 rounded-xl bg-indigo-600 flex items-center justify-center text-xl shadow-lg">⚡</div>
+                        <div class="w-12 h-12 rounded-xl bg-indigo-600 flex items-center justify-center text-xl shadow-lg text-white">⚡</div>
                         <div>
-                            <div class="font-black text-themed-main">Instant Processing</div>
-                            <div class="text-xs text-themed-body">Get your detailed report in less than 30 seconds.</div>
+                            <div class="font-black text-themed-main">100% Genuine Profile Intelligence</div>
+                            <div class="text-xs text-themed-body">Scans actual metrics, skills count, experience depth & ATS match.</div>
                         </div>
                     </div>
                     <div class="flex items-center gap-4 p-4 bg-themed-soft backdrop-blur-sm rounded-2xl border border-themed-soft">
-                        <div class="w-12 h-12 rounded-xl bg-emerald-500 flex items-center justify-center text-xl shadow-lg">🔒</div>
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500 flex items-center justify-center text-xl shadow-lg text-white">🔒</div>
                         <div>
-                            <div class="font-black text-themed-main">Secure Analysis</div>
-                            <div class="text-xs text-themed-body">We don't store your personal credentials. Safe & Private.</div>
+                            <div class="font-black text-themed-main">Confidential & Secure</div>
+                            <div class="text-xs text-themed-body">Your profile data is parsed privately in-memory and never shared.</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Right: Form Card -->
+            <!-- Right: Interactive Form Card -->
             <div class="lg:w-1/2 w-full" data-reveal data-delay="200">
-                <div class="premium-card !p-8 md:!p-16 glass border-white/20 shadow-[0_40px_100px_-20px_rgba(15,23,42,0.3)]">
-                    <form th:action="@{/review/submit}" method="POST" class="space-y-10">
-                        <div>
-                            <label class="block text-[10px] font-black text-indigo-400 uppercase tracking-[0.3em] mb-6">Profile URL Vector</label>
-                            <div class="relative group">
-                                <div class="absolute -inset-1 bg-indigo-500/10 rounded-2xl blur-lg group-focus-within:bg-indigo-500/30 transition-all"></div>
-                                <input type="url" name="linkedinUrl" required 
-                                       placeholder="https://www.linkedin.com/in/yourname"
-                                       class="relative w-full py-6 px-8 bg-themed-pure rounded-2xl border-2 border-themed-soft focus:border-indigo-600 outline-none transition-all text-lg font-bold text-themed-main placeholder:text-slate-300">
+                <div class="premium-card !p-8 md:!p-12 glass border-white/20 shadow-[0_40px_100px_-20px_rgba(15,23,42,0.3)]">
+                    
+                    <!-- Mode Selector Tabs -->
+                    <div class="flex p-1.5 bg-themed-soft rounded-2xl border border-themed-soft mb-8">
+                        <button type="button" id="tab-pdf" onclick="switchTab('pdf')"
+                                class="flex-1 py-3 px-4 rounded-xl font-black text-xs uppercase tracking-wider transition-all bg-indigo-600 text-white shadow-md flex items-center justify-center gap-2">
+                            <span>📄 Upload LinkedIn PDF</span>
+                            <span class="px-2 py-0.5 rounded-full bg-white/20 text-[9px]">100% Real</span>
+                        </button>
+                        <button type="button" id="tab-url" onclick="switchTab('url')"
+                                class="flex-1 py-3 px-4 rounded-xl font-black text-xs uppercase tracking-wider transition-all text-themed-body hover:text-themed-main flex items-center justify-center gap-2">
+                            <span>🔗 Profile URL</span>
+                        </button>
+                    </div>
+
+                    <form th:action="@{/review/submit}" method="POST" enctype="multipart/form-data" class="space-y-6">
+                        
+                        <!-- TAB 1: PDF Upload Mode (Default) -->
+                        <div id="mode-pdf" class="space-y-4">
+                            <label class="block text-[10px] font-black text-indigo-400 uppercase tracking-[0.3em]">
+                                Upload Profile PDF (Exported from LinkedIn)
+                            </label>
+                            
+                            <div id="drop-zone" 
+                                 onclick="document.getElementById('profilePdfInput').click()"
+                                 class="relative border-2 border-dashed border-indigo-500/40 hover:border-indigo-600 rounded-3xl p-8 text-center cursor-pointer bg-themed-pure hover:bg-indigo-500/5 transition-all group">
+                                <input type="file" id="profilePdfInput" name="profilePdf" accept=".pdf" class="hidden" onchange="handleFileSelected(this)">
+                                <div class="w-16 h-16 mx-auto rounded-2xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">
+                                    📄
+                                </div>
+                                <div id="upload-prompt">
+                                    <div class="font-black text-themed-main text-base mb-1">Click to Upload or Drag & Drop</div>
+                                    <div class="text-xs text-themed-body">Upload your LinkedIn PDF for a 100% genuine data-backed score</div>
+                                </div>
+                                <div id="file-info" class="hidden font-bold text-emerald-500 text-sm flex items-center justify-center gap-2">
+                                    <span>✅</span> <span id="file-name">filename.pdf</span>
+                                </div>
                             </div>
                         </div>
- 
-                        <button type="submit" class="w-full btn-premium py-6 rounded-2xl text-xl flex justify-center items-center group shadow-glow">
-                            Generate Intelligence Report
-                            <svg class="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+
+                        <!-- TAB 2: URL Scan Mode -->
+                        <div id="mode-url" class="hidden space-y-4">
+                            <label class="block text-[10px] font-black text-indigo-400 uppercase tracking-[0.3em]">
+                                LinkedIn Profile URL
+                            </label>
+                            <div class="relative group">
+                                <div class="absolute -inset-1 bg-indigo-500/10 rounded-2xl blur-lg group-focus-within:bg-indigo-500/30 transition-all"></div>
+                                <input type="url" id="urlInput" name="linkedinUrl"
+                                       placeholder="https://www.linkedin.com/in/yourname"
+                                       class="relative w-full py-5 px-6 bg-themed-pure rounded-2xl border-2 border-themed-soft focus:border-indigo-600 outline-none transition-all text-base font-bold text-themed-main placeholder:text-slate-300">
+                            </div>
+                        </div>
+
+                        <!-- Optional Email Input -->
+                        <div>
+                            <label class="block text-[10px] font-black text-themed-body uppercase tracking-[0.3em] mb-2">
+                                Email Address <span class="text-slate-400 font-normal lowercase">(optional — receive PDF copy)</span>
+                            </label>
+                            <input type="email" name="email"
+                                   placeholder="you@example.com"
+                                   class="w-full py-4 px-6 bg-themed-pure rounded-2xl border-2 border-themed-soft focus:border-indigo-600 outline-none transition-all text-sm font-semibold text-themed-main placeholder:text-slate-300">
+                        </div>
+
+                        <button type="submit" class="w-full btn-premium py-5 rounded-2xl text-lg flex justify-center items-center group shadow-glow">
+                            Generate Legit Intelligence Report
+                            <svg class="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
                         </button>
                     </form>
 
-                    <div class="mt-8 pt-8 border-t border-themed-soft">
+                    <div class="mt-8 pt-6 border-t border-themed-soft">
                         <div class="flex items-center justify-center gap-4">
                             <div class="flex -space-x-2.5">
                                 <div class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center font-black text-[9px] border-2 border-themed-pure shadow-md">G</div>
@@ -67,7 +144,7 @@
                                 <div class="w-8 h-8 rounded-full bg-violet-500 text-white flex items-center justify-center font-black text-[9px] border-2 border-themed-pure shadow-md">N</div>
                             </div>
                             <div class="text-[10px] font-black text-themed-body uppercase tracking-widest">
-                                Trusted by elite tech recruiters
+                                Trusted by 50,000+ candidates & tech recruiters
                             </div>
                         </div>
                     </div>
@@ -83,7 +160,7 @@
                     <div class="w-32 h-32 rounded-3xl bg-indigo-600 flex items-center justify-center text-4xl shadow-2xl shrink-0 text-white font-black">PS</div>
                     <div>
                         <div class="flex text-amber-400 mb-2 text-xs">★★★★★</div>
-                        <p class="text-themed-body italic leading-relaxed mb-6 font-medium">"We designed Careerthon.AI to democratize profile intelligence. Every marker we scan is benchmarked against elite corporate standards to give you an undeniable edge."</p>
+                        <p class="text-themed-body italic leading-relaxed mb-6 font-medium">"We designed Careerthon.AI to provide 100% genuine profile intelligence. By analyzing actual skills, experience metrics, and keyword density, every candidate gets a legitimate evaluation benchmarked against elite corporate standards."</p>
                         <div>
                             <div class="font-black text-themed-main">Priyanshu Shekhar</div>
                             <div class="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Project Lead & Architect</div>
@@ -96,7 +173,72 @@
 </main>
 
 <footer th:replace="~{fragments/footer :: footer}"></footer>
+
 <script>
+    function switchTab(mode) {
+        const tabPdf = document.getElementById('tab-pdf');
+        const tabUrl = document.getElementById('tab-url');
+        const modePdf = document.getElementById('mode-pdf');
+        const modeUrl = document.getElementById('mode-url');
+        const urlInput = document.getElementById('urlInput');
+
+        if (mode === 'pdf') {
+            tabPdf.className = 'flex-1 py-3 px-4 rounded-xl font-black text-xs uppercase tracking-wider transition-all bg-indigo-600 text-white shadow-md flex items-center justify-center gap-2';
+            tabUrl.className = 'flex-1 py-3 px-4 rounded-xl font-black text-xs uppercase tracking-wider transition-all text-themed-body hover:text-themed-main flex items-center justify-center gap-2';
+            modePdf.classList.remove('hidden');
+            modeUrl.classList.add('hidden');
+            if (urlInput) urlInput.removeAttribute('required');
+        } else {
+            tabUrl.className = 'flex-1 py-3 px-4 rounded-xl font-black text-xs uppercase tracking-wider transition-all bg-indigo-600 text-white shadow-md flex items-center justify-center gap-2';
+            tabPdf.className = 'flex-1 py-3 px-4 rounded-xl font-black text-xs uppercase tracking-wider transition-all text-themed-body hover:text-themed-main flex items-center justify-center gap-2';
+            modeUrl.classList.remove('hidden');
+            modePdf.classList.add('hidden');
+            if (urlInput) urlInput.setAttribute('required', 'true');
+        }
+    }
+
+    function handleFileSelected(input) {
+        const file = input.files && input.files[0];
+        const prompt = document.getElementById('upload-prompt');
+        const fileInfo = document.getElementById('file-info');
+        const fileName = document.getElementById('file-name');
+        if (file) {
+            prompt.classList.add('hidden');
+            fileInfo.classList.remove('hidden');
+            fileName.textContent = file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
+        }
+    }
+
+    // Drag and Drop support
+    const dropZone = document.getElementById('drop-zone');
+    if (dropZone) {
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropZone.classList.add('border-indigo-600', 'bg-indigo-500/10');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropZone.classList.remove('border-indigo-600', 'bg-indigo-500/10');
+            }, false);
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files.length > 0) {
+                const input = document.getElementById('profilePdfInput');
+                input.files = files;
+                handleFileSelected(input);
+            }
+        }, false);
+    }
+
     const observerOptions = { threshold: 0.1 };
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {

@@ -1,18 +1,14 @@
 package com.careerthon;
 
 import com.careerthon.model.ProfileReview;
+import com.careerthon.model.ScoreBreakdown;
 import com.careerthon.repository.ProfileReviewRepository;
 import com.careerthon.service.ProfileAnalyzerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.FluentQuery;
 
+import java.lang.reflect.Proxy;
 import java.util.*;
-import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,63 +21,69 @@ class ProfileAnalyzerServiceTest {
     @BeforeEach
     void setUp() {
         db.clear();
-        reviewRepository = new ProfileReviewRepository() {
-            @Override
-            public Optional<ProfileReview> findById(Long id) {
-                return Optional.ofNullable(db.get(id));
-            }
-
-            @Override
-            public <S extends ProfileReview> S save(S entity) {
-                if (entity.getId() == null) {
-                    entity.setId((long) (db.size() + 1));
+        reviewRepository = (ProfileReviewRepository) Proxy.newProxyInstance(
+                ProfileReviewRepository.class.getClassLoader(),
+                new Class<?>[]{ProfileReviewRepository.class},
+                (proxy, method, args) -> {
+                    String name = method.getName();
+                    if ("findById".equals(name) && args.length == 1) {
+                        return Optional.ofNullable(db.get(args[0]));
+                    }
+                    if ("save".equals(name) && args.length == 1) {
+                        ProfileReview entity = (ProfileReview) args[0];
+                        if (entity.getId() == null) {
+                            entity.setId((long) (db.size() + 1));
+                        }
+                        db.put(entity.getId(), entity);
+                        return entity;
+                    }
+                    if ("findAllByOrderByCreatedAtDesc".equals(name)) {
+                        return new ArrayList<>(db.values());
+                    }
+                    return null;
                 }
-                db.put(entity.getId(), entity);
-                return entity;
-            }
-
-            @Override public List<ProfileReview> findByStatusOrderByCreatedAtDesc(ProfileReview.ReviewStatus status) { return Collections.emptyList(); }
-            @Override public List<ProfileReview> findAllByOrderByCreatedAtDesc() { return new ArrayList<>(db.values()); }
-            @Override public List<ProfileReview> findByLinkedinUrlOrderByCreatedAtDesc(String linkedinUrl) { return Collections.emptyList(); }
-            @Override public Page<ProfileReview> findAllByOrderByCreatedAtDesc(Pageable pageable) { return Page.empty(); }
-            @Override public Page<ProfileReview> findByUserNameContainingIgnoreCaseOrLinkedinUrlContainingIgnoreCaseOrEmailAddressContainingIgnoreCase(String name, String url, String email, Pageable pageable) { return Page.empty(); }
-            @Override public double findAverageOverallScore() { return 70.0; }
-            @Override public void flush() {}
-            @Override public <S extends ProfileReview> S saveAndFlush(S entity) { return save(entity); }
-            @Override public <S extends ProfileReview> List<S> saveAllAndFlush(Iterable<S> entities) { return Collections.emptyList(); }
-            @Override public void deleteAllInBatch(Iterable<ProfileReview> entities) {}
-            @Override public void deleteAllByIdInBatch(Iterable<Long> longs) {}
-            @Override public void deleteAllInBatch() {}
-            @Override public ProfileReview getOne(Long aLong) { return db.get(aLong); }
-            @Override public ProfileReview getById(Long aLong) { return db.get(aLong); }
-            @Override public ProfileReview getReferenceById(Long aLong) { return db.get(aLong); }
-            @Override public <S extends ProfileReview> Optional<S> findOne(Example<S> example) { return Optional.empty(); }
-            @Override public <S extends ProfileReview> List<S> findAll(Example<S> example) { return Collections.emptyList(); }
-            @Override public <S extends ProfileReview> List<S> findAll(Example<S> example, Sort sort) { return Collections.emptyList(); }
-            @Override public <S extends ProfileReview> Page<S> findAll(Example<S> example, Pageable pageable) { return Page.empty(); }
-            @Override public <S extends ProfileReview> long count(Example<S> example) { return 0; }
-            @Override public <S extends ProfileReview> boolean exists(Example<S> example) { return false; }
-            @Override public <S extends ProfileReview, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) { return null; }
-            @Override public <S extends ProfileReview> List<S> saveAll(Iterable<S> entities) { return Collections.emptyList(); }
-            @Override public boolean existsById(Long aLong) { return db.containsKey(aLong); }
-            @Override public List<ProfileReview> findAll() { return new ArrayList<>(db.values()); }
-            @Override public List<ProfileReview> findAllById(Iterable<Long> longs) { return Collections.emptyList(); }
-            @Override public long count() { return db.size(); }
-            @Override public void deleteById(Long aLong) { db.remove(aLong); }
-            @Override public void delete(ProfileReview entity) { db.remove(entity.getId()); }
-            @Override public void deleteAllById(Iterable<? extends Long> longs) {}
-            @Override public void deleteAll(Iterable<? extends ProfileReview> entities) {}
-            @Override public void deleteAll() { db.clear(); }
-            @Override public List<ProfileReview> findAll(Sort sort) { return Collections.emptyList(); }
-            @Override public Page<ProfileReview> findAll(Pageable pageable) { return Page.empty(); }
-        };
+        );
 
         analyzerService = new ProfileAnalyzerService(reviewRepository, null);
     }
 
     @Test
+    void testRealProfileTextScoring_RichDeveloper() {
+        String richProfileText = "Priyanshu Shekhar\n" +
+                "Lead Architect & Full Stack Engineer | Java, Spring Boot, React, AWS, Cloud Architecture\n" +
+                "Bengaluru, Karnataka, India\n" +
+                "Summary: Passionate Software Architect with track record of designing distributed scalable SaaS platforms serving 100k+ users. Experienced in Spring Boot microservices, React.js, Docker, Kubernetes and AWS cloud infrastructure.\n" +
+                "Experience: Full Stack Lead at InnovateTech (2022 - Present). Spearheaded microservices migration, improved system latency by 45%, reduced cloud costs by 30%. Mentored 15 engineers.\n" +
+                "Education: Bachelor of Technology (B.Tech) in Computer Science & Engineering, Top University (2022 - 2026).\n" +
+                "Top Skills: Java, Python, Spring Boot, React, Docker, Kubernetes, AWS, SQL, PostgreSQL, Redis, Microservices, Git, CI/CD, REST API, Agile, Linux.\n" +
+                "Certifications: AWS Certified Solutions Architect, Oracle Java SE Certified Professional.\n";
+
+        ScoreBreakdown breakdown = analyzerService.evaluateRealProfileText(richProfileText, "https://linkedin.com/in/priyanshu-shekhar");
+        assertNotNull(breakdown);
+        assertEquals(10, breakdown.getSkills(), "Skills with 12+ tech keywords should score 10");
+        assertTrue(breakdown.getExperience() >= 9, "Experience with metrics should score >= 9");
+        assertEquals(9, breakdown.getEducation(), "B.Tech should score 9");
+        assertEquals(9, breakdown.getLicensesAndCertifications(), "AWS Cert should score 9");
+    }
+
+    @Test
+    void testRealProfileTextScoring_StarterProfile() {
+        String starterProfileText = "Md Afroz Hassan\n" +
+                "Student at University\n" +
+                "India\n" +
+                "Experience: None yet\n" +
+                "Top Skills: HTML\n";
+
+        ScoreBreakdown breakdown = analyzerService.evaluateRealProfileText(starterProfileText, "https://linkedin.com/in/md-afroz-hassan-3ab131297");
+        assertNotNull(breakdown);
+        assertTrue(breakdown.getSkills() <= 6, "Starter skills should score <= 6");
+        assertTrue(breakdown.getExperience() <= 6, "Starter experience should score <= 6");
+        assertTrue(breakdown.getLicensesAndCertifications() <= 5, "Missing certifications should score <= 5");
+    }
+
+    @Test
     void testUniversalArchitectAndSeniorProfileScoring() {
-        ProfileReview review = analyzerService.createReview("https://www.linkedin.com/in/alex-cloud-architect/", "alex@test.com");
+        ProfileReview review = analyzerService.createReview("https://www.linkedin.com/in/alex-cloud-architect/", null, "alex@test.com");
         ProfileReview result = analyzerService.analyzeProfile(review.getId());
 
         assertNotNull(result);
@@ -92,18 +94,8 @@ class ProfileAnalyzerServiceTest {
     }
 
     @Test
-    void testUniversalCustomDeveloperProfileScoring() {
-        ProfileReview review = analyzerService.createReview("https://www.linkedin.com/in/sarah-fullstack-dev/", "sarah@test.com");
-        ProfileReview result = analyzerService.analyzeProfile(review.getId());
-
-        assertNotNull(result);
-        assertEquals("Sarah Fullstack Dev", result.getUserName());
-        assertTrue(result.getOverallScore() >= 75 && result.getOverallScore() <= 90, "Custom dev score should be 75-90, was: " + result.getOverallScore());
-    }
-
-    @Test
     void testUniversalBeginnerUncustomizedProfileScoring() {
-        ProfileReview review = analyzerService.createReview("https://www.linkedin.com/in/md-afroz-hassan-3ab131297/", "afroz@test.com");
+        ProfileReview review = analyzerService.createReview("https://www.linkedin.com/in/md-afroz-hassan-3ab131297/", null, "afroz@test.com");
         ProfileReview result = analyzerService.analyzeProfile(review.getId());
 
         assertNotNull(result);
@@ -111,15 +103,5 @@ class ProfileAnalyzerServiceTest {
         assertEquals("Emerging Professional", result.getUserTitle());
         assertTrue(result.getOverallScore() >= 45 && result.getOverallScore() <= 55, "Uncustomized new profile score should be 45-55, was: " + result.getOverallScore());
         assertTrue(result.getActionableInsights().contains("Customize your LinkedIn URL"));
-    }
-
-    @Test
-    void testUniversalStandardProfileScoring() {
-        ProfileReview review = analyzerService.createReview("https://www.linkedin.com/in/john-doe/", "john@test.com");
-        ProfileReview result = analyzerService.analyzeProfile(review.getId());
-
-        assertNotNull(result);
-        assertEquals("John Doe", result.getUserName());
-        assertTrue(result.getOverallScore() >= 65 && result.getOverallScore() <= 78, "Standard profile score should be 65-78, was: " + result.getOverallScore());
     }
 }

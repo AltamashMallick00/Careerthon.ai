@@ -66,6 +66,13 @@ public class ProfileReview {
     @Column(length = 2000)
     private String adminSuggestions;
 
+    @Lob
+    @Column(columnDefinition = "CLOB")
+    private String rawContent;
+
+    public String getRawContent() { return rawContent; }
+    public void setRawContent(String rawContent) { this.rawContent = rawContent; }
+
     public enum ReviewStatus {
         PENDING, ANALYZING, COMPLETED, FAILED
     }
