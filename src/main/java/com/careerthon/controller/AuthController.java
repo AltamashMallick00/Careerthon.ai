@@ -38,18 +38,27 @@ public class AuthController {
     @PostMapping("/signup")
     public String processSignup(
             @RequestParam String fullName,
-            @RequestParam String username,
+            @RequestParam String email,
+            @RequestParam String phoneNumber,
+            @RequestParam(required = false) String username,
             @RequestParam String password,
             @RequestParam String captcha,
             HttpSession session,
             RedirectAttributes redirectAttributes) {
 
         String trimmedName = fullName != null ? fullName.trim() : "";
-        String trimmedUsername = username != null ? username.trim() : "";
+        String cleanEmail = email != null ? email.trim().toLowerCase() : "";
+        String cleanPhone = phoneNumber != null ? phoneNumber.replaceAll("[^0-9+]", "").trim() : "";
         String cleanPassword = password != null ? password.trim() : "";
+        String cleanUsername = (username != null && !username.trim().isEmpty()) ? username.trim() : cleanEmail;
 
-        if (trimmedName.isEmpty() || trimmedUsername.isEmpty() || cleanPassword.isEmpty()) {
-            redirectAttributes.addFlashAttribute("error", "All fields are required.");
+        if (trimmedName.isEmpty() || cleanEmail.isEmpty() || cleanPhone.isEmpty() || cleanPassword.isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "Full Name, Email, Phone Number, and Password are all required.");
+            return "redirect:/signup";
+        }
+
+        if (cleanPhone.length() < 10) {
+            redirectAttributes.addFlashAttribute("error", "Please provide a valid 10-digit mobile number.");
             return "redirect:/signup";
         }
 
@@ -64,14 +73,21 @@ public class AuthController {
             return "redirect:/signup";
         }
 
-        if (userRepository.findByUsername(trimmedUsername).isPresent()) {
-            redirectAttributes.addFlashAttribute("error", "Username '" + trimmedUsername + "' is already taken. Please choose another.");
+        if (userRepository.findByEmail(cleanEmail).isPresent() || userRepository.findByUsername(cleanUsername).isPresent()) {
+            redirectAttributes.addFlashAttribute("error", "An account with this email/username already exists. Please login.");
+            return "redirect:/signup";
+        }
+
+        if (userRepository.findByPhoneNumber(cleanPhone).isPresent()) {
+            redirectAttributes.addFlashAttribute("error", "An account with this mobile number is already registered.");
             return "redirect:/signup";
         }
 
         User newUser = new User();
         newUser.setFullName(trimmedName);
-        newUser.setUsername(trimmedUsername);
+        newUser.setEmail(cleanEmail);
+        newUser.setUsername(cleanUsername);
+        newUser.setPhoneNumber(cleanPhone);
         newUser.setPassword(passwordEncoder.encode(cleanPassword));
         newUser.setRoles("ROLE_STUDENT,ROLE_USER");
         newUser.setEnabled(true);
@@ -81,3 +97,4 @@ public class AuthController {
         return "redirect:/login?signupSuccess=true";
     }
 }
+
