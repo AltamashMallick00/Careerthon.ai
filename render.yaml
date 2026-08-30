@@ -9,3 +9,13 @@ services:
         value: "true"
       - key: RENDER_EXTERNAL_URL
         value: https://carrerthon.in
+      - key: DATABASE_URL
+        fromDatabase:
+          name: careerthon-db
+          property: connectionString
+
+databases:
+  - name: careerthon-db
+    plan: free
+    databaseName: careerthon
+    user: careerthon_user
