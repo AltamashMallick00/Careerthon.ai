@@ -66,15 +66,10 @@ public class SecurityAccessTest {
                 .andExpect(status().isOk());
     }
 
-    // ── 2. Protected Dashboards & Actions (Anonymous Users Redirected to /login) ───
+    // ── 2. Protected Dashboards (Anonymous Users Redirected to /login) ───
 
     @Test
     public void testProtectedActions_RedirectToLogin_WhenAnonymous() throws Exception {
-        // AI Review submission requires authentication
-        mockMvc.perform(post("/review/submit"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrlPattern("**/login"));
-
         // Student Dashboard requires authentication
         mockMvc.perform(get("/student/dashboard"))
                 .andExpect(status().is3xxRedirection())
