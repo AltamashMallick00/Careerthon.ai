@@ -39,8 +39,6 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) {
         // Synchronize Team Members & Global Professional Testimonials (TCS, IBM, Ingram Micro)
-        userStoryRepository.deleteAll();
-
         List<UserStory> allStories = List.of(
                 // ── Core Team Members ──
                 new UserStory(

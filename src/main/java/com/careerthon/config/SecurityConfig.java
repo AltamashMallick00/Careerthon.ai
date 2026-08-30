@@ -63,6 +63,10 @@ public class SecurityConfig {
                 .successHandler(new CustomAuthenticationSuccessHandler())
                 .permitAll()
             )
+            .rememberMe(remember -> remember
+                .key("careerthon-secure-remember-me-key-2026")
+                .tokenValiditySeconds(86400 * 30) // 30 days persistent login
+            )
             .logout(logout -> logout
                 .logoutSuccessUrl("/")
                 .permitAll()

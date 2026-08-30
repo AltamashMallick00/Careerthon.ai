@@ -2,21 +2,16 @@ package com.careerthon.service;
 
 import com.careerthon.model.ResumeReview;
 import com.careerthon.repository.ResumeReviewRepository;
+import com.careerthon.util.DocumentTextExtractor;
 import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfReader;
 import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.kernel.pdf.canvas.parser.PdfTextExtractor;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.properties.TextAlignment;
-import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -34,71 +29,10 @@ public class ResumeService {
     }
 
     /**
-     * High-Precision Multi-Format Resume Text Extraction (PDF via iText, DOCX via POI, TXT fallback)
+     * Ultra-Lightweight, Zero-Metaspace Resume Text Extraction
      */
     public String extractText(MultipartFile file) {
-        if (file == null || file.isEmpty()) return "";
-        String originalFilename = file.getOriginalFilename() != null ? file.getOriginalFilename().toLowerCase() : "";
-
-        // 1. PDF Extraction via iText 7
-        if (originalFilename.endsWith(".pdf")) {
-            try (InputStream in = file.getInputStream()) {
-                PdfReader reader = new PdfReader(in);
-                PdfDocument pdfDoc = new PdfDocument(reader);
-                StringBuilder sb = new StringBuilder();
-                int numPages = pdfDoc.getNumberOfPages();
-                for (int i = 1; i <= numPages; i++) {
-                    String pageText = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(i));
-                    if (pageText != null) {
-                        sb.append(pageText).append("\n");
-                    }
-                }
-                pdfDoc.close();
-                String extracted = sb.toString().trim();
-                if (extracted.length() > 50) {
-                    return cleanExtractedText(extracted);
-                }
-            } catch (Exception e) {
-                // Fallback to byte stream decode
-            }
-        }
-
-        // 2. DOCX Extraction via Apache POI
-        if (originalFilename.endsWith(".docx") || originalFilename.endsWith(".doc")) {
-            try (InputStream in = file.getInputStream()) {
-                XWPFDocument doc = new XWPFDocument(in);
-                XWPFWordExtractor extractor = new XWPFWordExtractor(doc);
-                String text = extractor.getText();
-                extractor.close();
-                doc.close();
-                if (text != null && text.trim().length() > 50) {
-                    return cleanExtractedText(text);
-                }
-            } catch (Exception e) {
-                // Fallback to byte stream decode
-            }
-        }
-
-        // 3. Fallback: Clean UTF-8 Byte Extraction
-        try (InputStream in = file.getInputStream()) {
-            byte[] bytes = in.readAllBytes();
-            if (bytes.length == 0) return "";
-            String raw = new String(bytes, StandardCharsets.UTF_8)
-                    .replaceAll("[^\\x20-\\x7E\\n\\r\\t]", " ")
-                    .replaceAll("\\s{3,}", " ")
-                    .trim();
-            return raw.length() > 50 ? raw.substring(0, Math.min(raw.length(), 25000)) : "";
-        } catch (Exception e) {
-            return "Resume document: " + originalFilename;
-        }
-    }
-
-    private String cleanExtractedText(String raw) {
-        if (raw == null) return "";
-        return raw.replaceAll("\\r\\n", "\n")
-                  .replaceAll("\\r", "\n")
-                  .replaceAll("[ \\t]+", " ")
-                  .trim();
+        return DocumentTextExtractor.extractText(file);
     }
 
     // ── Technical Skill Repositories for Accurate ATS Matching ───────────────────

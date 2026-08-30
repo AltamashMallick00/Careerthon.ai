@@ -139,21 +139,9 @@ public class ProfileAnalyzerService {
         return reviewRepository.findAllByOrderByCreatedAtDesc();
     }
 
-    /** Lightweight zero-OOM PDF text extractor */
+    /** Ultra-Lightweight Zero-Metaspace Multi-Format Document Text Extractor */
     public String extractText(MultipartFile file) {
-        String originalFilename = file.getOriginalFilename();
-        String name = originalFilename != null ? originalFilename.toLowerCase() : "";
-        try (InputStream in = file.getInputStream()) {
-            byte[] bytes = in.readAllBytes();
-            if (bytes.length == 0) return "";
-            String raw = new String(bytes, StandardCharsets.UTF_8)
-                    .replaceAll("[^\\x20-\\x7E\\n\\r\\t]", " ")
-                    .replaceAll("\\s{3,}", " ")
-                    .trim();
-            return raw.length() > 50 ? raw.substring(0, Math.min(raw.length(), 20000)) : "";
-        } catch (Exception e) {
-            return "background in " + name;
-        }
+        return com.careerthon.util.DocumentTextExtractor.extractText(file);
     }
 
     /** 100% Legit Data-Backed Profile Evaluator for Uploaded LinkedIn PDFs */
