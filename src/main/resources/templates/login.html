@@ -13,42 +13,16 @@
             <div class="text-center mb-8">
                 <div class="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center text-white font-black text-3xl shadow-glow-emerald mx-auto mb-6 transform hover:rotate-12 transition-transform">C</div>
                 <h2 class="text-4xl font-black text-themed-main mb-2">Welcome Back</h2>
-                <p class="text-themed-body font-medium">Access your intelligence dashboard and reports.</p>
+                <p class="text-themed-body font-medium">Sign in to your Careerthon.AI account.</p>
             </div>
 
             <div class="premium-card !p-8 glass border-white/20 shadow-[0_40px_100px_-20px_rgba(15,23,42,0.3)]">
                 
-                <!-- Google 1-Click SSO -->
-                <a th:href="@{/api/auth/google/callback}" class="w-full flex items-center justify-center gap-3 py-3.5 px-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 font-bold text-sm shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-all hover:scale-[1.01] mb-6 group">
-                    <svg class="w-5 h-5" viewBox="0 0 24 24">
-                        <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
-                        <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.26v3.15C3.29 21.39 7.37 24 12 24z"/>
-                        <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.26C.46 8.16 0 9.99 0 12s.46 3.84 1.26 5.42l4.02-3.15z"/>
-                        <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.37 0 3.29 2.61 1.26 6.58l4.02 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
-                    </svg>
-                    <span>Continue with Google</span>
-                </a>
-
-                <div class="relative flex items-center justify-center mb-6">
-                    <div class="border-t border-slate-200 dark:border-slate-800 w-full"></div>
-                    <span class="bg-themed-pure px-3 text-[10px] font-black uppercase tracking-widest text-slate-400">or sign in with</span>
-                </div>
-
-                <!-- Tabs: Password vs Email OTP -->
-                <div class="grid grid-cols-2 p-1 bg-themed-soft rounded-xl mb-6 text-xs font-black">
-                    <button type="button" id="tab-password-btn" onclick="switchLoginTab('password')" class="py-2.5 rounded-lg transition-all text-center bg-emerald-600 text-white shadow-sm">
-                        Password Login
-                    </button>
-                    <button type="button" id="tab-otp-btn" onclick="switchLoginTab('otp')" class="py-2.5 rounded-lg transition-all text-center text-themed-body hover:text-themed-main">
-                        Instant Email OTP
-                    </button>
-                </div>
-
                 <div th:if="${param.signupSuccess != null}" class="bg-emerald-500/10 border border-emerald-500/50 p-4 rounded-xl mb-6 flex items-center gap-3">
                     <div class="text-emerald-500 text-lg font-black">✓</div>
                     <div>
                         <p class="text-xs font-bold text-emerald-600 dark:text-emerald-400">Account registered successfully!</p>
-                        <p class="text-[11px] text-emerald-600/80 dark:text-emerald-400/80">Sign in below using your Email, Phone Number, or Username.</p>
+                        <p class="text-[11px] text-emerald-600/80 dark:text-emerald-400/80">Please enter your username and password below to sign in.</p>
                     </div>
                 </div>
 
@@ -56,95 +30,59 @@
                     <div class="text-indigo-500 text-lg font-black">🔒</div>
                     <div>
                         <p class="text-xs font-bold text-indigo-600 dark:text-indigo-400">Authentication Required</p>
-                        <p class="text-[11px] text-indigo-600/80 dark:text-indigo-400/80">Please sign in to run deep profile scans & AI generators.</p>
+                        <p class="text-[11px] text-indigo-600/80 dark:text-indigo-400/80">Please sign in to access intelligence tools and dashboards.</p>
                     </div>
                 </div>
 
                 <div th:if="${param.error}" class="bg-rose-500/10 border border-rose-500/50 p-4 rounded-xl mb-6 flex items-center gap-3">
                     <div class="text-rose-500 text-lg font-black">⚠</div>
-                    <p class="text-xs font-bold text-rose-600 dark:text-rose-400">Invalid username, email, phone number, or password.</p>
+                    <p class="text-xs font-bold text-rose-600 dark:text-rose-400">Invalid username or password. Please try again.</p>
                 </div>
                 
-                <div th:if="${error}" class="bg-rose-500/10 border border-rose-500/50 p-4 rounded-xl mb-6 flex items-center gap-3">
-                    <div class="text-rose-500 text-lg font-black">⚠</div>
-                    <p class="text-xs font-bold text-rose-600 dark:text-rose-400" th:text="${error}">Invalid code</p>
+                <div th:if="${param.logout}" class="bg-blue-500/10 border border-blue-500/50 p-4 rounded-xl mb-6 flex items-center gap-3">
+                    <div class="text-blue-500 text-lg font-black">ℹ</div>
+                    <p class="text-xs font-bold text-blue-600 dark:text-blue-400">You have been logged out securely.</p>
                 </div>
 
-                <!-- ════ TAB 1: PASSWORD LOGIN ════ -->
-                <div id="password-login-panel">
-                    <form class="space-y-5" th:action="@{/login}" method="POST">
-                        <input type="hidden" name="remember-me" value="true">
-                        
-                        <div>
-                            <label for="username" class="block text-[10px] font-black text-emerald-500 dark:text-emerald-400 uppercase tracking-[0.2em] mb-2">Username, Email, or Phone</label>
-                            <div class="relative group">
-                                <div class="absolute -inset-1 bg-emerald-500/10 rounded-xl blur-md group-focus-within:bg-emerald-500/20 transition-all"></div>
-                                <input id="username" name="username" type="text" required 
-                                       class="relative w-full py-3.5 px-4 bg-themed-pure rounded-xl border-2 border-themed-soft focus:border-emerald-500 outline-none transition-all text-sm font-bold text-themed-main placeholder:text-slate-400" 
-                                       placeholder="candidate@example.com / 9876543210">
-                            </div>
+                <form class="space-y-5" th:action="@{/login}" method="POST">
+                    <input type="hidden" name="remember-me" value="true">
+                    
+                    <div>
+                        <label for="username" class="block text-[10px] font-black text-emerald-500 dark:text-emerald-400 uppercase tracking-[0.2em] mb-2">Username</label>
+                        <div class="relative group">
+                            <div class="absolute -inset-1 bg-emerald-500/10 rounded-xl blur-md group-focus-within:bg-emerald-500/20 transition-all"></div>
+                            <input id="username" name="username" type="text" required autofocus
+                                   class="relative w-full py-3.5 px-4 bg-themed-pure rounded-xl border-2 border-themed-soft focus:border-emerald-500 outline-none transition-all text-sm font-bold text-themed-main placeholder:text-slate-400" 
+                                   placeholder="Enter your username">
                         </div>
+                    </div>
 
-                        <div>
-                            <div class="flex justify-between items-center mb-2">
-                                <label for="password" class="block text-[10px] font-black text-emerald-500 dark:text-emerald-400 uppercase tracking-[0.2em]">Password</label>
-                                <a href="#" onclick="switchLoginTab('otp'); return false;" class="text-xs font-bold text-emerald-600 hover:text-emerald-500 transition-colors">Forgot? Use OTP</a>
-                            </div>
-                            <div class="relative group">
-                                <div class="absolute -inset-1 bg-emerald-500/10 rounded-xl blur-md group-focus-within:bg-emerald-500/20 transition-all"></div>
-                                <input id="password" name="password" type="password" required 
-                                       class="relative w-full py-3.5 px-4 bg-themed-pure rounded-xl border-2 border-themed-soft focus:border-emerald-500 outline-none transition-all text-sm font-bold text-themed-main placeholder:text-slate-400" 
-                                       placeholder="••••••••">
-                            </div>
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label for="password" class="block text-[10px] font-black text-emerald-500 dark:text-emerald-400 uppercase tracking-[0.2em]">Password</label>
                         </div>
+                        <div class="relative group">
+                            <div class="absolute -inset-1 bg-emerald-500/10 rounded-xl blur-md group-focus-within:bg-emerald-500/20 transition-all"></div>
+                            <input id="password" name="password" type="password" required 
+                                   class="relative w-full py-3.5 px-4 bg-themed-pure rounded-xl border-2 border-themed-soft focus:border-emerald-500 outline-none transition-all text-sm font-bold text-themed-main placeholder:text-slate-400" 
+                                   placeholder="••••••••">
+                        </div>
+                    </div>
 
-                        <div class="flex items-center pt-1">
-                            <input id="remember-me" name="remember-me" type="checkbox" checked class="h-4 w-4 text-emerald-600 bg-themed-pure border-themed-soft rounded focus:ring-emerald-500 focus:ring-offset-0 transition-colors cursor-pointer">
-                            <label for="remember-me" class="ml-2.5 block text-xs font-medium text-themed-body cursor-pointer">
-                                Keep me logged in
-                            </label>
-                        </div>
+                    <div class="flex items-center pt-1">
+                        <input id="remember-me" name="remember-me" type="checkbox" checked class="h-4 w-4 text-emerald-600 bg-themed-pure border-themed-soft rounded focus:ring-emerald-500 focus:ring-offset-0 transition-colors cursor-pointer">
+                        <label for="remember-me" class="ml-2.5 block text-xs font-medium text-themed-body cursor-pointer">
+                            Remember my login
+                        </label>
+                    </div>
 
-                        <div class="pt-2">
-                            <button type="submit" class="w-full btn-premium py-3.5 rounded-xl text-base flex justify-center items-center group shadow-glow-emerald">
-                                Authenticate Securely
-                                <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- ════ TAB 2: EMAIL OTP LOGIN ════ -->
-                <div id="otp-login-panel" class="hidden">
-                    <form th:action="@{/api/auth/verify-otp}" method="POST" class="space-y-5">
-                        <div>
-                            <label for="otp-email" class="block text-[10px] font-black text-emerald-500 dark:text-emerald-400 uppercase tracking-[0.2em] mb-2">Registered Email Address</label>
-                            <div class="flex gap-2">
-                                <input id="otp-email" name="email" type="email" required 
-                                       class="flex-1 py-3.5 px-4 bg-themed-pure rounded-xl border-2 border-themed-soft focus:border-emerald-500 outline-none transition-all text-sm font-bold text-themed-main placeholder:text-slate-400" 
-                                       placeholder="candidate@example.com">
-                                <button type="button" id="btn-send-otp" onclick="handleSendOtp()" class="px-4 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all shrink-0">
-                                    Send Code
-                                </button>
-                            </div>
-                            <div id="otp-status-msg" class="mt-2 text-xs font-bold hidden"></div>
-                        </div>
-
-                        <div>
-                            <label for="otp-code" class="block text-[10px] font-black text-emerald-500 dark:text-emerald-400 uppercase tracking-[0.2em] mb-2">6-Digit One-Time Password (OTP)</label>
-                            <input id="otp-code" name="otp" type="text" maxlength="6" pattern="[0-9]{6}" required 
-                                   class="w-full py-3.5 px-4 bg-themed-pure rounded-xl border-2 border-themed-soft focus:border-emerald-500 outline-none transition-all text-center tracking-[0.5em] text-lg font-black text-themed-main placeholder:text-slate-400 placeholder:tracking-normal placeholder:text-sm" 
-                                   placeholder="123456">
-                        </div>
-
-                        <div class="pt-2">
-                            <button type="submit" class="w-full btn-premium py-3.5 rounded-xl text-base flex justify-center items-center group shadow-glow-emerald">
-                                Verify & Sign In
-                                <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                    <div class="pt-2">
+                        <button type="submit" class="w-full btn-premium py-3.5 rounded-xl text-base flex justify-center items-center group shadow-glow-emerald">
+                            Sign In
+                            <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                        </button>
+                    </div>
+                </form>
                 
                 <div class="mt-6 pt-6 border-t border-themed-soft text-center">
                     <p class="text-sm font-medium text-themed-body">
@@ -154,74 +92,12 @@
                 </div>
 
             </div>
+            
+            <div class="mt-6 text-center text-xs font-medium text-themed-body opacity-60">
+                🔒 Protected by Careerthon.AI Security Protocols
+            </div>
         </div>
     </main>
-
-    <script>
-        function switchLoginTab(tab) {
-            const passPanel = document.getElementById('password-login-panel');
-            const otpPanel = document.getElementById('otp-login-panel');
-            const passBtn = document.getElementById('tab-password-btn');
-            const otpBtn = document.getElementById('tab-otp-btn');
-
-            if (tab === 'otp') {
-                passPanel.classList.add('hidden');
-                otpPanel.classList.remove('hidden');
-                otpBtn.className = 'py-2.5 rounded-lg transition-all text-center bg-emerald-600 text-white shadow-sm';
-                passBtn.className = 'py-2.5 rounded-lg transition-all text-center text-themed-body hover:text-themed-main';
-            } else {
-                otpPanel.classList.add('hidden');
-                passPanel.classList.remove('hidden');
-                passBtn.className = 'py-2.5 rounded-lg transition-all text-center bg-emerald-600 text-white shadow-sm';
-                otpBtn.className = 'py-2.5 rounded-lg transition-all text-center text-themed-body hover:text-themed-main';
-            }
-        }
-
-        async function handleSendOtp() {
-            const emailInput = document.getElementById('otp-email');
-            const statusMsg = document.getElementById('otp-status-msg');
-            const sendBtn = document.getElementById('btn-send-otp');
-            const email = emailInput.value.trim();
-
-            if (!email || !email.includes('@')) {
-                statusMsg.className = 'mt-2 text-xs font-bold text-rose-500 block';
-                statusMsg.innerText = 'Please enter a valid email address first.';
-                return;
-            }
-
-            sendBtn.disabled = true;
-            sendBtn.innerText = 'Sending...';
-            statusMsg.className = 'mt-2 text-xs font-bold text-slate-500 block';
-            statusMsg.innerText = 'Dispatched 6-digit code to ' + email + '...';
-
-            try {
-                const res = await fetch('/api/auth/send-otp', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: email })
-                });
-                const data = await res.json();
-                if (data.success) {
-                    statusMsg.className = 'mt-2 text-xs font-bold text-emerald-600 dark:text-emerald-400 block';
-                    statusMsg.innerText = data.message + (data.devOtp ? ' [Dev Mode Code: ' + data.devOtp + ']' : '');
-                    if (data.devOtp) {
-                        document.getElementById('otp-code').value = data.devOtp;
-                    }
-                    sendBtn.innerText = 'Resend Code';
-                } else {
-                    statusMsg.className = 'mt-2 text-xs font-bold text-rose-500 block';
-                    statusMsg.innerText = data.message || 'Failed to send OTP code.';
-                    sendBtn.innerText = 'Retry';
-                }
-            } catch (err) {
-                statusMsg.className = 'mt-2 text-xs font-bold text-rose-500 block';
-                statusMsg.innerText = 'Server connection error. Please try again.';
-                sendBtn.innerText = 'Retry';
-            } finally {
-                sendBtn.disabled = false;
-            }
-        }
-    </script>
 
     <div th:replace="~{fragments/footer :: footer}"></div>
 </body>

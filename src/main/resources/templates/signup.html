@@ -14,27 +14,11 @@
             <div class="text-center mb-8">
                 <div class="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center text-white font-black text-3xl shadow-glow-emerald mx-auto mb-6 transform hover:-rotate-12 transition-transform">🚀</div>
                 <h2 class="text-4xl font-black text-themed-main mb-2">Create Account</h2>
-                <p class="text-themed-body font-medium">Join thousands of tech leaders optimizing their careers.</p>
+                <p class="text-themed-body font-medium">Join Careerthon.AI intelligence platform.</p>
             </div>
 
-            <div class="premium-card !p-10 glass border-white/20 shadow-[0_40px_100px_-20px_rgba(15,23,42,0.3)]">
+            <div class="premium-card !p-8 glass border-white/20 shadow-[0_40px_100px_-20px_rgba(15,23,42,0.3)]">
                 
-                <!-- Google 1-Click SSO -->
-                <a th:href="@{/api/auth/google/callback}" class="w-full flex items-center justify-center gap-3 py-3.5 px-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 font-bold text-sm shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-all hover:scale-[1.01] mb-6 group">
-                    <svg class="w-5 h-5" viewBox="0 0 24 24">
-                        <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
-                        <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.26v3.15C3.29 21.39 7.37 24 12 24z"/>
-                        <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.26C.46 8.16 0 9.99 0 12s.46 3.84 1.26 5.42l4.02-3.15z"/>
-                        <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.37 0 3.29 2.61 1.26 6.58l4.02 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
-                    </svg>
-                    <span>Continue with Google</span>
-                </a>
-
-                <div class="relative flex items-center justify-center mb-6">
-                    <div class="border-t border-slate-200 dark:border-slate-800 w-full"></div>
-                    <span class="bg-themed-pure px-3 text-[10px] font-black uppercase tracking-widest text-slate-400">or register with details</span>
-                </div>
-
                 <div th:if="${error}" class="bg-rose-500/10 border border-rose-500/50 p-4 rounded-xl mb-6 flex items-center gap-3">
                     <div class="text-rose-500 font-bold">⚠</div>
                     <p class="text-xs font-bold text-rose-600 dark:text-rose-400" th:text="${error}">Error message</p>
@@ -53,17 +37,28 @@
                     </div>
 
                     <div>
-                        <label class="block text-[10px] font-black text-emerald-500 dark:text-emerald-400 uppercase tracking-[0.2em] mb-2">Email Address</label>
+                        <label class="block text-[10px] font-black text-emerald-500 dark:text-emerald-400 uppercase tracking-[0.2em] mb-2">Username</label>
                         <div class="relative group">
                             <div class="absolute -inset-1 bg-emerald-500/10 rounded-xl blur-md group-focus-within:bg-emerald-500/20 transition-all"></div>
-                            <input type="email" name="email" required 
+                            <input type="text" name="username" required 
                                    class="relative w-full py-3.5 px-4 bg-themed-pure rounded-xl border-2 border-themed-soft focus:border-emerald-500 outline-none transition-all text-sm font-bold text-themed-main placeholder:text-slate-400" 
-                                   placeholder="candidate@example.com">
+                                   placeholder="priyanshu_s">
+                        </div>
+                        <p class="mt-1 text-[10px] text-slate-400 font-medium">Used to sign in to your dashboard.</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-black text-emerald-500 dark:text-emerald-400 uppercase tracking-[0.2em] mb-2">Password</label>
+                        <div class="relative group">
+                            <div class="absolute -inset-1 bg-emerald-500/10 rounded-xl blur-md group-focus-within:bg-emerald-500/20 transition-all"></div>
+                            <input type="password" name="password" required 
+                                   class="relative w-full py-3.5 px-4 bg-themed-pure rounded-xl border-2 border-themed-soft focus:border-emerald-500 outline-none transition-all text-sm font-bold text-themed-main placeholder:text-slate-400" 
+                                   placeholder="••••••••">
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-[10px] font-black text-emerald-500 dark:text-emerald-400 uppercase tracking-[0.2em] mb-2">Mobile Number (For Offer Letters & WhatsApp)</label>
+                        <label class="block text-[10px] font-black text-emerald-500 dark:text-emerald-400 uppercase tracking-[0.2em] mb-2">Mobile Number (For Offer Letters & Records)</label>
                         <div class="relative group">
                             <div class="absolute -inset-1 bg-emerald-500/10 rounded-xl blur-md group-focus-within:bg-emerald-500/20 transition-all"></div>
                             <div class="flex">
@@ -75,17 +70,7 @@
                                        placeholder="9876543210">
                             </div>
                         </div>
-                        <p class="mt-1 text-[10px] text-slate-400 font-medium">Used for verified LMS credentials & recruiter alerts.</p>
-                    </div>
-
-                    <div>
-                        <label class="block text-[10px] font-black text-emerald-500 dark:text-emerald-400 uppercase tracking-[0.2em] mb-2">Password</label>
-                        <div class="relative group">
-                            <div class="absolute -inset-1 bg-emerald-500/10 rounded-xl blur-md group-focus-within:bg-emerald-500/20 transition-all"></div>
-                            <input type="password" name="password" required 
-                                   class="relative w-full py-3.5 px-4 bg-themed-pure rounded-xl border-2 border-themed-soft focus:border-emerald-500 outline-none transition-all text-sm font-bold text-themed-main placeholder:text-slate-400" 
-                                   placeholder="••••••••">
-                        </div>
+                        <p class="mt-1 text-[10px] text-slate-400 font-medium">Stored on profile for offer letter generation.</p>
                     </div>
 
                     <div>
@@ -103,7 +88,7 @@
 
                     <div class="pt-2">
                         <button type="submit" class="w-full btn-premium py-4 rounded-xl text-base flex justify-center items-center group shadow-glow-emerald">
-                            Initialize Free Account
+                            Create Account
                             <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                         </button>
                     </div>
@@ -111,14 +96,14 @@
                 
                 <div class="mt-6 pt-6 border-t border-themed-soft text-center">
                     <p class="text-sm font-medium text-themed-body">
-                        Already have access? 
+                        Already have an account? 
                         <a th:href="@{/login}" class="font-bold text-emerald-600 hover:text-emerald-500 transition-colors">Sign in here</a>
                     </p>
                 </div>
             </div>
             
             <div class="mt-6 text-center text-xs font-medium text-themed-body opacity-60">
-                🔒 Enterprise 256-bit encryption · Zero password leakage
+                🔒 Protected by Careerthon.AI Security Protocols
             </div>
         </div>
     </main>

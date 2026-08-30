@@ -38,27 +38,25 @@ public class AuthController {
     @PostMapping("/signup")
     public String processSignup(
             @RequestParam String fullName,
-            @RequestParam String email,
-            @RequestParam String phoneNumber,
-            @RequestParam(required = false) String username,
+            @RequestParam String username,
             @RequestParam String password,
+            @RequestParam String phoneNumber,
             @RequestParam String captcha,
             HttpSession session,
             RedirectAttributes redirectAttributes) {
 
         String trimmedName = fullName != null ? fullName.trim() : "";
-        String cleanEmail = email != null ? email.trim().toLowerCase() : "";
-        String cleanPhone = phoneNumber != null ? phoneNumber.replaceAll("[^0-9+]", "").trim() : "";
+        String trimmedUsername = username != null ? username.trim() : "";
         String cleanPassword = password != null ? password.trim() : "";
-        String cleanUsername = (username != null && !username.trim().isEmpty()) ? username.trim() : cleanEmail;
+        String cleanPhone = phoneNumber != null ? phoneNumber.replaceAll("[^0-9+]", "").trim() : "";
 
-        if (trimmedName.isEmpty() || cleanEmail.isEmpty() || cleanPhone.isEmpty() || cleanPassword.isEmpty()) {
-            redirectAttributes.addFlashAttribute("error", "Full Name, Email, Phone Number, and Password are all required.");
+        if (trimmedName.isEmpty() || trimmedUsername.isEmpty() || cleanPassword.isEmpty() || cleanPhone.isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "All fields (Full Name, Username, Password, Phone Number) are required.");
             return "redirect:/signup";
         }
 
         if (cleanPhone.length() < 10) {
-            redirectAttributes.addFlashAttribute("error", "Please provide a valid 10-digit mobile number.");
+            redirectAttributes.addFlashAttribute("error", "Please provide a valid 10-digit mobile number for offer letter generation.");
             return "redirect:/signup";
         }
 
@@ -69,12 +67,12 @@ public class AuthController {
 
         Integer expectedCaptcha = (Integer) session.getAttribute("captchaResult");
         if (expectedCaptcha == null || !captcha.trim().equals(String.valueOf(expectedCaptcha))) {
-            redirectAttributes.addFlashAttribute("error", "Invalid CAPTCHA answer. Please try again.");
+            redirectAttributes.addFlashAttribute("error", "Invalid verification answer. Please try again.");
             return "redirect:/signup";
         }
 
-        if (userRepository.findByEmail(cleanEmail).isPresent() || userRepository.findByUsername(cleanUsername).isPresent()) {
-            redirectAttributes.addFlashAttribute("error", "An account with this email/username already exists. Please login.");
+        if (userRepository.findByUsername(trimmedUsername).isPresent()) {
+            redirectAttributes.addFlashAttribute("error", "Username '" + trimmedUsername + "' is already taken. Please choose another.");
             return "redirect:/signup";
         }
 
@@ -85,10 +83,9 @@ public class AuthController {
 
         User newUser = new User();
         newUser.setFullName(trimmedName);
-        newUser.setEmail(cleanEmail);
-        newUser.setUsername(cleanUsername);
-        newUser.setPhoneNumber(cleanPhone);
+        newUser.setUsername(trimmedUsername);
         newUser.setPassword(passwordEncoder.encode(cleanPassword));
+        newUser.setPhoneNumber(cleanPhone);
         newUser.setRoles("ROLE_STUDENT,ROLE_USER");
         newUser.setEnabled(true);
         userRepository.save(newUser);

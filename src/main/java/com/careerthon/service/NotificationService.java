@@ -16,7 +16,7 @@ public class NotificationService {
     private final LmsNotificationRepository notificationRepository;
     private final JavaMailSender mailSender;
 
-    public NotificationService(LmsNotificationRepository notificationRepository, JavaMailSender mailSender) {
+    public NotificationService(LmsNotificationRepository notificationRepository, @org.springframework.beans.factory.annotation.Autowired(required = false) JavaMailSender mailSender) {
         this.notificationRepository = notificationRepository;
         this.mailSender = mailSender;
     }

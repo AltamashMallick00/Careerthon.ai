@@ -92,8 +92,10 @@ public class DataInitializer implements CommandLineRunner {
                         "PD", "#E11D48", null)
         );
 
-        userStoryRepository.saveAll(allStories);
-        System.out.println("✅ Seeded updated team members and TCS, IBM, Ingram Micro testimonials.");
+        if (userStoryRepository.count() == 0) {
+            userStoryRepository.saveAll(allStories);
+            System.out.println("✅ Seeded updated team members and TCS, IBM, Ingram Micro testimonials.");
+        }
 
         // Ensure Primary Admin Priyanshu123 exists
         userRepository.findByUsername("Priyanshu123").ifPresentOrElse(
