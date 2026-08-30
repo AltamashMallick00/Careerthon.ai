@@ -4,27 +4,17 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.zip.Inflater;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 /**
- * Ultra-Lightweight, Zero-Metaspace Document Text Extractor
- * Extracts 100% accurate text from PDF, DOCX, and TXT files using pure Java standard library.
- * Zero external font class generation -> Completely immune to OutOfMemoryError: Metaspace.
+ * Ultra-Lightweight, Zero-Regex, Zero-Metaspace Document Text Extractor.
+ * Uses 100% linear iterative state-machine scanning for PDF and DOCX.
+ * Completely immune to both OutOfMemoryError (Metaspace) and StackOverflowError (Regex recursion).
  */
 public class DocumentTextExtractor {
-
-    private static final Pattern STREAM_PATTERN = Pattern.compile("stream[\\r\\n]+([\\s\\S]*?)[\\r\\n]+endstream");
-    private static final Pattern TJ_PATTERN = Pattern.compile("\\((?:[^()\\\\]|\\\\.)*\\)\\s*Tj", Pattern.MULTILINE);
-    private static final Pattern TJ_ARRAY_PATTERN = Pattern.compile("\\[((?:[^\\]]|\\\\\\])*)\\]\\s*TJ", Pattern.MULTILINE);
-    private static final Pattern STRING_PATTERN = Pattern.compile("\\(((?:[^()\\\\]|\\\\.)*)\\)");
-    private static final Pattern HEX_TJ_PATTERN = Pattern.compile("<([0-9A-Fa-f\\s]+)>\\s*Tj", Pattern.MULTILINE);
-    private static final Pattern XML_TAG_PATTERN = Pattern.compile("<w:t[^>]*>(.*?)</w:t>");
 
     public static String extractText(MultipartFile file) {
         if (file == null || file.isEmpty()) return "";
@@ -57,17 +47,20 @@ public class DocumentTextExtractor {
     }
 
     /**
-     * Extracts text from PDF bytes by finding and decompressing all streams and parsing PDF text operators.
+     * Extracts text from PDF bytes by finding and decompressing all streams and
+     * iteratively parsing PDF text operators using a linear scanner (Zero Regex).
      */
     public static String extractPdfText(byte[] pdfBytes) {
+        if (pdfBytes == null || pdfBytes.length == 0) return "";
         StringBuilder fullText = new StringBuilder();
 
-        // 1. Search for FlateDecode / uncompressed streams in the PDF byte stream
-        int index = 0;
-        byte[] streamMarker = "stream".getBytes(StandardCharsets.US_ASCII);
-        byte[] endstreamMarker = "endstream".getBytes(StandardCharsets.US_ASCII);
+        byte[] streamMarker = new byte[]{'s', 't', 'r', 'e', 'a', 'm'};
+        byte[] endstreamMarker = new byte[]{'e', 'n', 'd', 's', 't', 'r', 'e', 'a', 'm'};
 
-        while (index < pdfBytes.length - 10) {
+        int index = 0;
+        int maxIndex = pdfBytes.length - 10;
+
+        while (index < maxIndex) {
             int streamStart = findSequence(pdfBytes, streamMarker, index);
             if (streamStart == -1) break;
 
@@ -93,38 +86,34 @@ public class DocumentTextExtractor {
                 // Try decompressing with Inflater (standard PDF FlateDecode)
                 byte[] decompressed = decompressStream(streamData);
                 if (decompressed != null && decompressed.length > 0) {
-                    String decoded = new String(decompressed, StandardCharsets.UTF_8);
-                    parsePdfStreamText(decoded, fullText);
+                    String decoded = new String(decompressed, StandardCharsets.ISO_8859_1);
+                    parsePdfStreamIterative(decoded, fullText);
                 } else {
-                    // Try parsing as uncompressed text stream
-                    String rawDecoded = new String(streamData, StandardCharsets.UTF_8);
-                    parsePdfStreamText(rawDecoded, fullText);
+                    // Try parsing as uncompressed stream
+                    String rawDecoded = new String(streamData, StandardCharsets.ISO_8859_1);
+                    parsePdfStreamIterative(rawDecoded, fullText);
                 }
             }
 
             index = endStream + 9;
         }
 
-        // 2. If stream parsing gave insufficient text, scan raw PDF literals
+        // Fallback: If compressed stream extraction returned insufficient text,
+        // scan the raw PDF bytes iteratively for text literal strings
         if (fullText.length() < 100) {
             String rawPdf = new String(pdfBytes, StandardCharsets.ISO_8859_1);
-            Matcher m = STRING_PATTERN.matcher(rawPdf);
-            while (m.find()) {
-                String str = decodePdfString(m.group(1));
-                if (str.length() > 2 && isPrintable(str)) {
-                    fullText.append(str).append(" ");
-                }
-            }
+            parsePdfStreamIterative(rawPdf, fullText);
         }
 
         String result = cleanExtractedText(fullText.toString());
-        return result.length() > 50 ? result.substring(0, Math.min(result.length(), 35000)) : fullText.toString().trim();
+        return result.length() > 50 ? result.substring(0, Math.min(result.length(), 40000)) : fullText.toString().trim();
     }
 
     private static int findSequence(byte[] source, byte[] target, int fromIndex) {
         if (source == null || target == null || fromIndex < 0) return -1;
+        int limit = source.length - target.length;
         outer:
-        for (int i = fromIndex; i <= source.length - target.length; i++) {
+        for (int i = fromIndex; i <= limit; i++) {
             for (int j = 0; j < target.length; j++) {
                 if (source[i + j] != target[j]) {
                     continue outer;
@@ -136,11 +125,10 @@ public class DocumentTextExtractor {
     }
 
     private static byte[] decompressStream(byte[] data) {
-        // Try standard zlib
         try {
             Inflater inflater = new Inflater(false);
             inflater.setInput(data);
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length * 3);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream(Math.max(data.length * 3, 1024));
             byte[] buffer = new byte[4096];
             while (!inflater.finished()) {
                 int count = inflater.inflate(buffer);
@@ -150,11 +138,10 @@ public class DocumentTextExtractor {
             inflater.end();
             return outputStream.toByteArray();
         } catch (Exception e) {
-            // Try nowrap raw deflate
             try {
                 Inflater rawInflater = new Inflater(true);
                 rawInflater.setInput(data);
-                ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length * 3);
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream(Math.max(data.length * 3, 1024));
                 byte[] buffer = new byte[4096];
                 while (!rawInflater.finished()) {
                     int count = rawInflater.inflate(buffer);
@@ -169,76 +156,132 @@ public class DocumentTextExtractor {
         }
     }
 
-    private static void parsePdfStreamText(String streamContent, StringBuilder output) {
-        if (streamContent == null || streamContent.isEmpty()) return;
+    /**
+     * Pure linear, non-recursive, state-machine token scanner for PDF stream text.
+     * ZERO REGEX. Uses only 1 stack frame regardless of document size.
+     */
+    private static void parsePdfStreamIterative(String content, StringBuilder output) {
+        if (content == null || content.isEmpty()) return;
+        int len = content.length();
+        int i = 0;
 
-        // Parse (text) Tj
-        Matcher tjMatcher = TJ_PATTERN.matcher(streamContent);
-        while (tjMatcher.find()) {
-            String group = tjMatcher.group();
-            Matcher strMatcher = STRING_PATTERN.matcher(group);
-            if (strMatcher.find()) {
-                String val = decodePdfString(strMatcher.group(1));
-                if (!val.trim().isEmpty()) {
-                    output.append(val).append(" ");
+        while (i < len) {
+            char c = content.charAt(i);
+
+            // 1. PDF String Literal: (Text)
+            if (c == '(') {
+                i++;
+                StringBuilder str = new StringBuilder();
+                int parenDepth = 1;
+
+                while (i < len && parenDepth > 0) {
+                    char ch = content.charAt(i);
+                    if (ch == '\\' && i + 1 < len) {
+                        char next = content.charAt(i + 1);
+                        if (next == 'n') str.append('\n');
+                        else if (next == 'r') str.append('\r');
+                        else if (next == 't') str.append('\t');
+                        else if (next == 'b') str.append('\b');
+                        else if (next == 'f') str.append('\f');
+                        else if (next == '(' || next == ')' || next == '\\') str.append(next);
+                        else if (next >= '0' && next <= '7') {
+                            // Octal escape sequence \ddd
+                            int octalVal = next - '0';
+                            int octalLen = 1;
+                            while (octalLen < 3 && i + 1 + octalLen < len && content.charAt(i + 1 + octalLen) >= '0' && content.charAt(i + 1 + octalLen) <= '7') {
+                                octalVal = octalVal * 8 + (content.charAt(i + 1 + octalLen) - '0');
+                                octalLen++;
+                            }
+                            str.append((char) octalVal);
+                            i += octalLen; // skip octal digits
+                        } else {
+                            str.append(next);
+                        }
+                        i += 2;
+                    } else if (ch == '(') {
+                        parenDepth++;
+                        str.append(ch);
+                        i++;
+                    } else if (ch == ')') {
+                        parenDepth--;
+                        if (parenDepth > 0) {
+                            str.append(ch);
+                        }
+                        i++;
+                    } else {
+                        str.append(ch);
+                        i++;
+                    }
+                }
+
+                String s = str.toString().trim();
+                if (s.length() > 0 && isPrintable(s)) {
+                    output.append(s).append(" ");
                 }
             }
-        }
-
-        // Parse [(text) (text)] TJ
-        Matcher arrayMatcher = TJ_ARRAY_PATTERN.matcher(streamContent);
-        while (arrayMatcher.find()) {
-            String arrayContent = arrayMatcher.group(1);
-            Matcher strMatcher = STRING_PATTERN.matcher(arrayContent);
-            while (strMatcher.find()) {
-                String val = decodePdfString(strMatcher.group(1));
-                if (!val.trim().isEmpty()) {
-                    output.append(val).append(" ");
+            // 2. PDF Hex Encoded String: <48656C6C6F>
+            else if (c == '<' && i + 1 < len && content.charAt(i + 1) != '<') {
+                i++;
+                int hexStart = i;
+                while (i < len && content.charAt(i) != '>') {
+                    i++;
+                }
+                if (i < len) {
+                    String hex = content.substring(hexStart, i);
+                    String decoded = decodeHexString(hex);
+                    if (decoded.length() > 0 && isPrintable(decoded)) {
+                        output.append(decoded).append(" ");
+                    }
+                    i++; // skip '>'
                 }
             }
-        }
-
-        // Parse <Hex> Tj
-        Matcher hexMatcher = HEX_TJ_PATTERN.matcher(streamContent);
-        while (hexMatcher.find()) {
-            String hex = hexMatcher.group(1).replaceAll("\\s+", "");
-            String decodedHex = decodeHexString(hex);
-            if (!decodedHex.trim().isEmpty()) {
-                output.append(decodedHex).append(" ");
+            else {
+                i++;
             }
         }
-    }
-
-    private static String decodePdfString(String raw) {
-        if (raw == null) return "";
-        return raw.replace("\\(", "(")
-                  .replace("\\)", ")")
-                  .replace("\\\\", "\\")
-                  .replace("\\n", "\n")
-                  .replace("\\r", "\r")
-                  .replace("\\t", "\t")
-                  .replace("\\b", "")
-                  .replace("\\f", "");
     }
 
     private static String decodeHexString(String hex) {
-        if (hex == null || hex.length() < 2) return "";
+        if (hex == null) return "";
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < hex.length() - 1; i += 2) {
-            try {
-                int code = Integer.parseInt(hex.substring(i, i + 2), 16);
-                if (code >= 32 && code <= 126) {
-                    sb.append((char) code);
-                } else if (code == 10 || code == 13 || code == 9) {
-                    sb.append(' ');
+        int len = hex.length();
+        int i = 0;
+
+        while (i < len) {
+            char c1 = hex.charAt(i);
+            if (isHexDigit(c1)) {
+                int j = i + 1;
+                while (j < len && !isHexDigit(hex.charAt(j))) {
+                    j++;
                 }
-            } catch (Exception ignored) {}
+                if (j < len) {
+                    char c2 = hex.charAt(j);
+                    try {
+                        int code = Integer.parseInt("" + c1 + c2, 16);
+                        if (code >= 32 && code <= 126) {
+                            sb.append((char) code);
+                        } else if (code == 10 || code == 13 || code == 9) {
+                            sb.append(' ');
+                        }
+                    } catch (Exception ignored) {}
+                    i = j + 1;
+                } else {
+                    break;
+                }
+            } else {
+                i++;
+            }
         }
         return sb.toString();
     }
 
+    private static boolean isHexDigit(char c) {
+        return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F');
+    }
+
     /**
-     * Extracts text from DOCX using ZipInputStream to parse word/document.xml with 0 dependencies.
+     * Extracts text from DOCX using ZipInputStream to parse word/document.xml.
+     * Pure linear tag parser (Zero Regex).
      */
     public static String extractDocxText(byte[] docxBytes) {
         StringBuilder sb = new StringBuilder();
@@ -253,11 +296,7 @@ public class DocumentTextExtractor {
                         baos.write(buffer, 0, len);
                     }
                     String xml = baos.toString(StandardCharsets.UTF_8);
-                    Matcher matcher = XML_TAG_PATTERN.matcher(xml);
-                    while (matcher.find()) {
-                        String text = decodeXmlEntities(matcher.group(1));
-                        sb.append(text).append(" ");
-                    }
+                    parseDocxXmlLinear(xml, sb);
                     break;
                 }
             }
@@ -265,6 +304,29 @@ public class DocumentTextExtractor {
 
         String result = cleanExtractedText(sb.toString());
         return result.length() > 50 ? result : extractPlainText(docxBytes);
+    }
+
+    private static void parseDocxXmlLinear(String xml, StringBuilder sb) {
+        if (xml == null || xml.isEmpty()) return;
+        int len = xml.length();
+        int i = 0;
+
+        while (i < len) {
+            int tagStart = xml.indexOf("<w:t", i);
+            if (tagStart == -1) break;
+
+            int tagClose = xml.indexOf(">", tagStart);
+            if (tagClose == -1) break;
+
+            int endTag = xml.indexOf("</w:t>", tagClose);
+            if (endTag == -1) break;
+
+            String text = xml.substring(tagClose + 1, endTag);
+            if (!text.isEmpty()) {
+                sb.append(decodeXmlEntities(text)).append(" ");
+            }
+            i = endTag + 6;
+        }
     }
 
     private static String decodeXmlEntities(String input) {
@@ -281,28 +343,51 @@ public class DocumentTextExtractor {
      */
     public static String extractPlainText(byte[] bytes) {
         if (bytes == null || bytes.length == 0) return "";
-        String raw = new String(bytes, StandardCharsets.UTF_8)
-                .replaceAll("[^\\x20-\\x7E\\n\\r\\t]", " ")
-                .replaceAll("\\s{3,}", " ")
-                .trim();
-        return raw;
+        StringBuilder sb = new StringBuilder(bytes.length);
+        for (byte b : bytes) {
+            int unsigned = b & 0xFF;
+            if ((unsigned >= 32 && unsigned <= 126) || unsigned == 10 || unsigned == 13 || unsigned == 9) {
+                sb.append((char) unsigned);
+            } else if (unsigned > 127) {
+                sb.append(' ');
+            }
+        }
+        return cleanExtractedText(sb.toString());
     }
 
     private static boolean isPrintable(String s) {
         if (s == null || s.isEmpty()) return false;
         int printable = 0;
-        for (char c : s.toCharArray()) {
-            if (c >= 32 && c <= 126) printable++;
+        int len = s.length();
+        for (int i = 0; i < len; i++) {
+            char c = s.charAt(i);
+            if ((c >= 32 && c <= 126) || c == '\n' || c == '\r' || c == '\t') {
+                printable++;
+            }
         }
-        return (double) printable / s.length() >= 0.7;
+        return (double) printable / len >= 0.6;
     }
 
     public static String cleanExtractedText(String raw) {
-        if (raw == null) return "";
-        return raw.replaceAll("\\r\\n", "\n")
-                  .replaceAll("\\r", "\n")
-                  .replaceAll("[ \\t]+", " ")
-                  .replaceAll("\\n{3,}", "\n\n")
-                  .trim();
+        if (raw == null || raw.isEmpty()) return "";
+        StringBuilder sb = new StringBuilder(raw.length());
+        boolean lastSpace = false;
+
+        for (int i = 0; i < raw.length(); i++) {
+            char c = raw.charAt(i);
+            if (c == '\r') {
+                continue;
+            }
+            if (c == ' ' || c == '\t') {
+                if (!lastSpace) {
+                    sb.append(' ');
+                    lastSpace = true;
+                }
+            } else {
+                sb.append(c);
+                lastSpace = false;
+            }
+        }
+        return sb.toString().trim();
     }
 }

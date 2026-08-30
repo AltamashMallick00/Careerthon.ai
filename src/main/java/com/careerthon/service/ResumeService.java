@@ -56,6 +56,10 @@ public class ResumeService {
             "rest", "restful", "microservices", "graphql", "system design", "data structures", "algorithms", "dsa", "oop", "object-oriented", "agile", "scrum", "jira", "junit", "mockito", "postman"
     );
 
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}");
+    private static final Pattern PHONE_PATTERN = Pattern.compile("(?:\\+?[0-9]{1,3}[-.\\s]?)?\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}|[0-9]{10}");
+    private static final Pattern METRIC_PATTERN = Pattern.compile("(?:\\d+%)|(?:\\$\\d+)|(?:₹\\d+)|(?:\\d+\\+)|(?:\\d+\\s*(?:ms|k|m|million|users|requests|qps|x|gb|tb))");
+
     /**
      * 100% Genuine, Rigorous 5-Pillar ATS Scoring Engine
      */
@@ -66,11 +70,9 @@ public class ResumeService {
 
         // ════ PILLAR 1: Contact Information & Header Health (Max 15) ════
         int contactScore = 0;
-        Pattern emailPattern = Pattern.compile("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}");
-        if (emailPattern.matcher(content).find() || (userEmail != null && userEmail.contains("@"))) contactScore += 4;
+        if (EMAIL_PATTERN.matcher(content).find() || (userEmail != null && userEmail.contains("@"))) contactScore += 4;
         
-        Pattern phonePattern = Pattern.compile("(\\+?[0-9]{1,3}[-.\\s]?)?\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}|[0-9]{10}");
-        if (phonePattern.matcher(content).find() || lowerContent.contains("phone") || lowerContent.contains("mobile") || lowerContent.contains("+91")) contactScore += 4;
+        if (PHONE_PATTERN.matcher(content).find() || lowerContent.contains("phone") || lowerContent.contains("mobile") || lowerContent.contains("+91")) contactScore += 4;
         
         if (lowerContent.contains("linkedin.com") || lowerContent.contains("github.com") || lowerContent.contains("portfolio") || lowerContent.contains("http")) contactScore += 4;
         if (lowerContent.contains("india") || lowerContent.contains("bangalore") || lowerContent.contains("delhi") || lowerContent.contains("pune") || lowerContent.contains("hyderabad") || lowerContent.contains("mumbai") || lowerContent.contains("noida") || lowerContent.contains("remote") || lowerContent.contains("address")) contactScore += 3;
@@ -112,8 +114,7 @@ public class ResumeService {
         int impactScore = 0;
         
         // Metrics / Numbers / Percentages Check
-        Pattern metricPattern = Pattern.compile("(\\d+%)|(\\$\\d+)|(₹\\d+)|(\\d+\\+)|(\\d+\\s*(ms|k|m|million|users|requests|qps|x|gb|tb))");
-        Matcher metricMatcher = metricPattern.matcher(lowerContent);
+        Matcher metricMatcher = METRIC_PATTERN.matcher(lowerContent);
         int metricCount = 0;
         while (metricMatcher.find()) metricCount++;
         
@@ -177,13 +178,27 @@ public class ResumeService {
     }
 
     private void checkSkills(String lowerContent, List<String> skillList, Set<String> detected) {
+        if (lowerContent == null || skillList == null) return;
         for (String skill : skillList) {
-            // Word boundary check
-            Pattern p = Pattern.compile("\\b" + Pattern.quote(skill) + "\\b");
-            if (p.matcher(lowerContent).find() || lowerContent.contains(skill)) {
+            if (containsKeyword(lowerContent, skill)) {
                 detected.add(capitalize(skill));
             }
         }
+    }
+
+    private boolean containsKeyword(String text, String keyword) {
+        if (text == null || keyword == null || keyword.isEmpty()) return false;
+        int index = text.indexOf(keyword);
+        while (index != -1) {
+            boolean startBoundary = (index == 0) || !Character.isLetterOrDigit(text.charAt(index - 1));
+            int endIndex = index + keyword.length();
+            boolean endBoundary = (endIndex == text.length()) || !Character.isLetterOrDigit(text.charAt(endIndex));
+            if (startBoundary && endBoundary) {
+                return true;
+            }
+            index = text.indexOf(keyword, index + 1);
+        }
+        return false;
     }
 
     private String capitalize(String str) {
