@@ -1,230 +1,226 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/header :: head('Analyze Your Profile - Careerthon.AI')}"></head>
-<body class="bg-themed-pure">
+<head th:replace="~{fragments/header :: head('AI Resume & ATS Review - Careerthon.AI')}"></head>
+<body class="bg-themed-pure min-h-screen flex flex-col relative overflow-x-hidden">
 
-<header th:replace="~{fragments/header :: header}"></header>
+<div th:replace="~{fragments/header :: header}"></div>
 
-<main class="bg-themed-pure min-h-screen pt-40 pb-20 relative overflow-hidden">
-    <div class="absolute inset-0 bg-grid opacity-[0.03]"></div>
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_50%_0%,rgba(99,102,241,0.08),transparent_70%)]"></div>
+<main class="flex-grow pt-32 pb-20 relative overflow-hidden">
+    <!-- Background Accents -->
+    <div class="absolute inset-0 bg-grid opacity-[0.03] pointer-events-none"></div>
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[500px] bg-[radial-gradient(ellipse_at_center,rgba(37,99,235,0.08),transparent_70%)] pointer-events-none"></div>
     
-    <div class="max-w-7xl mx-auto px-4 relative z-10">
-        <div class="flex flex-col lg:flex-row gap-16 items-center">
-            <!-- Left: Content Section -->
-            <div class="lg:w-1/2" data-reveal>
-                <div class="hero-tag !bg-indigo-600/5 !text-indigo-600 dark:!text-indigo-400 border-indigo-600/10 mb-8">Phase 1: Intelligence Scan</div>
-                <h1 class="text-5xl md:text-7xl font-black text-themed-main mb-8 leading-tight tracking-tighter">
-                    Analyze Your <br><span class="text-gradient">LinkedIn</span> Impact
-                </h1>
-                <p class="text-xl text-themed-body mb-10 font-medium leading-relaxed">
-                    Our AI engine performs a deep evaluation of your actual skills, experience metrics, ATS compatibility, and 15+ visibility markers to deliver your 100% legitimate profile score.
-                </p>
-
-                <!-- LinkedIn PDF Quick Guide -->
-                <div class="p-6 bg-themed-soft backdrop-blur-sm rounded-3xl border border-themed-soft mb-8">
-                    <div class="flex items-center gap-3 font-black text-themed-main text-sm uppercase tracking-wider mb-4 text-indigo-500">
-                        <span>💡</span> How to Export LinkedIn PDF in 5 Seconds:
-                    </div>
-                    <div class="grid grid-cols-3 gap-3 text-center">
-                        <div class="p-3 bg-themed-pure rounded-2xl border border-themed-soft">
-                            <div class="w-7 h-7 mx-auto rounded-full bg-indigo-500/10 text-indigo-500 font-black text-xs flex items-center justify-center mb-2">1</div>
-                            <div class="text-[11px] font-bold text-themed-main">Open Your Profile</div>
-                            <div class="text-[9px] text-themed-body">On LinkedIn.com</div>
-                        </div>
-                        <div class="p-3 bg-themed-pure rounded-2xl border border-themed-soft">
-                            <div class="w-7 h-7 mx-auto rounded-full bg-indigo-500/10 text-indigo-500 font-black text-xs flex items-center justify-center mb-2">2</div>
-                            <div class="text-[11px] font-bold text-themed-main">Click "More"</div>
-                            <div class="text-[9px] text-themed-body">Under headline</div>
-                        </div>
-                        <div class="p-3 bg-themed-pure rounded-2xl border border-themed-soft">
-                            <div class="w-7 h-7 mx-auto rounded-full bg-emerald-500/10 text-emerald-500 font-black text-xs flex items-center justify-center mb-2">3</div>
-                            <div class="text-[11px] font-bold text-themed-main">"Save to PDF"</div>
-                            <div class="text-[9px] text-themed-body">Upload it below!</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="space-y-4">
-                    <div class="flex items-center gap-4 p-4 bg-themed-soft backdrop-blur-sm rounded-2xl border border-themed-soft">
-                        <div class="w-12 h-12 rounded-xl bg-indigo-600 flex items-center justify-center text-xl shadow-lg text-white">⚡</div>
-                        <div>
-                            <div class="font-black text-themed-main">100% Genuine Profile Intelligence</div>
-                            <div class="text-xs text-themed-body">Scans actual metrics, skills count, experience depth & ATS match.</div>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-4 p-4 bg-themed-soft backdrop-blur-sm rounded-2xl border border-themed-soft">
-                        <div class="w-12 h-12 rounded-xl bg-emerald-500 flex items-center justify-center text-xl shadow-lg text-white">🔒</div>
-                        <div>
-                            <div class="font-black text-themed-main">Confidential & Secure</div>
-                            <div class="text-xs text-themed-body">Your profile data is parsed privately in-memory and never shared.</div>
-                        </div>
-                    </div>
-                </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        <!-- Header Hero Section -->
+        <div class="text-center max-w-3xl mx-auto mb-14 active" data-reveal>
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-800/60 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-widest mb-5">
+                <span>📄</span> Enterprise ATS Resume Analyzer
             </div>
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-black text-themed-main tracking-tight leading-[1.1] mb-5">
+                Test Your Resume with <span class="text-gradient">Real-Time ATS</span> Intelligence
+            </h1>
+            <p class="text-base sm:text-lg text-themed-body font-medium leading-relaxed">
+                Upload your CV to calculate your genuine ATS compatibility score, identify missing technical keywords, and benchmark against Fortune 500 hiring standards.
+            </p>
+        </div>
 
-            <!-- Right: Interactive Form Card -->
-            <div class="lg:w-1/2 w-full" data-reveal data-delay="200">
-                <div class="premium-card !p-8 md:!p-12 glass border-white/20 shadow-[0_40px_100px_-20px_rgba(15,23,42,0.3)]">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+            
+            <!-- Left Column: Upload Form Card (7 Cols) -->
+            <div class="lg:col-span-7 active" data-reveal>
+                <div class="premium-card !p-8 md:!p-10 glass border-white/20 shadow-[0_40px_100px_-20px_rgba(15,23,42,0.15)] relative overflow-hidden">
                     
-                    <!-- Mode Selector Tabs -->
-                    <div class="flex p-1.5 bg-themed-soft rounded-2xl border border-themed-soft mb-8">
-                        <button type="button" id="tab-pdf" onclick="switchTab('pdf')"
-                                class="flex-1 py-3 px-4 rounded-xl font-black text-xs uppercase tracking-wider transition-all bg-indigo-600 text-white shadow-md flex items-center justify-center gap-2">
-                            <span>📄 Upload LinkedIn PDF</span>
-                            <span class="px-2 py-0.5 rounded-full bg-white/20 text-[9px]">100% Real</span>
-                        </button>
-                        <button type="button" id="tab-url" onclick="switchTab('url')"
-                                class="flex-1 py-3 px-4 rounded-xl font-black text-xs uppercase tracking-wider transition-all text-themed-body hover:text-themed-main flex items-center justify-center gap-2">
-                            <span>🔗 Profile URL</span>
-                        </button>
+                    <div th:if="${error}" class="bg-rose-500/10 border border-rose-500/50 p-4 rounded-2xl mb-6 flex items-center gap-3">
+                        <div class="text-rose-500 text-lg font-bold">⚠</div>
+                        <p class="text-xs font-bold text-rose-600 dark:text-rose-400" th:text="${error}">Error message</p>
                     </div>
 
-                    <form th:action="@{/review/submit}" method="POST" enctype="multipart/form-data" class="space-y-6">
+                    <form th:action="@{/review/upload}" method="POST" enctype="multipart/form-data" class="space-y-6" id="resume-review-form">
                         
-                        <!-- TAB 1: PDF Upload Mode (Default) -->
-                        <div id="mode-pdf" class="space-y-4">
-                            <label class="block text-[10px] font-black text-indigo-400 uppercase tracking-[0.3em]">
-                                Upload Profile PDF (Exported from LinkedIn)
+                        <!-- Drag & Drop Upload Zone -->
+                        <div>
+                            <label class="block text-xs font-black text-themed-main uppercase tracking-wider mb-2.5">
+                                Upload Resume Document (PDF or DOCX)
                             </label>
                             
                             <div id="drop-zone" 
-                                 onclick="document.getElementById('profilePdfInput').click()"
-                                 class="relative border-2 border-dashed border-indigo-500/40 hover:border-indigo-600 rounded-3xl p-8 text-center cursor-pointer bg-themed-pure hover:bg-indigo-500/5 transition-all group">
-                                <input type="file" id="profilePdfInput" name="profilePdf" accept=".pdf" class="hidden" onchange="handleFileSelected(this)">
-                                <div class="w-16 h-16 mx-auto rounded-2xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">
-                                    📄
+                                 onclick="document.getElementById('resumeInput').click()"
+                                 class="relative border-2 border-dashed border-blue-500/30 hover:border-blue-600 dark:hover:border-blue-400 rounded-2xl p-8 sm:p-10 text-center cursor-pointer bg-slate-50/50 dark:bg-slate-900/50 hover:bg-blue-50/40 dark:hover:bg-blue-950/20 transition-all group">
+                                <input type="file" id="resumeInput" name="resume" accept=".pdf,.docx,.doc" class="hidden" required onchange="handleFileSelected(this)">
+                                
+                                <div class="w-16 h-16 mx-auto rounded-2xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform shadow-sm">
+                                    📂
                                 </div>
                                 <div id="upload-prompt">
-                                    <div class="font-black text-themed-main text-base mb-1">Click to Upload or Drag & Drop</div>
-                                    <div class="text-xs text-themed-body">Upload your LinkedIn PDF for a 100% genuine data-backed score</div>
+                                    <div class="font-black text-themed-main text-base mb-1">Click to browse or drag & drop resume</div>
+                                    <div class="text-xs text-themed-body font-medium">Supports PDF, DOCX, and DOC (Max 10MB)</div>
                                 </div>
-                                <div id="file-info" class="hidden font-bold text-emerald-500 text-sm flex items-center justify-center gap-2">
-                                    <span>✅</span> <span id="file-name">filename.pdf</span>
+                                <div id="file-info" class="hidden">
+                                    <div class="font-black text-blue-600 dark:text-blue-400 text-sm mb-1" id="file-name">filename.pdf</div>
+                                    <div class="text-xs text-slate-500 font-medium" id="file-size">1.2 MB</div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- TAB 2: URL Scan Mode -->
-                        <div id="mode-url" class="hidden space-y-4">
-                            <label class="block text-[10px] font-black text-indigo-400 uppercase tracking-[0.3em]">
-                                LinkedIn Profile URL
-                            </label>
-                            <div class="relative group">
-                                <div class="absolute -inset-1 bg-indigo-500/10 rounded-2xl blur-lg group-focus-within:bg-indigo-500/30 transition-all"></div>
-                                <input type="url" id="urlInput" name="linkedinUrl"
-                                       placeholder="https://www.linkedin.com/in/yourname"
-                                       class="relative w-full py-5 px-6 bg-themed-pure rounded-2xl border-2 border-themed-soft focus:border-indigo-600 outline-none transition-all text-base font-bold text-themed-main placeholder:text-slate-300">
+                        <!-- Candidate Details -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-[11px] font-black text-slate-500 uppercase tracking-wider mb-2">Candidate Full Name</label>
+                                <div class="relative group">
+                                    <input type="text" name="userName" required
+                                           class="w-full py-3 px-4 bg-themed-pure rounded-xl border-2 border-themed-soft focus:border-blue-500 outline-none transition-all text-sm font-bold text-themed-main placeholder:text-slate-400" 
+                                           placeholder="e.g. Priyanshu Shekhar">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-[11px] font-black text-slate-500 uppercase tracking-wider mb-2">Email Address</label>
+                                <div class="relative group">
+                                    <input type="email" name="userEmail" required
+                                           class="w-full py-3 px-4 bg-themed-pure rounded-xl border-2 border-themed-soft focus:border-blue-500 outline-none transition-all text-sm font-bold text-themed-main placeholder:text-slate-400" 
+                                           placeholder="e.g. candidate@example.com">
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Optional Email Input -->
+                        <!-- Target Role Selection -->
                         <div>
-                            <label class="block text-[10px] font-black text-themed-body uppercase tracking-[0.3em] mb-2">
-                                Email Address <span class="text-slate-400 font-normal lowercase">(optional — receive PDF copy)</span>
-                            </label>
-                            <input type="email" name="email"
-                                   placeholder="you@example.com"
-                                   class="w-full py-4 px-6 bg-themed-pure rounded-2xl border-2 border-themed-soft focus:border-indigo-600 outline-none transition-all text-sm font-semibold text-themed-main placeholder:text-slate-300">
+                            <label class="block text-[11px] font-black text-slate-500 uppercase tracking-wider mb-2">Target Career Path (For Tailored Keyword Benchmarking)</label>
+                            <select name="targetRole" class="w-full py-3 px-4 bg-themed-pure rounded-xl border-2 border-themed-soft focus:border-blue-500 outline-none transition-all text-sm font-bold text-themed-main cursor-pointer">
+                                <option value="Full Stack Developer">Full Stack Software Engineer</option>
+                                <option value="Backend Developer">Backend Developer (Java / Spring Boot / Python)</option>
+                                <option value="Frontend Developer">Frontend Developer (React / Next.js / Angular)</option>
+                                <option value="Data Scientist">Data Scientist & Machine Learning Specialist</option>
+                                <option value="DevOps & Cloud Engineer">DevOps & Cloud Solutions Architect (AWS/GCP)</option>
+                                <option value="AI Engineer">Artificial Intelligence & LLM Engineer</option>
+                                <option value="General Tech">General Software Engineering</option>
+                            </select>
                         </div>
 
-                        <button type="submit" class="w-full btn-premium py-5 rounded-2xl text-lg flex justify-center items-center group shadow-glow">
-                            Generate Legit Intelligence Report
-                            <svg class="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                        </button>
+                        <!-- Action Button -->
+                        <div class="pt-2">
+                            <button type="submit" id="btn-submit-resume" class="w-full btn-premium py-4 rounded-xl text-base font-black flex justify-center items-center group shadow-glow">
+                                <span>Analyze Resume & Calculate ATS Score</span>
+                                <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                            </button>
+                        </div>
                     </form>
-
-                    <div class="mt-8 pt-6 border-t border-themed-soft">
-                        <div class="flex items-center justify-center gap-4">
-                            <div class="flex -space-x-2.5">
-                                <div class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center font-black text-[9px] border-2 border-themed-pure shadow-md">G</div>
-                                <div class="w-8 h-8 rounded-full bg-indigo-500 text-white flex items-center justify-center font-black text-[9px] border-2 border-themed-pure shadow-md">M</div>
-                                <div class="w-8 h-8 rounded-full bg-violet-500 text-white flex items-center justify-center font-black text-[9px] border-2 border-themed-pure shadow-md">N</div>
-                            </div>
-                            <div class="text-[10px] font-black text-themed-body uppercase tracking-widest">
-                                Trusted by 50,000+ candidates & tech recruiters
-                            </div>
+                    
+                    <!-- Bottom Switchers -->
+                    <div class="mt-8 pt-6 border-t border-themed-soft flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+                        <div class="text-themed-body font-medium">
+                            Need to review multiple CVs at once?
                         </div>
+                        <a th:href="@{/resume/bulk}" class="font-bold text-blue-600 hover:text-blue-500 dark:text-blue-400 flex items-center gap-1">
+                            <span>Launch Bulk Recruiter Scanner</span> →
+                        </a>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Expert Endorsement -->
-        <div class="mt-32" data-reveal>
-            <h2 class="text-center text-sm font-black text-themed-body uppercase tracking-[0.3em] mb-12">Engineered by Industry Experts</h2>
-            <div class="flex justify-center">
-                <div class="max-w-3xl w-full p-10 bg-themed-pure rounded-[40px] shadow-xl border border-themed-soft flex flex-col md:flex-row items-center gap-10 hover:shadow-2xl transition-all">
-                    <div class="w-32 h-32 rounded-3xl bg-indigo-600 flex items-center justify-center text-4xl shadow-2xl shrink-0 text-white font-black">PS</div>
-                    <div>
-                        <div class="flex text-amber-400 mb-2 text-xs">★★★★★</div>
-                        <p class="text-themed-body italic leading-relaxed mb-6 font-medium">"We designed Careerthon.AI to provide 100% genuine profile intelligence. By analyzing actual skills, experience metrics, and keyword density, every candidate gets a legitimate evaluation benchmarked against elite corporate standards."</p>
+            <!-- Right Column: Features & LinkedIn Link (5 Cols) -->
+            <div class="lg:col-span-5 space-y-5 active" data-reveal data-delay="150">
+                
+                <!-- Quick Link to LinkedIn Review -->
+                <div class="p-6 rounded-2xl bg-gradient-to-br from-indigo-900 via-blue-900 to-slate-900 text-white shadow-xl relative overflow-hidden">
+                    <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl pointer-events-none"></div>
+                    <div class="flex items-center gap-2 text-blue-300 text-xs font-black uppercase tracking-wider mb-2">
+                        <span>🔍</span> Looking for LinkedIn Audit?
+                    </div>
+                    <h3 class="text-xl font-black mb-2 text-white">Optimize Your LinkedIn Profile</h3>
+                    <p class="text-xs text-blue-100/80 mb-5 leading-relaxed">
+                        If you want to review your LinkedIn Profile PDF, audit recruiter search visibility, and rank higher in recruiter searches, use our LinkedIn scanner.
+                    </p>
+                    <a th:href="@{/}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white text-blue-900 hover:bg-blue-50 font-black text-xs transition-all hover:scale-105 shadow-md">
+                        <span>Open LinkedIn Reviewer</span> →
+                    </a>
+                </div>
+
+                <!-- Feature 1: Keyword Extraction -->
+                <div class="p-6 bg-themed-soft rounded-2xl border border-themed-soft">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-lg shrink-0">
+                            🎯
+                        </div>
                         <div>
-                            <div class="font-black text-themed-main">Priyanshu Shekhar</div>
-                            <div class="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Project Lead & Architect</div>
+                            <h4 class="text-sm font-black text-themed-main mb-1">ATS Keyword Matching</h4>
+                            <p class="text-xs text-themed-body leading-relaxed">
+                                Our parser analyzes your skills against modern job requisitions, highlighting missing high-demand frameworks and libraries.
+                            </p>
                         </div>
                     </div>
                 </div>
+
+                <!-- Feature 2: Quantifiable Metrics -->
+                <div class="p-6 bg-themed-soft rounded-2xl border border-themed-soft">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-lg shrink-0">
+                            ⚡
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-black text-themed-main mb-1">Quantifiable Impact Audit</h4>
+                            <p class="text-xs text-themed-body leading-relaxed">
+                                Detects whether your project bullet points incorporate measurable impact numbers, percentages, and strong action verbs.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature 3: Format & Layout Check -->
+                <div class="p-6 bg-themed-soft rounded-2xl border border-themed-soft">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold text-lg shrink-0">
+                            🛡️
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-black text-themed-main mb-1">Parsing Trap Protection</h4>
+                            <p class="text-xs text-themed-body leading-relaxed">
+                                Checks for tables, column overflows, and incompatible text layers that cause legacy Workday, Taleo, and Greenhouse ATS systems to fail.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
+
         </div>
+
     </div>
 </main>
 
-<footer th:replace="~{fragments/footer :: footer}"></footer>
-
 <script>
-    function switchTab(mode) {
-        const tabPdf = document.getElementById('tab-pdf');
-        const tabUrl = document.getElementById('tab-url');
-        const modePdf = document.getElementById('mode-pdf');
-        const modeUrl = document.getElementById('mode-url');
-        const urlInput = document.getElementById('urlInput');
-
-        if (mode === 'pdf') {
-            tabPdf.className = 'flex-1 py-3 px-4 rounded-xl font-black text-xs uppercase tracking-wider transition-all bg-indigo-600 text-white shadow-md flex items-center justify-center gap-2';
-            tabUrl.className = 'flex-1 py-3 px-4 rounded-xl font-black text-xs uppercase tracking-wider transition-all text-themed-body hover:text-themed-main flex items-center justify-center gap-2';
-            modePdf.classList.remove('hidden');
-            modeUrl.classList.add('hidden');
-            if (urlInput) urlInput.removeAttribute('required');
-        } else {
-            tabUrl.className = 'flex-1 py-3 px-4 rounded-xl font-black text-xs uppercase tracking-wider transition-all bg-indigo-600 text-white shadow-md flex items-center justify-center gap-2';
-            tabPdf.className = 'flex-1 py-3 px-4 rounded-xl font-black text-xs uppercase tracking-wider transition-all text-themed-body hover:text-themed-main flex items-center justify-center gap-2';
-            modeUrl.classList.remove('hidden');
-            modePdf.classList.add('hidden');
-            if (urlInput) urlInput.setAttribute('required', 'true');
-        }
-    }
-
     function handleFileSelected(input) {
-        const file = input.files && input.files[0];
-        const prompt = document.getElementById('upload-prompt');
-        const fileInfo = document.getElementById('file-info');
-        const fileName = document.getElementById('file-name');
-        if (file) {
-            prompt.classList.add('hidden');
-            fileInfo.classList.remove('hidden');
-            fileName.textContent = file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
-        }
+        const file = input.files[0];
+        if (!file) return;
+
+        const promptEl = document.getElementById('upload-prompt');
+        const infoEl = document.getElementById('file-info');
+        const nameEl = document.getElementById('file-name');
+        const sizeEl = document.getElementById('file-size');
+        const dropZone = document.getElementById('drop-zone');
+
+        promptEl.classList.add('hidden');
+        infoEl.classList.remove('hidden');
+
+        nameEl.innerText = file.name;
+        sizeEl.innerText = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+        dropZone.classList.add('border-blue-600', 'bg-blue-50/20');
     }
 
-    // Drag and Drop support
     const dropZone = document.getElementById('drop-zone');
     if (dropZone) {
         ['dragenter', 'dragover'].forEach(eventName => {
             dropZone.addEventListener(eventName, (e) => {
                 e.preventDefault();
-                e.stopPropagation();
-                dropZone.classList.add('border-indigo-600', 'bg-indigo-500/10');
+                dropZone.classList.add('border-blue-600', 'bg-blue-50/30');
             }, false);
         });
 
         ['dragleave', 'drop'].forEach(eventName => {
             dropZone.addEventListener(eventName, (e) => {
                 e.preventDefault();
-                e.stopPropagation();
-                dropZone.classList.remove('border-indigo-600', 'bg-indigo-500/10');
+                dropZone.classList.remove('border-blue-600', 'bg-blue-50/30');
             }, false);
         });
 
@@ -232,20 +228,14 @@
             const dt = e.dataTransfer;
             const files = dt.files;
             if (files.length > 0) {
-                const input = document.getElementById('profilePdfInput');
-                input.files = files;
-                handleFileSelected(input);
+                const fileInput = document.getElementById('resumeInput');
+                fileInput.files = files;
+                handleFileSelected(fileInput);
             }
         }, false);
     }
-
-    const observerOptions = { threshold: 0.1 };
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) entry.target.classList.add('active');
-        });
-    }, observerOptions);
-    document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
 </script>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

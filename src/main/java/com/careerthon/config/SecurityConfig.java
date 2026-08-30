@@ -44,6 +44,7 @@ public class SecurityConfig {
                 // Protected Core AI Execution & Generation Actions (Requires Login)
                 .requestMatchers(
                     "/review/submit",
+                    "/review/upload",
                     "/review/analyzing/**",
                     "/review/analyze/**",
                     "/report/**",

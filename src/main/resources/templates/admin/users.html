@@ -38,6 +38,7 @@
                             <th class="p-4 pl-6">ID</th>
                             <th class="p-4">Full Name</th>
                             <th class="p-4">Username</th>
+                            <th class="p-4">Mobile Number</th>
                             <th class="p-4">Current Role</th>
                             <th class="p-4">Change Role</th>
                             <th class="p-4">Status</th>
@@ -49,6 +50,22 @@
                             <td class="p-4 pl-6 font-bold text-slate-900" th:text="${user.id}">1</td>
                             <td class="p-4 text-slate-800 font-bold" th:text="${user.fullName ?: 'N/A'}">Name</td>
                             <td class="p-4 text-slate-600 font-mono text-xs" th:text="${user.username}">Username</td>
+                            <td class="p-4">
+                                <div th:if="${user.phoneNumber != null and !user.phoneNumber.empty}" class="flex items-center gap-2">
+                                    <span class="inline-flex items-center gap-1 font-mono text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200">
+                                        📞 <span th:text="${user.phoneNumber}">+91 9876543210</span>
+                                    </span>
+                                    <a th:href="'https://wa.me/' + ${#strings.replace(#strings.replace(user.phoneNumber, '+', ''), ' ', '')}" 
+                                       target="_blank" 
+                                       title="Chat on WhatsApp" 
+                                       class="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold shadow-sm transition-transform hover:scale-110">
+                                        💬
+                                    </a>
+                                </div>
+                                <span th:unless="${user.phoneNumber != null and !user.phoneNumber.empty}" class="text-xs text-slate-400 italic">
+                                    Not provided
+                                </span>
+                            </td>
                             <td class="p-4">
                                 <span class="px-2.5 py-1 rounded-full text-[11px] font-black uppercase tracking-wider"
                                       th:classappend="${#strings.contains(user.roles, 'ROLE_ADMIN')} ? 'bg-rose-100 text-rose-700' : (${#strings.contains(user.roles, 'ROLE_STUDENT')} ? 'bg-emerald-100 text-emerald-700' : 'bg-indigo-100 text-indigo-700')"
@@ -91,7 +108,7 @@
                             </td>
                         </tr>
                         <tr th:if="${#lists.isEmpty(users)}">
-                            <td colspan="7" class="p-8 text-center text-slate-500">No users found.</td>
+                            <td colspan="8" class="p-8 text-center text-slate-500">No users found.</td>
                         </tr>
                     </tbody>
                 </table>

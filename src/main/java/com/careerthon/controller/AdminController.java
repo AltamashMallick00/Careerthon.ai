@@ -200,13 +200,14 @@ public class AdminController {
         response.setHeader("Content-Disposition", "attachment; filename=\"careerthon_users_" + System.currentTimeMillis() + ".csv\"");
 
         PrintWriter writer = response.getWriter();
-        writer.println("ID,Username,Full Name,Roles,Status");
+        writer.println("ID,Username,Full Name,Mobile Number,Roles,Status");
 
         for (User u : userRepository.findAll()) {
-            writer.println(String.format("%d,\"%s\",\"%s\",\"%s\",\"%s\"",
+            writer.println(String.format("%d,\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"",
                     u.getId(),
                     cleanCsv(u.getUsername()),
                     cleanCsv(u.getFullName()),
+                    cleanCsv(u.getPhoneNumber()),
                     cleanCsv(u.getRoles()),
                     u.isEnabled() ? "ACTIVE" : "BLOCKED"
             ));
