@@ -26,18 +26,28 @@ public class DataInitializer implements CommandLineRunner {
     private final PasswordEncoder passwordEncoder;
     private final JobRepository jobRepository;
     private final CourseRepository courseRepository;
+    private final org.springframework.jdbc.core.JdbcTemplate jdbcTemplate;
 
     public DataInitializer(UserStoryRepository userStoryRepository, UserRepository userRepository,
-            PasswordEncoder passwordEncoder, JobRepository jobRepository, CourseRepository courseRepository) {
+            PasswordEncoder passwordEncoder, JobRepository jobRepository, CourseRepository courseRepository,
+            org.springframework.jdbc.core.JdbcTemplate jdbcTemplate) {
         this.userStoryRepository = userStoryRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jobRepository = jobRepository;
         this.courseRepository = courseRepository;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public void run(String... args) {
+        // Safe database migration for PostgreSQL legacy column
+        try {
+            if (jdbcTemplate != null) {
+                jdbcTemplate.execute("ALTER TABLE app_resume_reviews DROP COLUMN IF EXISTS file_data CASCADE");
+            }
+        } catch (Exception ignored) {}
+
         // Synchronize Team Members & Global Professional Testimonials (TCS, IBM, Ingram Micro)
         List<UserStory> allStories = List.of(
                 // ── Core Team Members ──

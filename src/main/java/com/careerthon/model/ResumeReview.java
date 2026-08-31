@@ -27,11 +27,11 @@ public class ResumeReview {
     private String improvementSuggestions;
 
     private LocalDateTime uploadedAt = LocalDateTime.now();
-    
+
     @Column(length = 2000)
     private String adminSuggestions;
 
-    @Column(name = "file_data", length = 10000000) // Up to 10MB
+    @Column(name = "resume_bytes", columnDefinition = "BYTEA")
     private byte[] fileData;
 
     public ResumeReview() {}
