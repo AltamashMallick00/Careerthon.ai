@@ -88,7 +88,8 @@ public class AuthController {
         newUser.setPhoneNumber(cleanPhone);
         newUser.setRoles("ROLE_STUDENT,ROLE_USER");
         newUser.setEnabled(true);
-        userRepository.save(newUser);
+        User savedUser = userRepository.save(newUser);
+        System.out.println("👤 [SIGNUP SUCCESS] New user registered: " + savedUser.getUsername() + " | Phone: " + savedUser.getPhoneNumber() + " | Total Users in Database: " + userRepository.count());
 
         redirectAttributes.addFlashAttribute("signupSuccess", true);
         return "redirect:/login?signupSuccess=true";

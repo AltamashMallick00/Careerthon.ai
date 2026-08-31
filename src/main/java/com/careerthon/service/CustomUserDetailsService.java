@@ -35,7 +35,12 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .or(() -> userRepository.findByPhoneNumber(cleanIdentifier))
                 .or(() -> !cleanPhone.isEmpty() ? userRepository.findByPhoneNumber(cleanPhone) : java.util.Optional.empty())
                 .or(() -> !cleanPhone.isEmpty() ? userRepository.findByPhoneNumber("+91" + cleanPhone) : java.util.Optional.empty())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with identifier: " + cleanIdentifier));
+                .orElseThrow(() -> {
+                    System.err.println("❌ [AUTH FAILED] User not found for identifier: '" + cleanIdentifier + "' | Total Users in Database: " + userRepository.count());
+                    return new UsernameNotFoundException("User not found with identifier: " + cleanIdentifier);
+                });
+
+        System.out.println("✅ [AUTH SUCCESS] User authenticated: " + user.getUsername() + " | Roles: " + user.getRoles());
 
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
