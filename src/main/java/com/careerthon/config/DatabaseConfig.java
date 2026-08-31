@@ -36,47 +36,59 @@ public class DatabaseConfig {
         HikariConfig config = new HikariConfig();
 
         // 1. Detect Cloud PostgreSQL (Render / Supabase / Neon / Railway)
-        if (databaseUrl != null && !databaseUrl.trim().isEmpty() &&
-                (databaseUrl.startsWith("postgres://") || databaseUrl.startsWith("postgresql://"))) {
-            try {
-                // Parse standard URL e.g. postgres://user:password@host:port/dbname
-                String cleanUrl = databaseUrl.trim();
-                if (cleanUrl.startsWith("postgres://")) {
-                    cleanUrl = "postgresql://" + cleanUrl.substring("postgres://".length());
-                }
-                
-                URI uri = new URI(cleanUrl);
-                String host = uri.getHost();
-                int port = uri.getPort() > 0 ? uri.getPort() : 5432;
-                String path = uri.getPath(); // /dbname
-                String dbName = (path != null && path.length() > 1) ? path.substring(1) : "careerthon";
+        if (databaseUrl != null && !databaseUrl.trim().isEmpty()) {
+            String cleanUrl = databaseUrl.trim();
 
-                String jdbcUrl = "jdbc:postgresql://" + host + ":" + port + "/" + dbName;
-                if (uri.getQuery() != null && !uri.getQuery().isEmpty()) {
-                    jdbcUrl += "?" + uri.getQuery();
-                } else if (!jdbcUrl.contains("sslmode")) {
-                    jdbcUrl += "?sslmode=prefer";
-                }
-
-                config.setJdbcUrl(jdbcUrl);
+            if (cleanUrl.startsWith("jdbc:postgresql://") || cleanUrl.startsWith("jdbc:postgres://")) {
+                config.setJdbcUrl(cleanUrl);
                 config.setDriverClassName("org.postgresql.Driver");
-
-                String userInfo = uri.getUserInfo();
-                if (userInfo != null && userInfo.contains(":")) {
-                    String[] parts = userInfo.split(":", 2);
-                    config.setUsername(parts[0]);
-                    config.setPassword(parts[1]);
-                }
-
                 config.setMaximumPoolSize(5);
                 config.setMinimumIdle(1);
                 config.setConnectionTimeout(30000);
-                config.setIdleTimeout(600000);
-                config.setMaxLifetime(1800000);
-                System.out.println("🐘 Connected to Cloud PostgreSQL Database: " + host + "/" + dbName);
+                System.out.println("🐘 Connected to Cloud PostgreSQL Database via direct JDBC URL");
                 return new HikariDataSource(config);
-            } catch (Exception e) {
-                System.err.println("⚠️ Could not parse PostgreSQL DATABASE_URL, falling back to default datasource: " + e.getMessage());
+            }
+
+            if (cleanUrl.startsWith("postgres://") || cleanUrl.startsWith("postgresql://")) {
+                try {
+                    // Parse standard URL e.g. postgres://user:password@host:port/dbname
+                    if (cleanUrl.startsWith("postgres://")) {
+                        cleanUrl = "postgresql://" + cleanUrl.substring("postgres://".length());
+                    }
+                    
+                    URI uri = new URI(cleanUrl);
+                    String host = uri.getHost();
+                    int port = uri.getPort() > 0 ? uri.getPort() : 5432;
+                    String path = uri.getPath(); // /dbname
+                    String dbName = (path != null && path.length() > 1) ? path.substring(1) : "careerthon";
+
+                    String jdbcUrl = "jdbc:postgresql://" + host + ":" + port + "/" + dbName;
+                    if (uri.getQuery() != null && !uri.getQuery().isEmpty()) {
+                        jdbcUrl += "?" + uri.getQuery();
+                    } else if (!jdbcUrl.contains("sslmode")) {
+                        jdbcUrl += "?sslmode=prefer";
+                    }
+
+                    config.setJdbcUrl(jdbcUrl);
+                    config.setDriverClassName("org.postgresql.Driver");
+
+                    String userInfo = uri.getUserInfo();
+                    if (userInfo != null && userInfo.contains(":")) {
+                        String[] parts = userInfo.split(":", 2);
+                        config.setUsername(parts[0]);
+                        config.setPassword(parts[1]);
+                    }
+
+                    config.setMaximumPoolSize(5);
+                    config.setMinimumIdle(1);
+                    config.setConnectionTimeout(30000);
+                    config.setIdleTimeout(600000);
+                    config.setMaxLifetime(1800000);
+                    System.out.println("🐘 Connected to Cloud PostgreSQL Database: " + host + "/" + dbName);
+                    return new HikariDataSource(config);
+                } catch (Exception e) {
+                    System.err.println("⚠️ Could not parse PostgreSQL DATABASE_URL, falling back to default datasource: " + e.getMessage());
+                }
             }
         }
 
