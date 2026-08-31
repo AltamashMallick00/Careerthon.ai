@@ -31,7 +31,6 @@ public class ResumeReview {
     @Column(length = 2000)
     private String adminSuggestions;
 
-    @Lob
     @Column(name = "file_data", length = 10000000) // Up to 10MB
     private byte[] fileData;
 

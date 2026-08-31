@@ -66,8 +66,7 @@ public class ProfileReview {
     @Column(length = 2000)
     private String adminSuggestions;
 
-    @Lob
-    @Column(columnDefinition = "CLOB")
+    @Column(columnDefinition = "TEXT")
     private String rawContent;
 
     public String getRawContent() { return rawContent; }
