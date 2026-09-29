@@ -30,15 +30,23 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model) {
-        List<UserStory> allStories = userStoryRepository.findAll();
-        model.addAttribute("testimonials", allStories.stream().filter(this::isTestimonial).collect(Collectors.toList()));
+        try {
+            List<UserStory> allStories = userStoryRepository.findAll();
+            model.addAttribute("testimonials", allStories.stream().filter(this::isTestimonial).collect(Collectors.toList()));
+        } catch (Exception e) {
+            model.addAttribute("testimonials", java.util.Collections.emptyList());
+        }
         return "index";
     }
 
     @GetMapping("/about")
     public String about(Model model) {
-        List<UserStory> allStories = userStoryRepository.findAll();
-        model.addAttribute("team", allStories.stream().filter(this::isTeamMember).collect(Collectors.toList()));
+        try {
+            List<UserStory> allStories = userStoryRepository.findAll();
+            model.addAttribute("team", allStories.stream().filter(this::isTeamMember).collect(Collectors.toList()));
+        } catch (Exception e) {
+            model.addAttribute("team", java.util.Collections.emptyList());
+        }
         return "about";
     }
 
